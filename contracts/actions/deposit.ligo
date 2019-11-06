@@ -50,8 +50,9 @@ begin
   // storage_branch.checkpoints[checkpointId] := checkpoint_status;
 
   // store log to storage (= event equivalent)
+  // s.logs[now] := "deposit(token_type): source=amount"
 
+  // This line wasn't compiled but this sample implies it's possible
+  // https://gitlab.com/ligolang/ligo/blob/dev/src/contracts/coase.ligo#L84-87
   // s.branches[deposit_params.token_type] := storage_branch;
-  //https://gitlab.com/ligolang/ligo/blob/dev/src/contracts/coase.ligo#L84-87
-
 end with ((ops:ops), s)
