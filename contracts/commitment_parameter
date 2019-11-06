@@ -1,0 +1,6 @@
+Submit(
+  record
+    block_number = 1;
+    root = "HOGE";
+  end
+)

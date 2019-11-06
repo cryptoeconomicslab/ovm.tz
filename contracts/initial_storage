@@ -7,9 +7,6 @@ record
           start_ = 1n; end_ = 1n;
         end;
       end;
-      commitments = map
-        1n -> "hoge";
-      end;
       claims = map
         "hoge" -> record
           property = record
@@ -37,5 +34,8 @@ record
         end;
       end;
     end;
+  end;
+  commitments = map
+    1 -> "hoge";
   end;
 end

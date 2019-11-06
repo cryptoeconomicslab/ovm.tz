@@ -5,6 +5,11 @@ type deposit_params is record
   amount: nat;
 end
 
-type action is
-| Deposit of deposit_params
+type submit_params is record
+  block_number: uint;
+  root: string;
+end
 
+type action is
+  | Deposit of deposit_params
+  | Submit of submit_params
