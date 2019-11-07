@@ -3,7 +3,9 @@
 
 function deposit_action (const deposit_params: deposit_params; const s: ovm_storage) : context is
 begin
-  if deposit_params.amount <= 0n then fail "Insufficient fund" else skip;
+  if deposit_params.amount <= 0n
+    then failwith("Insufficient fund");
+  else skip;
   const storage_branch : storage_branch = get_force(deposit_params.token_type, s.branches);
 
   // send money to deposit contract
@@ -22,7 +24,7 @@ begin
   const state_update: state_update = record
     property = record
       predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address);
-      input = "tz";
+      input = "tz1OwnerN5GSez2ndXXeDX6LgUDvLzPLqgYV";
     end;
     range = depositedRange;
     plasma_block_number = get_latest_plasma_block_number(unit);
