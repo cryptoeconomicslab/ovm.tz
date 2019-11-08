@@ -4,7 +4,8 @@ record
       total_deposited = 1n;
       deposited_ranges = map
         0n -> record
-          start_ = 1n; end_ = 1n;
+          start_ = 1n;
+          end_ = 1n;
         end;
       end;
       claims = map
@@ -20,10 +21,14 @@ record
       checkpoints = map
         "hoge" -> record
           subrange = record
-            start_ = 1n; end_ = 1n;
+            start_ = 1n;
+            end_ = 1n;
           end;
           state_update = record
-            range = record start_ = 1n; end_ = 1n; end;
+            range = record
+              start_ = 1n;
+              end_ = 1n;
+            end;
             property = record
               predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
               input = "hoge";
@@ -35,7 +40,9 @@ record
       end;
     end;
   end;
+  current_block = 0;
   commitments = map
     1 -> "hoge";
   end;
+  operatorAddress = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
 end
