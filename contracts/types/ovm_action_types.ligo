@@ -6,7 +6,7 @@ type deposit_params is record
 end
 
 type submit_params is record
-  block_number: uint;
+  block_number: int;
   root: string;
 end
 

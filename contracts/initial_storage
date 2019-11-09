@@ -33,7 +33,7 @@ record
               predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
               input = "hoge";
             end;
-            plasma_block_number = 1n;
+            plasma_block_number = 1;
             deposit_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
           end;
         end;
@@ -42,7 +42,7 @@ record
   end;
   current_block = 0;
   commitments = map
-    1 -> "hoge";
+    0 -> "root";
   end;
   operatorAddress = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
 end

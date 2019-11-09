@@ -24,7 +24,7 @@ begin
       input = "tz";
     end;
     range = depositedRange;
-    plasma_block_number = get_latest_plasma_block_number(unit);
+    plasma_block_number = s.current_block;
     deposit_address = deposit_params.token_type;
   end;
 
