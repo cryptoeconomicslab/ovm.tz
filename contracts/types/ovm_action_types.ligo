@@ -5,8 +5,10 @@ type deposit_params is record
   amount: nat;
 end
 
+// Michelson can't cast int to string
 type submit_params is record
   block_number: int;
+  block_number_string: string;
   root: string;
 end
 

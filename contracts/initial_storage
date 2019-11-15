@@ -44,5 +44,14 @@ record
   commitments = map
     0 -> "root";
   end;
-  operatorAddress = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
+  events = map
+    0 -> map
+      "BlockSubmitted" -> list(record[
+          block_height = 0;
+          data = "{block_number:0,root:root}";
+        ])
+      end;
+    end;
+  end;
+  operator_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
 end
