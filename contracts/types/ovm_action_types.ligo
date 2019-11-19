@@ -5,6 +5,14 @@ type deposit_params is record
   amount: nat;
 end
 
-type action is
-| Deposit of deposit_params
+// Michelson can't cast int to string
+type submit_params is record
+  block_number: int;
+  block_number_string: string;
+  root: string;
+end
 
+type action is
+  | Deposit of deposit_params
+  | Submit of submit_params
+  | GetStorage of int

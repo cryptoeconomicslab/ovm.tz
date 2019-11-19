@@ -6,13 +6,13 @@ begin
   if deposit_params.amount <= 0n
     then failwith("Insufficient fund");
   else skip;
+
   const storage_branch : storage_branch = get_force(deposit_params.token_type, s.branches);
 
   // send money to deposit contract
   const deposit_reciever : contract(unit) = get_contract(source);
   const op: operation = transaction(unit, amount, deposit_reciever);
   const ops: ops = list op end;
-
 
   // create range
   const depositedRange: range = record
@@ -27,9 +27,10 @@ begin
       input = "tz1OwnerN5GSez2ndXXeDX6LgUDvLzPLqgYV";
     end;
     range = depositedRange;
-    plasma_block_number = get_latest_plasma_block_number(unit);
+    plasma_block_number = s.current_block;
     deposit_address = deposit_params.token_type;
   end;
+
   // create checkpoint
   const checkpoint: checkpoint = record
     subrange = depositedRange;
