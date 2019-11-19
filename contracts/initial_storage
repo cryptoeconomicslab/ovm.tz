@@ -48,7 +48,7 @@ record
     0 -> map
       "BlockSubmitted" -> list(record[
           block_height = 0;
-          data = "{block_number:0,root:root}";
+          data = ("7b626c6f636b5f6e756d6265723a302c726f6f743a726f6f747d": bytes);
         ])
       end;
     end;

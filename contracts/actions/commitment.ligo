@@ -11,8 +11,9 @@ begin
   s.current_block := block_number;
 
   const commitment_event: event = record
-    block_height = block_number;
-    data = "{block_number:" ^ block_number_string ^ ",root:" ^ root ^ "}";
+    // TODO: update current L1 block after the amendment of level
+    block_height = 0;
+    data = bytes_pack("{block_number:" ^ block_number_string ^ ",root:" ^ root ^ "}");
   end;
   const latest_commitment_block_event: list(event) = list
     commitment_event

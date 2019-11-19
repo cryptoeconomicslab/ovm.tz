@@ -1,6 +1,6 @@
 type event is record
   block_height: int;
-  data: string;
+  data: bytes;
 end
 
 type block_event is map(string, list(event));
