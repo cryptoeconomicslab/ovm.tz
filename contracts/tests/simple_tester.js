@@ -53,10 +53,18 @@ testfiles.unshift(ALL_PHRASE)
       }).map(res=>{
         if(res.status !== 0) {
           echo(chalk.white.bgRed(`[[[ Failed: ${res.command} ]]]`));
-          echo(chalk.red(`Stderr: ${res.stderr.toString()}`));
+          if(res.stderr){
+            echo(chalk.red(`Stderr: ${res.stderr.toString()}`));
+          } else {
+            echo(chalk.white(`No error message.`));
+          }
         } else {
           echo(chalk.white.bgGreen(`[[[ Passed: ${res.command} ]]]`));
-          echo(chalk.green(`Stdout: ${res.stdout.toString()}`));
+          if(res.stdout){
+            echo(chalk.green(`Stdout: ${res.stdout.toString()}`));
+          } else {
+            echo(chalk.white(`No outputs.`));
+          }
         }
       })
     }
