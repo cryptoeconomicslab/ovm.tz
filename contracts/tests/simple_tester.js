@@ -19,16 +19,19 @@ process.stdout.write('\n');
 const Spinner = clui.Spinner
 let countdown = new Spinner(`Test Running...`, ['◜','◠','◝','◞','◡','◟']);
 let testfiles = ls(TEST_BASEDIR).filter(name=>{
-  return name.indexOf("tester.sh") > 0
+  let matched = name.match(/test_.+_[0-9]{3}\.sh/)
+  return !!matched && matched.length > 0
 })
 testfiles.unshift(ALL_PHRASE)
 
-
 ;(
-  (argv._[0] == "all") ? 
-    skip(testfiles)
-  :
+  (!!argv._[1] && argv._[1].length > 0) ?
     ask(testfiles)
+  :
+    (argv._[0] == "all") ? 
+      skip(testfiles)
+    :
+      ask(testfiles)
 )
 .then(res=>{
   countdown.start();
@@ -51,15 +54,16 @@ testfiles.unshift(ALL_PHRASE)
         shellResult.command = name
         return shellResult
       }).map(res=>{
+        process.stdout.write('\n');
         if(res.status !== 0) {
-          echo(chalk.white.bgRed(`[[[ Failed: ${res.command} ]]]`));
+          echo(chalk.white.bgRed(`### Failed: ${res.command} `));
           if(res.stderr){
             echo(chalk.red(`Stderr: ${res.stderr.toString()}`));
           } else {
             echo(chalk.white(`No error message.`));
           }
         } else {
-          echo(chalk.white.bgGreen(`[[[ Passed: ${res.command} ]]]`));
+          echo(chalk.white.bgGreen(`### Passed: ${res.command} ]]]`));
           if(res.stdout){
             echo(chalk.green(`Stdout: ${res.stdout.toString()}`));
           } else {
