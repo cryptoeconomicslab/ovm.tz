@@ -14,12 +14,11 @@ begin
   const deposit_reciever : contract(unit) = get_contract(source);
   const op: operation = transaction(unit, amount, deposit_reciever);
   const ops: ops = list op end;
-  const new_end: nat = storage_branch.total_deposited + deposit_params.amount;
 
   // create range. Note: This variable would be used in everywhere in this deposit func
   const deposited_range: range = record
     start_ = storage_branch.total_deposited;
-    end_ = new_end;
+    end_ = storage_branch.total_deposited + deposit_params.amount;
   end;
 
   // create state_update
@@ -59,5 +58,5 @@ begin
   // s.logs[now] := "deposit(token_type): source=amount"
 
   // IO: Extend
-  s := extend_deposited_ranges(s, deposit_params, deposited_range, new_end);
+  s := extend_deposited_ranges(s, deposit_params);
 end with ((ops:ops), s)

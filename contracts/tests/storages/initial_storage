@@ -1,11 +1,11 @@
 record
   branches = map
     ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address) -> record
-      total_deposited = 1n;
+      total_deposited = 0n;
       deposited_ranges = map
         0n -> record
-          start_ = 1n;
-          end_ = 1n;
+          start_ = 0n;
+          end_ = 0n;
         end;
       end;
       claims = map

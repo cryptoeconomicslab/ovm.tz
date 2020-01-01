@@ -59,7 +59,7 @@ testfiles.unshift(ALL_PHRASE)
         if(res.status !== 0) {
           echo(chalk.white.bgRed(`### Failed: ${res.command} `));
           if(!!res.stderr || !!res.stdout){
-            echo(chalk.red(`Stdout: ${res.stdout.toString()}`));
+            echo(chalk.red(`Stdout: ${res.stdout.toString()}`));//TODO: failwith returns "error of execution" only.
             echo(chalk.red(`Stderr: ${res.stderr.toString()}`));
           } else {
             echo(chalk.white(`No error message.`));
@@ -90,7 +90,7 @@ testfiles.unshift(ALL_PHRASE)
       })
     }
     i--;
-  }, 1000)
+  }, 500)
 }).catch(err=>{ console.error(err) })
 
 
