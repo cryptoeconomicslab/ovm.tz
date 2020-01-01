@@ -9,6 +9,7 @@ var argv = require('minimist')(process.argv.slice(2));
 const ALL_PHRASE = "Test All✋"
 let currentDir = pwd().toString().split("/").pop()
 let TEST_BASEDIR = currentDir === "contracts" ? "./tests" : "./contracts/tests"
+const Diff = require('diff')
 
 clear()
 console.log(
@@ -50,14 +51,15 @@ testfiles.unshift(ALL_PHRASE)
         selectedTestfiles = res.selectedTestfiles
       }
       selectedTestfiles.map(name=>{
-        let shellResult = child_process.spawnSync(`bash`, [`${TEST_BASEDIR}/${name}`], {stdio: 'inherit'})
+        let shellResult = child_process.spawnSync(`bash`, [`${TEST_BASEDIR}/${name}`], {stdio: [process.stdin, 'pipe', 'pipe']})
         shellResult.command = name
         return shellResult
       }).map(res=>{
         process.stdout.write('\n');
         if(res.status !== 0) {
           echo(chalk.white.bgRed(`### Failed: ${res.command} `));
-          if(res.stderr){
+          if(!!res.stderr || !!res.stdout){
+            echo(chalk.red(`Stdout: ${res.stdout.toString()}`));
             echo(chalk.red(`Stderr: ${res.stderr.toString()}`));
           } else {
             echo(chalk.white(`No error message.`));
@@ -65,7 +67,22 @@ testfiles.unshift(ALL_PHRASE)
         } else {
           echo(chalk.white.bgGreen(`### Passed: ${res.command} ]]]`));
           if(res.stdout){
-            echo(chalk.green(`Stdout: ${res.stdout.toString()}`));
+            let initialStorage = cat(`${TEST_BASEDIR}/storages/initial_storage`).stdout
+            let resultStorage = /tuple\[\s+list\[\s+Operation\(.+\)\s+\]((.|\s)+)\s+\]/
+              .exec(res.stdout.toString())[1]
+
+            let changes = Diff.diffTrimmedLines(initialStorage, resultStorage)
+            let readableChanges = changes.map(diff=>{
+              console.log("diff.value", diff.value)
+              console.log('-----------------------')
+              return diff.value
+              .replace(/(\]|end;|end)/g,"")//TODO: deposited_range.end_ is being affected
+              .split(/\r\n|\r|\n/)
+                .join("\n") 
+            }).join("==================================\n")
+            // TODO: Currently we have only an option: eye grepping
+            // (Because the pre(michelson) - post(dry-run) data format is incomparable.) 
+            console.log('changes', readableChanges)
           } else {
             echo(chalk.white(`No outputs.`));
           }
