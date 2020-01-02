@@ -1,3 +1,4 @@
+type token_type is address;
 type range is record
   start_: nat;
   end_: nat;

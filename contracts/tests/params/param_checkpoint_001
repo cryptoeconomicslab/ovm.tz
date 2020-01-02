@@ -1,0 +1,5 @@
+Checkpoint(
+  record
+    hoge = 1n;
+  end
+)

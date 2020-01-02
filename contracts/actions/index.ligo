@@ -1,3 +1,6 @@
 #include "commitment.ligo"
 #include "deposit.ligo"
+#include "checkpoint.ligo"
+#include "start_exit.ligo"
+#include "finalize_exit.ligo"
 #include "get_storage.ligo"

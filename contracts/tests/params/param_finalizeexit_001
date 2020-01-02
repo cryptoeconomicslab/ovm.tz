@@ -1,0 +1,5 @@
+FinalizeExit(
+  record
+    hoge = 1n;
+  end
+)
