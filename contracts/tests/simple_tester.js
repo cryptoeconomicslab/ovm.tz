@@ -50,11 +50,12 @@ testfiles.unshift(ALL_PHRASE)
       } else {
         selectedTestfiles = res.selectedTestfiles
       }
-      selectedTestfiles.map(name=>{
+      let testSummary = selectedTestfiles.map(name=>{
         let shellResult = child_process.spawnSync(`bash`, [`${TEST_BASEDIR}/${name}`], {stdio: [process.stdin, 'pipe', 'pipe']})
         shellResult.command = name
         return shellResult
       }).map(res=>{
+        let isPassed = false
         process.stdout.write('\n');
         if(res.status !== 0) {
           echo(chalk.white.bgRed(`### Failed: ${res.command} `));
@@ -73,8 +74,6 @@ testfiles.unshift(ALL_PHRASE)
 
             let changes = Diff.diffTrimmedLines(initialStorage, resultStorage)
             let readableChanges = changes.map(diff=>{
-              console.log("diff.value", diff.value)
-              console.log('-----------------------')
               return diff.value
               .replace(/(\]|end;|end)/g,"")//TODO: deposited_range.end_ is being affected
               .split(/\r\n|\r|\n/)
@@ -83,11 +82,15 @@ testfiles.unshift(ALL_PHRASE)
             // TODO: Currently we have only an option: eye grepping
             // (Because the pre(michelson) - post(dry-run) data format is incomparable.) 
             console.log('changes', readableChanges)
+            isPassed = true
           } else {
             echo(chalk.white(`No outputs.`));
           }
         }
+        return { name: res.command, isPassed: isPassed };
       })
+
+      testSummary.map(data=> echo(chalk[data.isPassed ? "green" : "red"](`${data.isPassed ? "Passed" : "Failed"}: ${data.name}`)) )
     }
     i--;
   }, 500)
