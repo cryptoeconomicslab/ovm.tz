@@ -4,6 +4,8 @@
 
 function deposit_action (const s: ovm_storage; const deposit_params: deposit_params) : context is
 begin
+  // TODO: deposit_params.token_type isn't really working here
+  // and only the tez is working here. custom token validation logic will be required later.
   if deposit_params.amount <= 0n
     then failwith("Insufficient fund");
   else skip;
