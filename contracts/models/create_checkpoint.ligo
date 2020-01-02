@@ -11,12 +11,7 @@ begin
 
   const checkpoint_id: bytes = get_checkpoint_id(checkpoint);
 
-  const checkpoint_status: checkpoint_status = record
-    challengeable_until = 0n;//TODO:level
-    outstanding_challenges = 0n;
-  end;
-
-  storage_branch.checkpoints[checkpoint_id] := checkpoint_status;
+  storage_branch.checkpoints[checkpoint_id] := checkpoint;
 
   s.branches[deposit_params.token_type] := storage_branch;
 end with s;

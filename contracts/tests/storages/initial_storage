@@ -20,8 +20,22 @@ record
       end;
       checkpoints = map
         ("0001": bytes) -> record
-          challengeable_until = 0n;
-          outstanding_challenges = 0n;
+          subrange = record
+            start_ = 1n;
+            end_ = 1n;
+          end;
+          state_update = record
+            range = record
+              start_ = 1n;
+              end_ = 1n;
+            end;
+            property = record
+              predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
+              input = "hoge";
+            end;
+            plasma_block_number = 1;
+            deposit_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
+          end;
         end;
       end;
     end;
