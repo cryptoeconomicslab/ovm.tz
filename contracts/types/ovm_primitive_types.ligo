@@ -10,7 +10,7 @@ end
 type state_update is record
   property: property;
   range: range;
-  plasma_block_number: int;
+  plasma_block_number: nat;
   deposit_address: address;
 end
 type checkpoint is record

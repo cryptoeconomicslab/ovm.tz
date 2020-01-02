@@ -68,7 +68,7 @@ testfiles.unshift(ALL_PHRASE)
           echo(chalk.white.bgGreen(`### Passed: ${res.command} ]]]`));
           if(res.stdout){
             let initialStorage = cat(`${TEST_BASEDIR}/storages/initial_storage`).stdout
-            let resultStorage = /tuple\[\s+list\[\s+Operation\(.+\)\s+\]((.|\s)+)\s+\]/
+            let resultStorage = /tuple\[\s+list\[\s*.*\s*\]((.|\s)+)\s+\]/
               .exec(res.stdout.toString())[1]
 
             let changes = Diff.diffTrimmedLines(initialStorage, resultStorage)

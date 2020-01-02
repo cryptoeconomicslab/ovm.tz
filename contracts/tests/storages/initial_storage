@@ -19,35 +19,21 @@ record
         end;
       end;
       checkpoints = map
-        "hoge" -> record
-          subrange = record
-            start_ = 1n;
-            end_ = 1n;
-          end;
-          state_update = record
-            range = record
-              start_ = 1n;
-              end_ = 1n;
-            end;
-            property = record
-              predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-              input = "hoge";
-            end;
-            plasma_block_number = 1;
-            deposit_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-          end;
+        ("0001": bytes) -> record
+          challengeable_until = 0n;
+          outstanding_challenges = 0n;
         end;
       end;
     end;
   end;
-  current_block = 0;
+  current_block = 0n;
   commitments = map
-    0 -> "root";
+    0n -> "root";
   end;
   events = map
-    0 -> map
+    0n -> map
       "BlockSubmitted" -> list(record[
-          block_height = 0;
+          block_height = 0n;
           data = ("7b626c6f636b5f6e756d6265723a302c726f6f743a726f6f747d": bytes);
         ])
       end;

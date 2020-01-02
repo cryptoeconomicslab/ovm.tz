@@ -7,7 +7,7 @@ end
 
 type ovm_storage is record
   branches: map(token_type, storage_branch);
-  current_block: int;
+  current_block: nat;
   commitments: commitments;
   events: events;
   operator_address: address;

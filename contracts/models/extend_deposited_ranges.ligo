@@ -1,4 +1,4 @@
-function extend_deposited_ranges (const s: ovm_storage; const deposit_params: deposit_params) : ovm_storage is
+function extend_deposited_ranges (const s: ovm_storage; const deposit_params: deposit_params) : (ovm_storage * range) is
 begin 
   const storage_branch : storage_branch = get_force(deposit_params.token_type, s.branches);
 
@@ -18,9 +18,6 @@ begin
     new_start := storage_branch.total_deposited;
   else
     // Delete the old range and make a new one with the total length
-    if(old_end =/= 0n) then 
-      new_deposited_ranges := map_remove(old_end, storage_branch.deposited_ranges);
-    else skip;
     new_start := old_start;
 
   const new_end: nat = new_start + deposit_params.amount;
@@ -33,8 +30,9 @@ begin
     end_ = new_end;
   end;
   new_deposited_ranges[new_end] := new_deposited_range;
+  new_deposited_ranges := map_remove(old_end, new_deposited_ranges);
 
   // override branch state
   storage_branch.deposited_ranges := new_deposited_ranges;
   s.branches[deposit_params.token_type] := storage_branch;
-end with s;
+end with (s, new_deposited_range);
