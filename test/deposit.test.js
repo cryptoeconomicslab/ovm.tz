@@ -1,13 +1,6 @@
 const assert = require('assert')
 const invokeTest = require('./helper/invokeTest')
-const fs = require('fs')
-const path = require('path')
-
-const rmWhiteSpaces = s => s.replace(/\n/g, ' ').replace(/\s\s+/g, ' ')
-
-const initialStorage = rmWhiteSpaces(
-  fs.readFileSync(path.join(__dirname, './testdata/initial_storage')).toString()
-)
+const { rmWhiteSpaces, initialStorage } = require('./helper/utils')
 
 describe('DepositContract', function() {
   this.timeout(5000)
@@ -25,11 +18,20 @@ describe('DepositContract', function() {
     it('deposit 1 tz', () => {
       const result = invokeTest({
         parameter: testParams,
-        initialStorage
+        initialStorage,
+        source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
       assert.equal(result.status, 'ok')
       // TODO: parse content
       // assert.equal(result.content, initialStorage)
+    })
+
+    it('deposit 1 tz without sender', () => {
+      const result = invokeTest({
+        parameter: testParams,
+        initialStorage
+      })
+      assert.equal(result.status, 'ok')
     })
   })
 })

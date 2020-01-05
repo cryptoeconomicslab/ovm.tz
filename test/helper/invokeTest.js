@@ -5,9 +5,11 @@ function getCommand({
   initialStorage,
   contractPath = 'contracts/main.ligo',
   entryPoint = 'main',
-  source = 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+  source
 }) {
-  const command = `ligo dry-run ${contractPath} ${entryPoint} '${parameter}' '${initialStorage}' --amount=1 --source=${source} --format=json`
+  const command = `ligo dry-run ${contractPath} ${entryPoint} '${parameter}' '${initialStorage}' --amount=1 ${
+    source ? `--source=${source}` : ''
+  } --format=json`
   return command
 }
 
