@@ -4,7 +4,7 @@ type range is record
 end
 type property is record
   predicate_address: address;
-  input: string;
+  inputs: map(nat, string);
 end
 
 type state_update is record
