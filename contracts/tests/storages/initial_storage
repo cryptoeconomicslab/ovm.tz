@@ -1,25 +1,25 @@
 record
   branches = map
     ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address) -> record
-      total_deposited = 1n;
+      total_deposited = 0n;
       deposited_ranges = map
         0n -> record
-          start_ = 1n;
-          end_ = 1n;
+          start_ = 0n;
+          end_ = 0n;
         end;
       end;
       claims = map
         "hoge" -> record
           property = record
             predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-            input = "hoge";
+            inputs = map 0n -> "hoge"; end;
           end;
           num_proven_contradictions = 1n;
           decided_after = 1n;
         end;
       end;
       checkpoints = map
-        "hoge" -> record
+        ("0001": bytes) -> record
           subrange = record
             start_ = 1n;
             end_ = 1n;
@@ -31,7 +31,7 @@ record
             end;
             property = record
               predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-              input = "hoge";
+              inputs = map 0n -> "hoge"; end;
             end;
             plasma_block_number = 1;
             deposit_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
@@ -40,14 +40,14 @@ record
       end;
     end;
   end;
-  current_block = 0;
+  current_block = 0n;
   commitments = map
-    0 -> "root";
+    0n -> "root";
   end;
   events = map
-    0 -> map
+    0n -> map
       "BlockSubmitted" -> list(record[
-          block_height = 0;
+          block_height = 0n;
           data = ("7b626c6f636b5f6e756d6265723a302c726f6f743a726f6f747d": bytes);
         ])
       end;
