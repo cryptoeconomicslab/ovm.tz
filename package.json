@@ -16,16 +16,7 @@
     "url": "https://github.com/cryptoeconomicslab/ovm.tz/issues"
   },
   "homepage": "https://github.com/cryptoeconomicslab/ovm.tz#readme",
-  "dependencies": {
-    "chalk": "^3.0.0",
-    "clear": "^0.1.0",
-    "clui": "^0.3.6",
-    "diff": "^4.0.1",
-    "figlet": "^1.2.4",
-    "inquirer": "^7.0.1",
-    "minimist": "^1.2.0",
-    "shelljs": "^0.8.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^7.0.0"
