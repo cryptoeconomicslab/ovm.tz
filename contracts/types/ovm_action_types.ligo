@@ -11,7 +11,7 @@ type submit_params is record
   root: string;
 end
 
-type checkpoint_params is record
+type finalize_checkpoint_params is record
   hoge: nat;
 end
 
@@ -26,7 +26,7 @@ end
 type action is
   | Deposit of deposit_params
   | Submit of submit_params
-  | Checkpoint of checkpoint_params
+  | FinalizeCheckpoint of finalize_checkpoint_params
   | StartExit of start_exit_params
   | FinalizeExit of finalize_exit_params
   | GetStorage of int

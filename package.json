@@ -24,6 +24,7 @@
     "figlet": "^1.2.4",
     "inquirer": "^7.0.1",
     "minimist": "^1.2.0",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.3",
+    "tezbridge-crypto": "^1.0.54"
   }
 }
