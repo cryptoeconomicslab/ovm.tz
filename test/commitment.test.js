@@ -21,13 +21,24 @@ describe('CommitmentContract', function() {
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
       assert.equal(result.status, 'ok')
-      assert.deepEqual(result.postState.events[0], {
-        '"BlockSubmitted"': [
-          {
-            block_height: 0,
-            data: '0x7b626c6f636b5f6e756d6265723a302c726f6f743a726f6f747d'
-          }
-        ]
+      assert.deepEqual(result.postState.events, {
+        0: {
+          '"BlockSubmitted"': [
+            {
+              block_height: 0,
+              data: '0x7b626c6f636b5f6e756d6265723a302c726f6f743a726f6f747d'
+            }
+          ]
+        },
+        1: {
+          '"BlockSubmitted"': [
+            {
+              block_height: 0,
+              data:
+                '0x05010000001b7b626c6f636b5f6e756d6265723a312c726f6f743a726f6f74317d'
+            }
+          ]
+        }
       })
     })
 
