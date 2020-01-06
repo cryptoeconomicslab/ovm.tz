@@ -22,8 +22,16 @@ describe('DepositContract', function() {
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
       assert.equal(result.status, 'ok')
-      // TODO: parse content
-      // assert.equal(result.content, initialStorage)
+      // check event
+      assert.deepEqual(result.postState.events[0], {
+        '"Deposited"': [
+          {
+            block_height: 0,
+            data:
+              '0x05010000003a7b746f6b656e5f747970653a747a3154477536544e354753657a326e645858654458364c675544764c7a504c716759562c616d6f756e743a317d'
+          }
+        ]
+      })
     })
 
     it('deposit 1 tz without sender', () => {

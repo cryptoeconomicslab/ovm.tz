@@ -19,6 +19,7 @@
   "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
+    "ligo-parser": "github:syuhei176/ligo-parser",
     "mocha": "^7.0.0"
   }
 }
