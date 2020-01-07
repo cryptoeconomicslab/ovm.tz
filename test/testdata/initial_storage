@@ -48,7 +48,7 @@ record
     0n -> map
       "BlockSubmitted" -> list(record[
           block_height = 0n;
-          data = ("7b626c6f636b5f6e756d6265723a302c726f6f743a726f6f747d": bytes);
+          data = SubmittedEvent((0n, "root"));
         ])
       end;
     end;

@@ -1,8 +1,10 @@
-function emit_event(const s: ovm_storage; const topic: string; const log_string: string) : ovm_storage is
+#include "../types/ovm_event_types.ligo"
+
+function emit_event(const s: ovm_storage; const topic: string; const params: event_params) : ovm_storage is
 begin
   const event: event = record
     block_height = 0n;//TODO:level
-    data = bytes_pack(log_string);
+    data = params;
   end;
 
   const topic_sorted_events: topic_sorted_events = map

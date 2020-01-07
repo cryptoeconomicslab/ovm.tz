@@ -37,5 +37,13 @@ begin
   s := extend_deposited_ranges(s, deposit_params);
 
   // Event
-  s := emit_event(s, "Deposited", "{token_type:" ^ deposit_params.token_type_string ^ ",amount:" ^ deposit_params.amount_string ^ "}");
+  
+  const deposited_event: event_params = DepositedEvent(
+    (
+    deposit_params.token_type,
+    deposit_params.amount
+    )
+  );
+
+  s := emit_event(s, "Deposited", deposited_event);
 end with ((ops:ops), s)

@@ -1,3 +1,4 @@
+#include "../types/ovm_event_types.ligo"
 #include "../models/emit_event.ligo"
 
 function submit_action (const submit_params: submit_params; const s: ovm_storage) : context is
@@ -15,7 +16,11 @@ begin
   s.commitments[l2_block_number] := root;
   s.current_block := l2_block_number;
 
-
   // Event
-  s := emit_event(s, "BlockSubmitted", "{block_number:" ^ l2_block_number_string ^ ",root:" ^ root ^ "}");
+  const submitted_event: event_params = SubmittedEvent((
+    l2_block_number,
+    root
+  ));
+
+  s := emit_event(s, "BlockSubmitted", submitted_event);
 end with ((nil : list(operation)), s)
