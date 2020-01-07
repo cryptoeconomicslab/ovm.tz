@@ -1,5 +1,5 @@
 const childProcess = require('child_process')
-const parser = require('ligo-parser')
+const parseLIGO = require('./parse')
 
 function getCommand({
   parameter,
@@ -16,7 +16,6 @@ function getCommand({
 
 module.exports = function(options) {
   let result = JSON.parse(childProcess.execSync(getCommand(options)).toString())
-  console.log(result.content)
-  result.postState = parser.parse(result.content)
+  result.postState = parseLIGO(result.content)
   return result
 }
