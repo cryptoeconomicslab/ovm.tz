@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint --ext js test",
     "lint:fix": "eslint --fix --ext js test",
-    "test": "mocha"
+    "test": "mocha",
+    "build": "node script/build.js"
   },
   "repository": {
     "type": "git",
