@@ -10,7 +10,6 @@ describe('CommitmentContract', function() {
       const testParams = rmWhiteSpaces(`Submit(
         record
           block_number = 1n;
-          block_number_string = "1";
           root = "root1";
         end
       )`)
@@ -45,7 +44,6 @@ describe('CommitmentContract', function() {
       const testParams = rmWhiteSpaces(`Submit(
         record
           block_number = 2n;
-          block_number_string = "2";
           root = "root1";
         end
       )`)

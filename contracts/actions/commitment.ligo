@@ -4,7 +4,6 @@
 function submit_action (const submit_params: submit_params; const s: ovm_storage) : context is
 begin
   const l2_block_number: nat = submit_params.block_number;
-  const l2_block_number_string: string = submit_params.block_number_string;
   const root: string = submit_params.root;
 
   // Validation
