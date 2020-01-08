@@ -8,25 +8,31 @@ function getArgs({
   entryPoint = 'main',
   source
 }) {
-  let args = ["dry-run", contractPath, entryPoint, `${parameter}`, `${initialStorage}`, "--amount=1", "--format=json"]
-  if(source) args.push(`--source=${source}`)
+  let args = [
+    'dry-run',
+    contractPath,
+    entryPoint,
+    `${parameter}`,
+    `${initialStorage}`,
+    '--amount=1',
+    '--format=json'
+  ]
+  if (source) args.push(`--source=${source}`)
   return args
 }
 
-function getOpts(){
+function getOpts() {
   return {
-    stdio: [
-      process.stdin,
-      'pipe', 
-      'pipe'
-    ]
+    stdio: [process.stdin, 'pipe', 'pipe']
   }
 }
 
 module.exports = function(options) {
-  let result = JSON.parse(childProcess.spawnSync("ligo", getArgs(options), getOpts()).stdout.toString())
+  let result = JSON.parse(
+    childProcess
+      .spawnSync('ligo', getArgs(options), getOpts())
+      .stdout.toString()
+  )
   result.postState = parseLIGO(result.content)
   return result
 }
-
-
