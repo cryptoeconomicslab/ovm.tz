@@ -1,0 +1,10 @@
+record
+  ts = now;
+  events = map
+    "BlockSubmitted" -> list(record[
+        block_height = 0n;
+        data = SubmittedEvent((0n, "root"));
+      ])
+    end;
+  end;
+end

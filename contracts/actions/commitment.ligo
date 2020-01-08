@@ -21,5 +21,5 @@ begin
     root
   ));
 
-  s := emit_event(s, "BlockSubmitted", submitted_event);
-end with ((nil : list(operation)), s)
+  const ops:ops = list emit_event("BlockSubmitted", submitted_event) end;
+end with ((ops : list(operation)), s)
