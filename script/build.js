@@ -1,33 +1,33 @@
-const childProcess = require('child_process')
+const spwanLigo = require('../test/helper/spawnLigo')
 const path = require('path')
 const fs = require('fs')
 const { initialStorage } = require('../test/helper/utils')
 
-function getCompileSourceCommand({
+function getCompileSourceArgs({
   initialStorage,
   contractPath = 'contracts/main.ligo',
   entryPoint = 'main'
 }) {
-  return `ligo compile-contract ${contractPath} ${entryPoint}`
+  return ['compile-contract', contractPath, entryPoint]
 }
 
-function getCompileStorageCommand({
+function getCompileStorageArgs({
   initialStorage,
   contractPath = 'contracts/main.ligo',
   entryPoint = 'main'
 }) {
-  return `ligo compile-storage ${contractPath} ${entryPoint} '${initialStorage}'`
+  return ['compile-storage', contractPath, entryPoint, `${initialStorage}`]
 }
 
 function build({ output = path.join(__dirname, '../build') }) {
-  const compiledSource = childProcess.execSync(
-    getCompileSourceCommand({
+  const compiledSource = spwanLigo(
+    getCompileSourceArgs({
       initialStorage,
       entryPoint: 'main'
     })
   )
-  const compiledStorage = childProcess.execSync(
-    getCompileStorageCommand({
+  const compiledStorage = spwanLigo(
+    getCompileStorageArgs({
       initialStorage,
       entryPoint: 'main'
     })
