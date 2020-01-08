@@ -15,19 +15,29 @@ describe('DepositContract', function() {
   end
 )`)
 
-    it('deposit 1 tz', () => {
-      const result = invokeTest({
+    it('deposit 1 tz', async () => {
+      const result = await invokeTest({
         parameter: testParams,
         initialStorage,
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
       assert.equal(result.status, 'ok')
-      // TODO: parse content
-      // assert.equal(result.content, initialStorage)
+      // check event
+      assert.deepEqual(result.postState.events[0], {
+        Deposited: [
+          {
+            block_height: 0,
+            data: [
+              'DepositedEvent',
+              ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', 1]
+            ]
+          }
+        ]
+      })
     })
 
-    it('deposit 1 tz without sender', () => {
-      const result = invokeTest({
+    it('deposit 1 tz without sender', async () => {
+      const result = await invokeTest({
         parameter: testParams,
         initialStorage
       })

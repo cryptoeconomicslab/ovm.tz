@@ -6,7 +6,7 @@ describe('CommitmentContract', function() {
   this.timeout(5000)
 
   describe('submit', () => {
-    it('suceed to submit', () => {
+    it('suceed to submit', async () => {
       const testParams = rmWhiteSpaces(`Submit(
         record
           block_number = 1n;
@@ -15,12 +15,30 @@ describe('CommitmentContract', function() {
         end
       )`)
 
-      const result = invokeTest({
+      const result = await invokeTest({
         parameter: testParams,
         initialStorage,
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
       assert.equal(result.status, 'ok')
+      assert.deepEqual(result.postState.events, {
+        0: {
+          BlockSubmitted: [
+            {
+              block_height: 0,
+              data: ['SubmittedEvent', [0, 'root']]
+            }
+          ]
+        },
+        1: {
+          BlockSubmitted: [
+            {
+              block_height: 0,
+              data: ['SubmittedEvent', [1, 'root1']]
+            }
+          ]
+        }
+      })
     })
 
     it('fail to submit', () => {

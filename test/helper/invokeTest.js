@@ -1,4 +1,5 @@
 const childProcess = require('child_process')
+const parseLIGO = require('./parse')
 
 function getCommand({
   parameter,
@@ -14,5 +15,7 @@ function getCommand({
 }
 
 module.exports = function(options) {
-  return JSON.parse(childProcess.execSync(getCommand(options)).toString())
+  let result = JSON.parse(childProcess.execSync(getCommand(options)).toString())
+  result.postState = parseLIGO(result.content)
+  return result
 }

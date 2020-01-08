@@ -1,6 +1,10 @@
+type event_params is
+  | DepositedEvent of (address * nat)
+  | SubmittedEvent of (nat * string)
+
 type event is record
   block_height: nat;
-  data: bytes;
+  data: event_params;
 end
 
 type topic is string;

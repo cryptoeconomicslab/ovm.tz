@@ -8,8 +8,8 @@ describe('getStorage', function() {
   describe('getStorage', () => {
     const testParams = rmWhiteSpaces(`GetStorage(0)`)
 
-    it('getStorage(0)', () => {
-      const result = invokeTest({
+    it('getStorage(0)', async () => {
+      const result = await invokeTest({
         parameter: testParams,
         initialStorage
       })
