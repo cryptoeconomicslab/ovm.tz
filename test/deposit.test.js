@@ -9,9 +9,7 @@ describe('DepositContract', function() {
     const testParams = rmWhiteSpaces(`Deposit(
   record
 	  token_type = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address);
-	  token_type_string = "tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV";
 	  amount = 1n;
-	  amount_string = "1";
   end
 )`)
 
