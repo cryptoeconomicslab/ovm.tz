@@ -20,13 +20,13 @@ function getCompileStorageCommand({
 }
 
 function build({ output = path.join(__dirname, '../build') }) {
-  const outputOfCompileSource = childProcess.execSync(
+  const compiledSource = childProcess.execSync(
     getCompileSourceCommand({
       initialStorage,
       entryPoint: 'main'
     })
   )
-  const outputOfCompileStorage = childProcess.execSync(
+  const compiledStorage = childProcess.execSync(
     getCompileStorageCommand({
       initialStorage,
       entryPoint: 'main'
@@ -36,14 +36,8 @@ function build({ output = path.join(__dirname, '../build') }) {
   try {
     fs.mkdirSync(output)
   } catch (e) {}
-  fs.writeFileSync(
-    path.join(output, 'main.tz'),
-    outputOfCompileSource.toString()
-  )
-  fs.writeFileSync(
-    path.join(output, 'storage.tz'),
-    outputOfCompileStorage.toString()
-  )
+  fs.writeFileSync(path.join(output, 'main.tz'), compiledSource.toString())
+  fs.writeFileSync(path.join(output, 'storage.tz'), compiledStorage.toString())
 }
 
 build({})
