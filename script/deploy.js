@@ -13,24 +13,25 @@ function getDeployCommand({ bytecode, initialStorage }) {
   --burn-cap 5.337`
 }
 
-function deploy() {
+function deploy(buildDir) {
   const parameter = rmWhiteSpaces(
-    fs.readFileSync(path.join(__dirname, '../build', 'main.tz')).toString()
+    fs.readFileSync(path.join(buildDir, 'main.tz')).toString()
   )
   const initialStorage = rmWhiteSpaces(
-    fs.readFileSync(path.join(__dirname, '../build', 'storage.tz')).toString()
+    fs.readFileSync(path.join(buildDir, 'storage.tz')).toString()
   )
   try {
-    const command = getDeployCommand({
+    const deployCommand = getDeployCommand({
       bytecode: parameter,
       initialStorage: initialStorage
     })
-    const result = childProcess.execSync(command).toString()
-    console.log('deployed!')
-    return result
+    console.log('Deploying')
+    const outputOfDeploy = childProcess.execSync(deployCommand).toString()
+    console.log('Deployed!')
+    return outputOfDeploy
   } catch (e) {
     console.error(e.stdout.toString())
   }
 }
 
-deploy()
+deploy(path.join(__dirname, '../build'))

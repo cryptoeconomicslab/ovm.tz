@@ -20,30 +20,30 @@ function getCompileStorageCommand({
 }
 
 function build({ output = path.join(__dirname, '../build') }) {
-  const result = childProcess
-    .execSync(
-      getCommand({
-        initialStorage,
-        entryPoint: 'main'
-      })
-    )
-    .toString()
-  const resultStorage = childProcess
-    .execSync(
-      getCompileStorageCommand({
-        initialStorage,
-        entryPoint: 'main'
-      })
-    )
-    .toString()
+  const outputOfCompileSource = childProcess.execSync(
+    getCommand({
+      initialStorage,
+      entryPoint: 'main'
+    })
+  )
+  const outputOfCompileStorage = childProcess.execSync(
+    getCompileStorageCommand({
+      initialStorage,
+      entryPoint: 'main'
+    })
+  )
 
   try {
     fs.mkdirSync(output)
-  } catch (e) {
-    console.error(e)
-  }
-  fs.writeFileSync(path.join(output, 'main.tz'), result)
-  fs.writeFileSync(path.join(output, 'storage.tz'), resultStorage)
+  } catch (e) {}
+  fs.writeFileSync(
+    path.join(output, 'main.tz'),
+    outputOfCompileSource.toString()
+  )
+  fs.writeFileSync(
+    path.join(output, 'storage.tz'),
+    outputOfCompileStorage.toString()
+  )
 }
 
 build({})
