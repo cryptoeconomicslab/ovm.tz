@@ -3,7 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const { initialStorage } = require('../test/helper/utils')
 
-function getCommand({
+function getCompileSourceCommand({
   initialStorage,
   contractPath = 'contracts/main.ligo',
   entryPoint = 'main'
@@ -21,7 +21,7 @@ function getCompileStorageCommand({
 
 function build({ output = path.join(__dirname, '../build') }) {
   const outputOfCompileSource = childProcess.execSync(
-    getCommand({
+    getCompileSourceCommand({
       initialStorage,
       entryPoint: 'main'
     })
