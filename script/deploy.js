@@ -27,6 +27,8 @@ function deploy(buildDir) {
     })
     console.log('Deploying')
     const outputOfDeploy = childProcess.execSync(deployCommand).toString()
+    if (outputOfDeploy.indexOf('Node is not running!') > 0)
+      throw { stdout: new Buffer(outputOfDeploy) }
     console.log('Deployed!')
     return outputOfDeploy
   } catch (e) {
