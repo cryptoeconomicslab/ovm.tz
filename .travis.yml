@@ -9,3 +9,7 @@ before_install:
   - sudo apt-get install -y libev4
   - wget https://ligolang.org/deb/ligo_ubuntu-18.04.deb
   - sudo apt install ./ligo_ubuntu-18.04.deb
+
+script:
+  - npm test
+  - npm run lint
