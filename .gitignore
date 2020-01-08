@@ -6,3 +6,4 @@ dist
 dest
 **/*.pp.ligo
 build
+account.json

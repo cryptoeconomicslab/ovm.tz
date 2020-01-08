@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint --ext js test",
     "lint:fix": "eslint --fix --ext js test",
+    "init-deploy": "node script/init.js",
     "test": "mocha",
     "build": "node script/build.js",
     "deploy": "npm run build && node script/deploy.js"
