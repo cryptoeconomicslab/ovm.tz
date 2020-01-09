@@ -45,5 +45,5 @@ begin
     )
   );
 
-  s := emit_event(s, "Deposited", deposited_event);
+  s.events_storage := emit_event(s.events_storage, "Deposited", deposited_event);
 end with ((ops:ops), s)

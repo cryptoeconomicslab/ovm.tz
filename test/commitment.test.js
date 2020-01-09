@@ -20,24 +20,16 @@ describe('CommitmentContract', function() {
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
       assert.equal(result.status, 'ok')
-      assert.deepEqual(result.postState.events, {
-        0: {
-          BlockSubmitted: [
-            {
-              block_height: 0,
-              data: ['SubmittedEvent', [0, 'root']]
-            }
-          ]
+      assert.deepEqual(result.postState.events_storage.events.BlockSubmitted, [
+        {
+          block_height: 0,
+          data: ['SubmittedEvent', [1, 'root1']]
         },
-        1: {
-          BlockSubmitted: [
-            {
-              block_height: 0,
-              data: ['SubmittedEvent', [1, 'root1']]
-            }
-          ]
+        {
+          block_height: 0,
+          data: ['SubmittedEvent', [0, 'root']]
         }
-      })
+      ])
     })
 
     it('fail to submit', () => {

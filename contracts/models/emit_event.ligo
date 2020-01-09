@@ -1,16 +1,26 @@
-#include "../types/ovm_event_types.ligo"
+#include "../types/index.ligo"
 
-function emit_event(const s: ovm_storage; const topic: string; const params: event_params) : ovm_storage is
+function emit_event(
+  const s: events_storage;
+  const topic: string;
+  const params: event_params
+) : events_storage is
 begin
   const event: event = record
-    block_height = 0n;//TODO:level
+    block_height = 0n;
     data = params;
   end;
-
-  const topic_sorted_events: topic_sorted_events = map
-    topic -> list event end;
-  end;
-
-  // TODO: should create a event manager method because will override the other events
-  s.events[s.current_block] := topic_sorted_events;
+  if (s.ts < now) then begin
+    const topic_sorted_events: topic_sorted_events = map
+      topic -> list event end;
+    end;
+    s.events := topic_sorted_events;
+    s.ts := now;
+  end else begin
+    const topic_event_opt : option(list(event)) = s.events[(topic: string)];
+    s.events[(topic)] := case topic_event_opt of 
+        | None -> list event end
+        | Some(events) -> cons(event, events)
+    end;
+  end
 end with s;
