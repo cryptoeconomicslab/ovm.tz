@@ -1,4 +1,4 @@
-const spwanLigo = require('../test/helper/spawnLigo')
+const spawnLigo = require('../test/helper/spawnLigo')
 const path = require('path')
 const fs = require('fs')
 const { initialStorage } = require('../test/helper/utils')
@@ -20,13 +20,13 @@ function getCompileStorageArgs({
 }
 
 function build({ output = path.join(__dirname, '../build') }) {
-  const compiledSource = spwanLigo(
+  const compiledSource = spawnLigo(
     getCompileSourceArgs({
       initialStorage,
       entryPoint: 'main'
     })
   )
-  const compiledStorage = spwanLigo(
+  const compiledStorage = spawnLigo(
     getCompileStorageArgs({
       initialStorage,
       entryPoint: 'main'
