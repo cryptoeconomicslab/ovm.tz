@@ -1,9 +1,7 @@
 #include "../types/ovm_event_types.ligo"
 
 function dry_tx(const placeholder:unit) : operation is 
-begin 
-  const op : operation = transaction(unit, 0mutez, ( get_contract(source) : contract(unit) ));
-end with op;
+begin skip end with transaction(unit, 0mutez, ( get_contract(source) : contract(unit) ));
 
 function emit_event(
   const event_receiver_address: address;
