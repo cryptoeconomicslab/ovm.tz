@@ -1,0 +1,11 @@
+(Pair (Pair (Pair { Elt "tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV"
+                        (Pair (Pair { Elt 0x0001
+                                          (Pair (Pair (Pair "tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" 1)
+                                                      (Pair (Pair { Elt 0 "hoge" } "tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV") (Pair 1 1)))
+                                                (Pair 1 1)) }
+                                    { Elt "hoge"
+                                          (Pair (Pair 1 1) (Pair { Elt 0 "hoge" } "tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV")) })
+                              (Pair { Elt 0 (Pair 0 0) } 0)) }
+                  { Elt 0 "root" })
+            (Pair 0 { Elt 0 { Elt "BlockSubmitted" { Pair 0 (Right (Pair 0 "root")) } } }))
+      "tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV")
