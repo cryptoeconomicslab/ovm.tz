@@ -54,4 +54,5 @@ record
     end;
   end;
   operator_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
+  event_receiver_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
 end

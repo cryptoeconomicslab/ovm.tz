@@ -45,5 +45,5 @@ begin
     )
   );
 
-  ops := cons(emit_event("Deposited", deposited_event), ops);
+  ops := cons(emit_event(s.event_receiver_address, "Deposited", deposited_event), ops);
 end with ((ops:ops), s)

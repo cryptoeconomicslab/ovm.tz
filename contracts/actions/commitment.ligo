@@ -21,5 +21,5 @@ begin
     root
   ));
 
-  const ops:ops = list emit_event("BlockSubmitted", submitted_event) end;
+  const ops:ops = list emit_event(s.event_receiver_address, "BlockSubmitted", submitted_event) end;
 end with ((ops : list(operation)), s)

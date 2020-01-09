@@ -11,4 +11,5 @@ type ovm_storage is record
   commitments: commitments;
   events: events;
   operator_address: address;
+  event_receiver_address: address;
 end
