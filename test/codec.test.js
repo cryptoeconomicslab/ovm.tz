@@ -35,12 +35,14 @@ record
   end;
 end
 `
+const packString = 'hoge'
+const packNat = '1'
 const packParam = `PACK(record
-  attributeA = ( "hoge" : string );
-  attributeB = 1n;
+  attributeA = ( "${packString}" : string );
+  attributeB = ${packNat}n;
 end)`
 
-const unpackParam = `UNPACK( ("${PACKED_MASTER}": bytes) )`
+const unpackParam = `UNPACK( ("0507070100000004686f67650001": bytes) )`
 
 /*
  * Testcases
@@ -49,7 +51,16 @@ describe('CodecContract', function() {
   this.timeout(10000)
 
   describe('Codec', () => {
-    it('pack a record', async () => {
+    it('has the exact same pack parameter with the master data', async () => {
+      assert.equal(unpackParam.indexOf(PACKED_MASTER) >= 0, true)
+    })
+
+    it('has the exact same unpack parameter with the master data', async () => {
+      assert.equal(UNPACKED_MASTER.indexOf(packString) >= 0, true)
+      assert.equal(UNPACKED_MASTER.indexOf(`+${packNat}`) >= 0, true)
+    })
+
+    it('packs a record', async () => {
       const result = await invokeTest({
         contractPath,
         parameter: packParam,
@@ -59,7 +70,7 @@ describe('CodecContract', function() {
       assert.deepEqual(result.postState.binary, `0x${PACKED_MASTER}`)
     })
 
-    it('unpack a binary', async () => {
+    it('unpacks a binary', async () => {
       const result = await invokeTest({
         contractPath,
         parameter: unpackParam,
