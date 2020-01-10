@@ -21,17 +21,12 @@ describe('DepositContract', function() {
       })
       assert.equal(result.status, 'ok')
       // check event
-      assert.deepEqual(result.postState.events[0], {
-        Deposited: [
-          {
-            block_height: 0,
-            data: [
-              'DepositedEvent',
-              ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', 1]
-            ]
-          }
-        ]
-      })
+      assert.deepEqual(result.postState.events_storage.events.Deposited, [
+        {
+          block_height: 0,
+          data: ['DepositedEvent', ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', 1]]
+        }
+      ])
     })
 
     it('deposit 1 tz without sender', async () => {

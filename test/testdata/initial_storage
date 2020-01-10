@@ -44,12 +44,13 @@ record
   commitments = map
     0n -> "root";
   end;
-  events = map
-    0n -> map
+  events_storage = record
+    ts = now;
+    events = map
       "BlockSubmitted" -> list(record[
-          block_height = 0n;
-          data = SubmittedEvent((0n, "root"));
-        ])
+        block_height = 0n;
+        data = SubmittedEvent((0n, "root"));
+      ]);
       end;
     end;
   end;

@@ -23,7 +23,7 @@ Struct
   = "{" _ attr:Attribute _ attrs:("," _ Attribute _)* _ "}" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }
 
 Array
-  = "[" _ primitive:Item _ primitives:("," _ Item _)* _ "]" { return [primitive].concat(primitives) }
+  = "[" _ primitive:Item _ primitives:(","/";" _ Item _)* _ "]" { return [primitive].concat(primitives.map((a)=>a[2])) }
 
 Map
   = "[" _ attr:MapAttribute _ attrs:(";" _ MapAttribute _)* _ "]" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }

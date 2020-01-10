@@ -21,5 +21,5 @@ begin
     root
   ));
 
-  s := emit_event(s, "BlockSubmitted", submitted_event);
+  s.events_storage := emit_event(s.events_storage, "BlockSubmitted", submitted_event);
 end with ((nil : list(operation)), s)
