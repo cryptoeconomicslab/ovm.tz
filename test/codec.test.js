@@ -24,13 +24,13 @@ const initialStorage = `
 record
   binary = ("000000" : bytes);
   struct = record
-    attributeA = ( "hoge" : string );
+    attributeA = ( "0" : string );
     attributeB = 0n;
   end;
 end
 `
 const packParam = `PACK(record
-  attributeA = ( "hogehoge" : string );
+  attributeA = ( "hoge" : string );
   attributeB = 1n;
 end)`
 
