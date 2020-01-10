@@ -9,7 +9,7 @@ const ast = `// LIGO Grammar
 // Accepts output of ligo dry-run
 
 LIGO
- = "(" _ Ops _ ", " _ p:(Struct) _  ")" _ {
+ = "(" _ Ops _ ", " _ p:(Item) _  ")" _ {
   return p
 }
 
