@@ -9,7 +9,7 @@ const ast = `// LIGO Grammar
 // Accepts output of ligo dry-run
 
 LIGO
- = "(" _ Ops _ ", " _ p:(Struct) _  ")" _ {
+ = "(" _ Ops _ ", " _ p:(Item) _  ")" _ {
   return p
 }
 
@@ -40,10 +40,10 @@ MapAttribute
   = attr:Key _ "->" _ p:(Item) { return [attr, p] }
 
 Enum
-  = attr:String "(" item: Item")" { return [attr, item] }
+  = attr:String "(" _ item: Item _ ")" { return [attr, item] }
 
 Item
- = Struct / Map / Array / Tuple / Number / Address / String2 / Enum / Primitive
+ = Struct / Map / Array / Tuple / Number / Address / String2 / Enum / Primitive / EmptyString
 
 Key = Number / Address / String2 / String
 
@@ -59,7 +59,10 @@ String "string"
 String2 "string2"
   = _ "\\""str:String"\\"" { return str; }
 
-Address "address"
+EmptyString
+  = _ '""' { return "" }
+
+  Address "address"
   = _ "address \\""str:String"\\"" { return str; }
 
 _ "whitespace"

@@ -22,7 +22,6 @@ function getArgs({
 }
 
 module.exports = function(options) {
-  // console.log(spawnLigo(getArgs(options)).toString())
   let result = JSON.parse(spawnLigo(getArgs(options)).toString())
   result.postState = parseLIGO(result.content)
   return result

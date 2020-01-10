@@ -3,7 +3,7 @@ const invokeTest = require('./helper/invokeTest')
 const { rmWhiteSpaces, initialStorage } = require('./helper/utils')
 
 describe('getStorage', function() {
-  this.timeout(15000)
+  this.timeout(5000)
 
   describe('getStorage', () => {
     const testParams = rmWhiteSpaces(`GetStorage(0)`)
