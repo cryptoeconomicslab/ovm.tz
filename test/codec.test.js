@@ -9,6 +9,9 @@ let UNPACKED_MASTER
 const fs = require('fs')
 const childProcess = require('child_process')
 
+/*
+ * Preparing the master test data
+ */
 if (fs.existsSync(packedFile) && fs.existsSync(unpackedFile)) {
   console.log('There is a codec master seed. Loading seed files.')
   PACKED_MASTER = rmWhiteSpaces(fs.readFileSync(packedFile).toString()).trim()
@@ -20,6 +23,9 @@ if (fs.existsSync(packedFile) && fs.existsSync(unpackedFile)) {
   childProcess.execSync('npm run init-codec-test')
 }
 
+/*
+ * Constants for Codec Contract Execution
+ */
 const initialStorage = `
 record
   binary = ("000000" : bytes);
@@ -36,6 +42,9 @@ end)`
 
 const unpackParam = `UNPACK( ("${PACKED_MASTER}": bytes) )`
 
+/*
+ * Testcases
+ */
 describe('CodecContract', function() {
   this.timeout(10000)
 
