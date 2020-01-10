@@ -1,5 +1,5 @@
-const childProcess = require('child_process')
 const parseLIGO = require('./parse')
+const spawnLigo = require('./spawnLigo')
 
 function getArgs({
   parameter,
@@ -21,18 +21,8 @@ function getArgs({
   return args
 }
 
-function getOpts() {
-  return {
-    stdio: [process.stdin, 'pipe', 'pipe']
-  }
-}
-
 module.exports = function(options) {
-  let result = JSON.parse(
-    childProcess
-      .spawnSync('ligo', getArgs(options), getOpts())
-      .stdout.toString()
-  )
+  let result = JSON.parse(spawnLigo(getArgs(options)).toString())
   result.postState = parseLIGO(result.content)
   return result
 }
