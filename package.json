@@ -9,7 +9,8 @@
     "init-deploy": "node script/init.js",
     "test": "mocha",
     "build": "node script/build.js",
-    "deploy": "npm run build && node script/deploy.js"
+    "deploy": "npm run build && node script/deploy.js",
+    "init-codec-test": "bash script/codec-seeder.sh"
   },
   "repository": {
     "type": "git",

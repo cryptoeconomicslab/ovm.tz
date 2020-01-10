@@ -17,11 +17,13 @@ function getArgs({
     '--amount=1',
     '--format=json'
   ]
-  if (source) args.push(`--source=${source}`)
+  if (source) 
+    args.push(`--source=${source}`)
   return args
 }
 
-module.exports = function(options) {
+module.exports = function (options) {
+  console.log(spawnLigo(getArgs(options)).toString())
   let result = JSON.parse(spawnLigo(getArgs(options)).toString())
   result.postState = parseLIGO(result.content)
   return result
