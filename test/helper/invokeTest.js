@@ -1,5 +1,5 @@
-const spwanLigo = require('./spawnLigo')
 const parseLIGO = require('./parse')
+const spawnLigo = require('./spawnLigo')
 
 function getArgs({
   parameter,
@@ -22,7 +22,7 @@ function getArgs({
 }
 
 module.exports = function(options) {
-  let result = JSON.parse(spwanLigo(getArgs(options)).toString())
+  let result = JSON.parse(spawnLigo(getArgs(options)).toString())
   result.postState = parseLIGO(result.content)
   return result
 }
