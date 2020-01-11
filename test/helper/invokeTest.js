@@ -22,8 +22,16 @@ function getArgs({
 }
 
 module.exports = function(options) {
-  // console.log(spawnLigo(getArgs(options)).toString())
-  let result = JSON.parse(spawnLigo(getArgs(options)).toString())
+  let resultStr = spawnLigo(getArgs(options)).toString()
+
+  let isDebug = false
+  // isDebug = true
+  if (isDebug && resultStr.slice(0, 6) === 'ligo: ') {
+    resultStr = resultStr.slice(6, resultStr.length)
+    console.error(JSON.parse(resultStr).content)
+    throw new Error("Couldn't parse stdout.")
+  }
+  let result = JSON.parse(resultStr)
   result.postState = parseLIGO(result.content)
   return result
 }

@@ -1,1 +1,0 @@
-{attributeB = +1 , attributeA = "hoge"}
