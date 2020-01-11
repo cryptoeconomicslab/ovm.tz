@@ -2,6 +2,11 @@ const assert = require('assert')
 const invokeTest = require('./helper/invokeTest')
 const contractPath = 'test/contracts/codec.ligo'
 
+const STATUS = {
+  OK: 'ok',
+  ERROR: 'error'
+}
+
 /*
  * Testcases
  */
@@ -20,7 +25,7 @@ describe('CodecContract', function() {
         entryPoint: 'pack_sample_record',
         initialStorage: '("000000": bytes)'
       })
-      assert.equal(result.status, 'ok')
+      assert.deepEqual(result.status, STATUS.OK)
       assert.deepEqual(result.postState, `0x0507070100000004686f67650001`)
     })
 
@@ -33,7 +38,7 @@ describe('CodecContract', function() {
         initialStorage: '(None: option(sample_record))'
       })
 
-      assert.equal(result.status, 'ok')
+      assert.deepEqual(result.status, STATUS.OK)
       assert.deepEqual(result.postState, [
         'SOME',
         { attributeA: 'hoge', attributeB: 1 }
@@ -48,6 +53,7 @@ describe('CodecContract', function() {
         entryPoint: 'unpack_tuple',
         initialStorage: `(None: option(sample_tuple))`
       })
+      assert.deepEqual(result.status, STATUS.OK)
       assert.deepEqual(result.postState, [
         'SOME',
         ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', ['0x0001', '0x0002']]
