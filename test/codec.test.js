@@ -1,6 +1,6 @@
 const assert = require('assert')
 const invokeTest = require('./helper/invokeTest')
-const contractPath = 'test/contracts/codec.ligo'
+const CONTRACT_PATH = 'test/contracts/codec.ligo'
 
 const STATUS = {
   OK: 'ok',
@@ -20,7 +20,7 @@ describe('CodecContract', function() {
         attributeB = 1n;
       end`
       const result = await invokeTest({
-        contractPath,
+        contractPath: CONTRACT_PATH,
         parameter: packParam,
         entryPoint: 'pack_sample_record',
         initialStorage: '("000000": bytes)'
@@ -32,7 +32,7 @@ describe('CodecContract', function() {
     it('unpacks a binary', async () => {
       const unpackParam = `("0507070100000004686f67650001": bytes)`
       const result = await invokeTest({
-        contractPath,
+        contractPath: CONTRACT_PATH,
         parameter: unpackParam,
         entryPoint: 'unpack_sample_record',
         initialStorage: '(None: option(sample_record))'
@@ -48,7 +48,7 @@ describe('CodecContract', function() {
     it('unpack tuple', async () => {
       const packParam = `("0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a000000020002":bytes)`
       const result = await invokeTest({
-        contractPath,
+        contractPath: CONTRACT_PATH,
         parameter: packParam,
         entryPoint: 'unpack_tuple',
         initialStorage: `(None: option(sample_tuple))`
