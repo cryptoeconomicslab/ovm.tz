@@ -40,17 +40,6 @@ describe('CodecContract', function() {
         assert.deepEqual(result.postState, '0x05010000000131')
       })
 
-      it('packs a list of integer', async () => {
-        const packParam = `list 1;-1;0 end`
-        const result = await invokeTest({
-          contractPath: CONTRACT_PATH,
-          parameter: packParam,
-          entryPoint: 'pack_list_of_int',
-          initialStorage: `("00": bytes)`
-        })
-        assert.deepEqual(result.postState, '0x050200000006000100410000')
-      })
-
       it('packs a record', async () => {
         const packParam = `record
         attributeA = ( "hoge" : string );
@@ -98,6 +87,17 @@ describe('CodecContract', function() {
           result.postState,
           '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a000000020002'
         )
+      })
+
+      it('packs a list of integer', async () => {
+        const packParam = `list 1;-1;0 end`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: packParam,
+          entryPoint: 'pack_list_of_int',
+          initialStorage: `("00": bytes)`
+        })
+        assert.deepEqual(result.postState, '0x050200000006000100410000')
       })
 
       it('packs a list of record', async () => {
@@ -200,19 +200,6 @@ describe('CodecContract', function() {
         assert.deepEqual(result.postState, ['SOME', '1'])
       })
 
-      it('unpacks a list of integer', async () => {
-        const unpackParam = `("050200000006000100410000": bytes)`
-        const result = await invokeTest({
-          contractPath: CONTRACT_PATH,
-          parameter: unpackParam,
-          entryPoint: 'unpack_list_of_integer',
-          initialStorage: '(None: option(list(int)))'
-        })
-
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, ['SOME', [1, -1, 0]])
-      })
-
       it('unpacks a record', async () => {
         const unpackParam = `("0507070100000004686f67650001": bytes)`
         const result = await invokeTest({
@@ -259,6 +246,19 @@ describe('CodecContract', function() {
           'SOME',
           ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', ['0x0001', '0x0002']]
         ])
+      })
+
+      it('unpacks a list of integers', async () => {
+        const unpackParam = `("050200000006000100410000": bytes)`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: unpackParam,
+          entryPoint: 'unpack_list_of_integer',
+          initialStorage: '(None: option(list(int)))'
+        })
+
+        assert.deepEqual(result.status, STATUS.OK)
+        assert.deepEqual(result.postState, ['SOME', [1, -1, 0]])
       })
     })
   })

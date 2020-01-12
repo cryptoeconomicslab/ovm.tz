@@ -20,9 +20,6 @@ begin skip end with ((nil:ops), bytes_pack(action))
 function pack_bignumber (const action: string; const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
-function pack_list_of_int (const action: list(int); const s: bytes) : (ops * bytes) is
-begin skip end with ((nil:ops), bytes_pack(action))
-
 function pack_sample_record (const pack_params: sample_record; const s: bytes) : ( ops * bytes ) is
 begin skip end with ( (nil:ops) , bytes_pack(pack_params) )
 
@@ -30,6 +27,9 @@ function pack_property_record (const action: property_record; const s: bytes) : 
 begin skip end with ((nil:ops), bytes_pack(action))
 
 function pack_tuple (const action: sample_tuple; const s: bytes) : (ops * bytes) is
+begin skip end with ((nil:ops), bytes_pack(action))
+
+function pack_list_of_int (const action: list(int); const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
 function pack_list_of_record (const action: list(sample_record); const s: bytes) : (ops * bytes) is
@@ -54,9 +54,6 @@ begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(addre
 function unpack_bignumber (const unpack_params: bytes; const s: option(string)) : ( ops * option(string) ) is
 begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(string) ) )
 
-function unpack_list_of_integer (const unpack_params: bytes; const s: option(list(int))) : ( ops * option(list(int)) ) is
-begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(list(int)) ) )
-
 function unpack_sample_record (const unpack_params: bytes; const s: option(sample_record)) : ( ops * option(sample_record) ) is
 begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(sample_record) ) )
 
@@ -65,3 +62,6 @@ begin skip end with ((nil:ops), ( bytes_unpack(action) : option(property_record 
 
 function unpack_tuple (const action: bytes; const s: option(sample_tuple)) : (ops * option(sample_tuple)) is
 begin skip end with ( (nil:ops), ( bytes_unpack(action) : option(sample_tuple) ) )
+
+function unpack_list_of_integer (const unpack_params: bytes; const s: option(list(int))) : ( ops * option(list(int)) ) is
+begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(list(int)) ) )
