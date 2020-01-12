@@ -63,5 +63,8 @@ begin skip end with ((nil:ops), ( bytes_unpack(action) : option(property_record 
 function unpack_tuple (const action: bytes; const s: option(sample_tuple)) : (ops * option(sample_tuple)) is
 begin skip end with ( (nil:ops), ( bytes_unpack(action) : option(sample_tuple) ) )
 
-function unpack_list_of_integer (const unpack_params: bytes; const s: option(list(int))) : ( ops * option(list(int)) ) is
+function unpack_list_of_integers (const unpack_params: bytes; const s: option(list(int))) : ( ops * option(list(int)) ) is
 begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(list(int)) ) )
+
+function unpack_list_of_records (const unpack_params: bytes; const s: option(list(sample_record))) : ( ops * option(list(sample_record)) ) is
+begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(list(sample_record)) ) )
