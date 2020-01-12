@@ -285,6 +285,24 @@ describe('CodecContract', function() {
           ]
         ])
       })
+      it('unpacks a list of tuples', async () => {
+        const unpackParam = `("05020000006007070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a00000002000207070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a000000020002": bytes)`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: unpackParam,
+          entryPoint: 'unpack_list_of_tuples',
+          initialStorage: '(None: option(list(sample_tuple)))'
+        })
+
+        assert.deepEqual(result.status, STATUS.OK)
+        assert.deepEqual(result.postState, [
+          'SOME',
+          [
+            ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', ['0x0001', '0x0002']],
+            ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', ['0x0001', '0x0002']]
+          ]
+        ])
+      })
     })
   })
 })
