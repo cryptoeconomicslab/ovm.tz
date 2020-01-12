@@ -3,7 +3,7 @@ const invokeTest = require('./helper/invokeTest')
 const { rmWhiteSpaces, initialStorage } = require('./helper/utils')
 
 describe('DepositContract', function() {
-  this.timeout(10000)
+  this.timeout(20000)
 
   describe('Deposit', () => {
     const testParams = rmWhiteSpaces(`Deposit(

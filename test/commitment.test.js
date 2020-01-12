@@ -3,7 +3,7 @@ const invokeTest = require('./helper/invokeTest')
 const { rmWhiteSpaces, initialStorage } = require('./helper/utils')
 
 describe('CommitmentContract', function() {
-  this.timeout(10000)
+  this.timeout(20000)
 
   describe('submit', () => {
     it('suceed to submit', async () => {

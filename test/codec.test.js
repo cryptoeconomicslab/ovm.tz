@@ -1,7 +1,7 @@
 const assert = require('assert')
 const invokeTest = require('./helper/invokeTest')
-const CONTRACT_PATH = 'test/contracts/codec.ligo'
 
+const CONTRACT_PATH = 'test/contracts/codec.ligo'
 const STATUS = {
   OK: 'ok',
   ERROR: 'error'
@@ -15,6 +15,31 @@ describe('CodecContract', function() {
 
   describe('Codec', () => {
     describe('bytes_pack', () => {
+      it('packs an address', async () => {
+        const packParam = `("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address)`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: packParam,
+          entryPoint: 'pack_address',
+          initialStorage: `("00": bytes)`
+        })
+        assert.deepEqual(
+          result.postState,
+          '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d'
+        )
+      })
+
+      it('packs an bignumber', async () => {
+        const packParam = `("1" : string)`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: packParam,
+          entryPoint: 'pack_bignumber',
+          initialStorage: `("00": bytes)`
+        })
+        assert.deepEqual(result.postState, '0x05010000000131')
+      })
+
       it('packs a record', async () => {
         const packParam = `record
         attributeA = ( "hoge" : string );
