@@ -10,16 +10,6 @@ type property_record is record
 end
 type sample_tuple is (address * list(bytes))
 
-
-////////////////
-// PACK contract for test purpose
-////////////////
-function pack_address (const action: address; const s: bytes) : (ops * bytes) is
-begin skip end with ((nil:ops), bytes_pack(action))
-
-function pack_bignumber (const action: string; const s: bytes) : (ops * bytes) is
-begin skip end with ((nil:ops), bytes_pack(action))
-
 function pack_sample_record (const pack_params: sample_record; const s: bytes) : ( ops * bytes ) is
 begin skip end with ( (nil:ops) , bytes_pack(pack_params) )
 

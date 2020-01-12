@@ -1,7 +1,7 @@
 const assert = require('assert')
 const invokeTest = require('./helper/invokeTest')
-
 const CONTRACT_PATH = 'test/contracts/codec.ligo'
+
 const STATUS = {
   OK: 'ok',
   ERROR: 'error'
