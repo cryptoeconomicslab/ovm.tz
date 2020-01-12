@@ -25,7 +25,7 @@ module.exports = function(options) {
   let resultStr = spawnLigo(getArgs(options)).toString()
 
   let isDebug = false
-  isDebug = true
+  // isDebug = true
   if (isDebug && resultStr.slice(0, 6) === 'ligo: ') {
     resultStr = resultStr.slice(6, resultStr.length)
     console.error(JSON.parse(resultStr).content)
