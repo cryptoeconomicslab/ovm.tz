@@ -20,6 +20,9 @@ begin skip end with ((nil:ops), bytes_pack(action))
 function pack_bignumber (const action: string; const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
+function pack_list_of_int (const action: list(int); const s: bytes) : (ops * bytes) is
+begin skip end with ((nil:ops), bytes_pack(action))
+
 function pack_sample_record (const pack_params: sample_record; const s: bytes) : ( ops * bytes ) is
 begin skip end with ( (nil:ops) , bytes_pack(pack_params) )
 
@@ -29,6 +32,17 @@ begin skip end with ((nil:ops), bytes_pack(action))
 function pack_tuple (const action: sample_tuple; const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
+function pack_list_of_record (const action: list(sample_record); const s: bytes) : (ops * bytes) is
+begin skip end with ((nil:ops), bytes_pack(action))
+
+function pack_list_of_tuple (const action: list(sample_tuple); const s: bytes) : (ops * bytes) is
+begin skip end with ((nil:ops), bytes_pack(action))
+
+function pack_empty_list (const action: list(unit); const s: bytes) : (ops * bytes) is
+begin skip end with ((nil:ops), bytes_pack(action))
+
+function pack_list_of_list_of_int (const action: list(list(int)); const s: bytes) : (ops * bytes) is
+begin skip end with ((nil:ops), bytes_pack(action))
 
 
 ////////////////

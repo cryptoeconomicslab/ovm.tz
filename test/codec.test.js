@@ -40,6 +40,17 @@ describe('CodecContract', function() {
         assert.deepEqual(result.postState, '0x05010000000131')
       })
 
+      it('packs a list of integer', async () => {
+        const packParam = `list 1;-1;0 end`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: packParam,
+          entryPoint: 'pack_list_of_int',
+          initialStorage: `("00": bytes)`
+        })
+        assert.deepEqual(result.postState, '0x050200000006000100410000')
+      })
+
       it('packs a record', async () => {
         const packParam = `record
         attributeA = ( "hoge" : string );
@@ -86,6 +97,75 @@ describe('CodecContract', function() {
         assert.deepEqual(
           result.postState,
           '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a000000020002'
+        )
+      })
+
+      it('packs a list of record', async () => {
+        const packParam = `list
+          record
+            attributeA = ( "hoge" : string );
+            attributeB = 1n;
+          end;
+          record
+            attributeA = ( "hoge" : string );
+            attributeB = 1n;
+          end;
+        end`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: packParam,
+          entryPoint: 'pack_list_of_record',
+          initialStorage: '("00": bytes)'
+        })
+        assert.deepEqual(result.status, STATUS.OK)
+        assert.deepEqual(
+          result.postState,
+          `0x05020000001a07070100000004686f6765000107070100000004686f67650001`
+        )
+      })
+
+      it('packs a list of tuple', async () => {
+        const packParam = `list 
+        ( ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address),
+        list ("0001" : bytes); ("0002" : bytes); end );
+        ( ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address),
+        list ("0001" : bytes); ("0002" : bytes); end );
+        end
+        `
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: packParam,
+          entryPoint: 'pack_list_of_tuple',
+          initialStorage: `("00": bytes)`
+        })
+        assert.deepEqual(
+          result.postState,
+          '0x05020000006007070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a00000002000207070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a000000020002'
+        )
+      })
+
+      it('packs an empty list', async () => {
+        const packParam = `( nil : list(unit) )` //TIPS: nil is a list. type annotation has to be here but any type is okay.
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: packParam,
+          entryPoint: 'pack_empty_list',
+          initialStorage: `("00": bytes)`
+        })
+        assert.deepEqual(result.postState, '0x050200000000')
+      })
+
+      it('packs a list of list of integer', async () => {
+        const packParam = `list list 1;-1;0 end; list 1;-1;0 end; list 1;-1;0 end; end`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: packParam,
+          entryPoint: 'pack_list_of_list_of_int',
+          initialStorage: `("00": bytes)`
+        })
+        assert.deepEqual(
+          result.postState,
+          '0x050200000021020000000600010041000002000000060001004100000200000006000100410000'
         )
       })
     })
