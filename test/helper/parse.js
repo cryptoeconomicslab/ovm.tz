@@ -17,7 +17,7 @@ Ops = "[" _ Op _ ("," _ Op)* _ "]" / "[]"
 Op = "Operation(...bytes)"
 
 Primitive
-  = _ [0-9a-zA-Z_=@]+ { return text() }
+  = _ [0-9a-zA-Z_=@-]+ { return text() }
 
 Struct
   = "{" _ attr:Attribute _ attrs:("," _ Attribute _)* _ "}" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }
@@ -48,7 +48,7 @@ Item
 Key = Number / Address / String2 / String
 
 Integer "integer"
-  = _ [0-9]+ { return parseInt(text(), 10); }
+  = _ ("-")?[0-9]+ { return parseInt(text(), 10); }
 
 Number "number"
   = _ "+"[0-9]+ { return parseInt(text(), 10); }

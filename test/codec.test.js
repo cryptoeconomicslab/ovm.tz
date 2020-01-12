@@ -29,7 +29,7 @@ describe('CodecContract', function() {
         )
       })
 
-      it('packs an bignumber', async () => {
+      it('packs a bignumber', async () => {
         const packParam = `("1" : string)`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
@@ -171,6 +171,48 @@ describe('CodecContract', function() {
     })
 
     describe('bytes_unpack', () => {
+      it('unpacks an address', async () => {
+        const unpackParam = `("050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d": bytes)`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: unpackParam,
+          entryPoint: 'unpack_address',
+          initialStorage: '(None: option(address))'
+        })
+
+        assert.deepEqual(result.status, STATUS.OK)
+        assert.deepEqual(result.postState, [
+          'SOME',
+          'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+        ])
+      })
+
+      it('unpacks a bignumber', async () => {
+        const unpackParam = `("05010000000131": bytes)`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: unpackParam,
+          entryPoint: 'unpack_bignumber',
+          initialStorage: '(None: option(string))'
+        })
+
+        assert.deepEqual(result.status, STATUS.OK)
+        assert.deepEqual(result.postState, ['SOME', '1'])
+      })
+
+      it('unpacks a list of integer', async () => {
+        const unpackParam = `("050200000006000100410000": bytes)`
+        const result = await invokeTest({
+          contractPath: CONTRACT_PATH,
+          parameter: unpackParam,
+          entryPoint: 'unpack_list_of_integer',
+          initialStorage: '(None: option(list(int)))'
+        })
+
+        assert.deepEqual(result.status, STATUS.OK)
+        assert.deepEqual(result.postState, ['SOME', [1, -1, 0]])
+      })
+
       it('unpacks a record', async () => {
         const unpackParam = `("0507070100000004686f67650001": bytes)`
         const result = await invokeTest({

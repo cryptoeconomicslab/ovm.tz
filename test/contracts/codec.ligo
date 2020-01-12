@@ -48,6 +48,15 @@ begin skip end with ((nil:ops), bytes_pack(action))
 ////////////////
 // UNPACK contract for test purpose
 ////////////////
+function unpack_address (const unpack_params: bytes; const s: option(address)) : ( ops * option(address) ) is
+begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(address) ) )
+
+function unpack_bignumber (const unpack_params: bytes; const s: option(string)) : ( ops * option(string) ) is
+begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(string) ) )
+
+function unpack_list_of_integer (const unpack_params: bytes; const s: option(list(int))) : ( ops * option(list(int)) ) is
+begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(list(int)) ) )
+
 function unpack_sample_record (const unpack_params: bytes; const s: option(sample_record)) : ( ops * option(sample_record) ) is
 begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(sample_record) ) )
 
