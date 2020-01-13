@@ -1,6 +1,9 @@
 const parseLIGO = require('./parse')
 const spawnLigo = require('./spawnLigo')
-
+const STATUS = {
+  OK: 'ok',
+  ERROR: 'error'
+}
 function getArgs({
   parameter,
   initialStorage,
@@ -21,17 +24,38 @@ function getArgs({
   return args
 }
 
-module.exports = function(options) {
-  let resultStr = spawnLigo(getArgs(options)).toString()
+module.exports = {
+  STATUS: STATUS,
+  invokeTest: function(options) {
+    let resultStr = spawnLigo(getArgs(options)).toString()
+    let result = JSON.parse(
+      resultStr.slice(0, 6) === 'ligo: '
+        ? resultStr.slice(6, resultStr.length)
+        : resultStr
+    )
 
-  let isDebug = false
-  // isDebug = true
-  if (isDebug && resultStr.slice(0, 6) === 'ligo: ') {
-    resultStr = resultStr.slice(6, resultStr.length)
-    console.error(JSON.parse(resultStr).content)
-    throw new Error("Couldn't parse stdout.")
+    let parsed
+    try {
+      parsed = parseLIGO(result.content)
+      result.postState = parsed
+    } catch (e) {
+      if (result.content.title === 'error of execution') {
+        let failwithMessage = JSON.parse(result.content.children[0].message)
+        result.postState = failwithMessage
+      } else {
+        throw new Error(`parseLIGO failed with ${resultStr}`)
+      }
+    }
+    return result
+  },
+  reportErrorOfAssertOk: function(postState) {
+    if (postState.status === STATUS.ERROR) {
+      console.error(`Reverted by ${postState}`)
+    }
+  },
+  reportErrorOfAssertError: function(postState) {
+    if (postState.status === STATUS.OK) {
+      console.error(`Reverted by ${postState}`)
+    }
   }
-  let result = JSON.parse(resultStr)
-  result.postState = parseLIGO(result.content)
-  return result
 }

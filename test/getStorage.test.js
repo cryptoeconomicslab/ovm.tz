@@ -1,5 +1,5 @@
 const assert = require('assert')
-const invokeTest = require('./helper/invokeTest')
+const { invokeTest, STATUS } = require('./helper/invokeTest')
 const { rmWhiteSpaces, initialStorage } = require('./helper/utils')
 
 describe('getStorage', function() {
@@ -13,7 +13,7 @@ describe('getStorage', function() {
         parameter: testParams,
         initialStorage
       })
-      assert.equal(result.status, 'ok')
+      assert.equal(result.status, STATUS.OK)
     })
   })
 })
