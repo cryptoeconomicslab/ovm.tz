@@ -1,10 +1,5 @@
 const assert = require('assert')
-const {
-  invokeTest,
-  reportErrorOfAssertOk,
-  reportErrorOfAssertError,
-  STATUS
-} = require('./helper/invokeTest')
+const { invokeTest, STATUS } = require('./helper/invokeTest')
 const CONTRACT_PATH = 'test/contracts/codec.ligo'
 
 /*

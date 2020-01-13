@@ -47,15 +47,5 @@ module.exports = {
       }
     }
     return result
-  },
-  reportErrorOfAssertOk: function(postState) {
-    if (postState.status === STATUS.ERROR) {
-      console.error(`Reverted by ${postState}`)
-    }
-  },
-  reportErrorOfAssertError: function(postState) {
-    if (postState.status === STATUS.OK) {
-      console.error(`Reverted by ${postState}`)
-    }
   }
 }
