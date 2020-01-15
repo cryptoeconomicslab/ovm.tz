@@ -70,7 +70,7 @@ module.exports = {
   invokeTest: function(options) {
     let resultStr = spawnLigo(getArgs(options)).toString()
     let result = parseResult(resultStr)
-    reselt = applyParsedLIGO(result)
+    result = applyParsedLIGO(result)
     return result
   }
 }

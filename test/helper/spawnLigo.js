@@ -1,6 +1,6 @@
 const childProcess = require('child_process')
 
-module.exports = function (args) {
+module.exports = function(args) {
   const subProcess = childProcess.spawnSync('ligo', args, {
     stdio: [process.stdin, 'pipe', 'pipe']
   })
