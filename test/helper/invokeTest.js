@@ -34,17 +34,11 @@ function sanitizeString(resultStr) {
 function parseResult(resultStr) {
   let result
 
-  console.log('================')
-  console.log('resultStr=======', resultStr)
-  console.log('================')
+  // TODO: resultStr can be null in the Travis CI env
   if (resultStr.slice(0, 6) == "ligo: ") {
     resultStr = sanitizeString(resultStr)
-    console.log(resultStr.slice(0, 12))
-    console.log('substructure parser flow')
     result = parseFailwithResult(resultStr)
   } else {
-    console.log(resultStr.slice(0, 12))
-    console.log('json parser flow')
     result = JSON.parse(resultStr)
   }
   return result
