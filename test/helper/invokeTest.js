@@ -33,6 +33,10 @@ function sanitizeString(resultStr) {
 }
 function parseResult(resultStr) {
   let result
+
+  console.log('================')
+  console.log('resultStr=======', resultStr)
+  console.log('================')
   if (resultStr.slice(0, 6) == "ligo: ") {
     resultStr = sanitizeString(resultStr)
     console.log(resultStr.slice(0, 12))
