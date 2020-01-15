@@ -1,9 +1,9 @@
 const assert = require('assert')
-const invokeTest = require('./helper/invokeTest')
+const { invokeTest, STATUS } = require('./helper/invokeTest')
 const { rmWhiteSpaces, initialStorage } = require('./helper/utils')
 
 describe('DepositContract', function() {
-  this.timeout(10000)
+  this.timeout(20000)
 
   describe('Deposit', () => {
     const testParams = rmWhiteSpaces(`Deposit(
@@ -19,7 +19,7 @@ describe('DepositContract', function() {
         initialStorage,
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
-      assert.equal(result.status, 'ok')
+      assert.equal(result.status, STATUS.OK)
       // check event
       assert.deepEqual(result.postState.events_storage.events.Deposited, [
         {
@@ -34,7 +34,7 @@ describe('DepositContract', function() {
         parameter: testParams,
         initialStorage
       })
-      assert.equal(result.status, 'ok')
+      assert.equal(result.status, STATUS.OK)
     })
   })
 })

@@ -1,9 +1,9 @@
 const assert = require('assert')
-const invokeTest = require('./helper/invokeTest')
+const { invokeTest, STATUS } = require('./helper/invokeTest')
 const { rmWhiteSpaces, initialStorage } = require('./helper/utils')
 
 describe('CommitmentContract', function() {
-  this.timeout(10000)
+  this.timeout(20000)
 
   describe('submit', () => {
     it('suceed to submit', async () => {
@@ -19,7 +19,7 @@ describe('CommitmentContract', function() {
         initialStorage,
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
-      assert.equal(result.status, 'ok')
+      assert.equal(result.status, STATUS.OK)
       assert.deepEqual(result.postState.events_storage.events.BlockSubmitted, [
         {
           block_height: 0,
@@ -40,13 +40,17 @@ describe('CommitmentContract', function() {
         end
       )`)
 
-      assert.throws(() => {
-        invokeTest({
-          parameter: testParams,
-          initialStorage,
-          source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
-        })
+      // assert.throws(() => {
+      const result = invokeTest({
+        parameter: testParams,
+        initialStorage,
+        source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
+      assert.equal(result.status, STATUS.ERROR)
+      assert.deepEqual(
+        result.postState.children[0].message.with.string,
+        'block_number should be next block'
+      )
     })
   })
 })
