@@ -20,62 +20,73 @@ function getArgs({
     '--amount=1',
     '--format=json'
   ]
-  if (source) args.push(`--source=${source}`)
+  if (source) 
+    args.push(`--source=${source}`)
   return args
+}
+
+function parseLinuxResult(resultStr) {
+  const MESSAGE_START_TOKEN = '"message":"'
+  const MESSAGE_END_TOKEN = '}","type"'
+  const MESSAGE_START_INDEX = resultStr.indexOf(MESSAGE_START_TOKEN) + MESSAGE_START_TOKEN.length
+  const MESSAGE_END_INDEX = resultStr.indexOf(MESSAGE_END_TOKEN) + 1
+  const MESSAGE_LENGTH = MESSAGE_END_INDEX - MESSAGE_START_INDEX
+  let messageStr = resultStr.slice(MESSAGE_START_INDEX, MESSAGE_START_INDEX + MESSAGE_LENGTH)
+
+  messageStr = messageStr
+    .replace(/\\"/g, '"')
+    .replace(/\\n/g, '')
+    .replace(/\\"/g, '"')
+
+  let messageObject = JSON.parse(messageStr)
+
+  let hollowedResultStr = resultStr.slice(0, MESSAGE_START_INDEX) + resultStr.slice(MESSAGE_START_INDEX + MESSAGE_LENGTH, resultStr.length)
+  let resultObject = JSON.parse(hollowedResultStr.slice(0, 6) === 'ligo: '
+    ? hollowedResultStr.slice(6, hollowedResultStr.length)
+    : hollowedResultStr)
+  resultObject.content.message = messageObject
+  resultObject.content.title = "error of execution"
+  return resultObject
+}
+
+function parseResult(resultStr) {
+  let result
+  let isMacOS = false
+  if (isMacOS) {
+    result = JSON.parse(resultStr.slice(0, 6) === 'ligo: '
+      ? resultStr.slice(6, resultStr.length)
+      : resultStr)
+  } else {
+    result = parseLinuxResult(resultStr)
+  }
+  return result
+}
+
+function applyParsedLIGO(result) {
+  let parsed
+  try {
+    // Success case: LIGO output will be here
+    parsed = parseLIGO(result.content)
+    result.postState = parsed
+  } catch (e) {
+    // Failure case
+    if (result.content.title === 'error of execution') {
+      // failwith error report
+      result.postState = result.content.message
+    } else {
+      // compile error and so on
+      throw new Error(`parseLIGO failed with ${JSON.stringify(result)}`)
+    }
+  }
+  return result
 }
 
 module.exports = {
   STATUS: STATUS,
-  invokeTest: function(options) {
+  invokeTest: function (options) {
     let resultStr = spawnLigo(getArgs(options)).toString()
-
-    // let result
-    // if (resultStr.slice(0, 6) === 'ligo: ') {
-    //   // const MESSAGE_START_TOKEN = '"message":"'
-    //   // const MESSAGE_END_TOKEN = '}","type"'
-    //   // const MESSAGE_START_INDEX =
-    //   //   resultStr.indexOf(MESSAGE_START_TOKEN) + MESSAGE_START_TOKEN.length
-    //   // const MESSAGE_END_INDEX = resultStr.indexOf(MESSAGE_END_TOKEN) + 1
-    //   // const MESSAGE_LENGTH = MESSAGE_END_INDEX - MESSAGE_START_INDEX
-    //   // let messageStr = resultStr.slice(
-    //   //   MESSAGE_START_INDEX,
-    //   //   MESSAGE_START_INDEX + MESSAGE_LENGTH
-    //   // )
-    //   // messageStr = messageStr.replace(/\\"/g, '"').replace(/\\n/g, '')
-    //   // console.log(messageStr)
-    //   // result = {
-    //   //   status: 'ok',
-    //   //   content: JSON.parse(messageStr)
-    //   // }
-
-    //   //TODO: Travis Result always doesn't have backslack and it causes bug.
-    //   // let travisResult = '{"status":"error","content":{"title":"error of execution","type":"error","children":[{"title":"alpha error","message":"{ "kind": "temporary",\n  "id": "proto.005-PsBabyM1.michelson_v1.script_rejected", "location": 0,\n  "with": { "string": "block_number should be next block" } }","type":"error","children":[],"infos":[]}],"infos":[]}}'
-    //   // .replace(/\\"/g, '"')
-    //   // .replace(/\n/g, '')
-    //   // console.log('travisResult:', travisResult)
-    //   // console.log('resultStr:', resultStr)
-    //   result = JSON.parse(resultStr)
-    // } else {
-    //   result = JSON.parse(resultStr)
-    // }
-    let result = JSON.parse(
-      resultStr.slice(0, 6) === 'ligo: '
-        ? resultStr.slice(6, resultStr.length)
-        : resultStr
-    )
-
-    let parsed
-    try {
-      parsed = parseLIGO(result.content)
-      result.postState = parsed
-    } catch (e) {
-      if (result.content.title === 'error of execution') {
-        let failwithMessage = JSON.parse(result.content.children[0].message)
-        result.postState = failwithMessage
-      } else {
-        throw new Error(`parseLIGO failed with ${resultStr}`)
-      }
-    }
+    let result = parseResult(resultStr)
+    reselt = applyParsedLIGO(result)
     return result
   }
 }
