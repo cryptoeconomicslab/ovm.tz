@@ -44,7 +44,7 @@ describe('CommitmentContract', function () {
       // assert.throws(() => {
       const result = invokeTest({parameter: testParams, initialStorage, source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'})
       assert.equal(result.status, STATUS.ERROR)
-      assert.deepEqual(result.postState.with.string, 'block_number should be next block')
+      assert.deepEqual(result.postState.message.children[0].with.string, 'block_number should be next block')
     })
   })
 })
