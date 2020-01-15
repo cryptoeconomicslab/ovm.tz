@@ -20,8 +20,7 @@ function getArgs({
     '--amount=1',
     '--format=json'
   ]
-  if (source) 
-    args.push(`--source=${source}`)
+  if (source) args.push(`--source=${source}`)
   return args
 }
 
@@ -35,42 +34,24 @@ function parseResult(resultStr) {
   let result
 
   // TODO: resultStr can be null in the Travis CI env
-  if (resultStr.slice(0, 6) == "ligo: ") {
-    resultStr = sanitizeString(resultStr)
+  if (resultStr.slice(0, 6) == 'ligo: ') {
     result = parseFailwithResult(resultStr)
   } else {
     result = JSON.parse(resultStr)
   }
   return result
 }
-
 function parseFailwithResult(resultStr) {
-  const MESSAGE_START_TOKEN = '"message":"'
-  const MESSAGE_END_TOKEN = '}","type"'
-  const MESSAGE_START_INDEX = resultStr.indexOf(MESSAGE_START_TOKEN) + MESSAGE_START_TOKEN.length
-  const MESSAGE_END_INDEX = resultStr.indexOf(MESSAGE_END_TOKEN) + 1
-  const MESSAGE_LENGTH = MESSAGE_END_INDEX - MESSAGE_START_INDEX
-  let messageStr = resultStr.slice(MESSAGE_START_INDEX, MESSAGE_START_INDEX + MESSAGE_LENGTH)
-
-  let messageObject = JSON.parse(messageStr)
-
-  let hollowedResultStr = resultStr.slice(0, MESSAGE_START_INDEX) + resultStr.slice(MESSAGE_START_INDEX + MESSAGE_LENGTH, resultStr.length)
-  let resultObject = JSON.parse(hollowedResultStr.slice(0, 6) === 'ligo: '
-    ? hollowedResultStr.slice(6, hollowedResultStr.length)
-    : hollowedResultStr)
-
-  resultObject.content.message = {}
-  resultObject.content.message.children = [messageObject]
-  resultObject.content.title = "error of execution"
+  let resultObject = JSON.parse(resultStr.slice(6, resultStr.length))
+  resultObject.content.children[0].message = JSON.parse(
+    sanitizeString(resultObject.content.children[0].message)
+  )
   return resultObject
 }
-
 function applyParsedLIGO(result) {
-  let parsed
   try {
     // Success case: LIGO output will be here
-    parsed = parseLIGO(result.content)
-    result.postState = parsed
+    result.postState = parseLIGO(result.content)
   } catch (e) {
     // Failure case
     if (result.content.title === 'error of execution') {
@@ -86,7 +67,7 @@ function applyParsedLIGO(result) {
 
 module.exports = {
   STATUS: STATUS,
-  invokeTest: function (options) {
+  invokeTest: function(options) {
     let resultStr = spawnLigo(getArgs(options)).toString()
     let result = parseResult(resultStr)
     reselt = applyParsedLIGO(result)
