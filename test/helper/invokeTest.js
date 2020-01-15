@@ -33,10 +33,13 @@ function sanitizeString(resultStr) {
 }
 function parseResult(resultStr) {
   let result
+  console.log(resultStr)
   if (resultStr.slice(0, 6) === "ligo: ") {
+    console.log('substructure parser flow')
     resultStr = sanitizeString(resultStr)
     result = parseFailwithResult(resultStr)
   } else {
+    console.log('json parser flow')
     result = JSON.parse(resultStr)
   }
   return result
