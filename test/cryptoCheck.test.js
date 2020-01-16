@@ -9,6 +9,7 @@ describe('crypto_check', function() {
     const signature =
       '0xc9533d4ec47a18ad0f98e910269b6492635c606010c9481c120bfa3552b80238173597765e17b2' +
       'ce7ba88b8dc788c359431688d89872cf8c808f0eef82bc620b'
+    //TODO: Base58 algo will be in ConseilJS
     const params = `
     record
       k = ("${publicKey}" : key);
