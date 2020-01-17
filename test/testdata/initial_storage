@@ -12,7 +12,7 @@ record
         "hoge" -> record
           property = record
             predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-            inputs = map 0n -> "hoge"; end;
+            inputs = list ("0102": bytes) end;
           end;
           num_proven_contradictions = 1n;
           decided_after = 1n;
@@ -31,7 +31,7 @@ record
             end;
             property = record
               predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-              inputs = map 0n -> "hoge"; end;
+              inputs = list ("0102": bytes) end;
             end;
             plasma_block_number = 1n;
             deposit_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);

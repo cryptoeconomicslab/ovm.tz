@@ -23,27 +23,33 @@ begin
   end;
 
   // create state_update
-  const state_update: state_update = record
-    property = record
-      predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address);//TODO: Ownership predicate address
-      inputs = map 0n -> "tz1OwnerN5GSez2ndXXeDX6LgUDvLzPLqgYV"; end;//TODO: sender address?
+  const state_update: property = record
+    // TODO: Injecting StateUpdate predicate address
+    predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address);
+    inputs = list
+      deposited_range;
+      s.current_block;
+      deposit_params.token_type;
+      deposit_params.property;
     end;
-    range = deposited_range;
-    plasma_block_number = s.current_block;
-    deposit_address = deposit_params.token_type;
   end;
 
-  s := create_deposit_checkpoint(s, deposit_params, state_update);
+  const checkpoint: checkpoint = record
+    subrange = deposited_range;
+    state_update = state_update;
+  end;
+
+  s := store_checkpoint(s, deposit_params.token_type, checkpoint);
   s := extend_deposited_ranges(s, deposit_params);
 
-  // Event
-  
-  const deposited_event: event_params = DepositedEvent(
+  // Event  
+  const checkpoint_finalized_event: event_params = CheckpointFinalizedEvent(
     (
-    deposit_params.token_type,
-    deposit_params.amount
+      deposit_params.token_type,
+      get_checkpoint_id(checkpoint),
+      checkpoint
     )
   );
 
-  s.events_storage := emit_event(s.events_storage, "Deposited", deposited_event);
+  s.events_storage := emit_event(s.events_storage, "CheckpointFinalized", checkpoint_finalized_event);
 end with ((ops:ops), s)
