@@ -1,0 +1,42 @@
+name: Test
+on: push
+
+jobs:
+  test:
+    name: Testing
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - name: Install ligo
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y libev4
+          wget https://ligolang.org/deb/ligo_ubuntu-18.04.deb
+          sudo apt install ./ligo_ubuntu-18.04.deb
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: test
+        run: |
+          npm install --frozen-lockfile
+          npm test
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: lint
+        run: |
+          npm install --frozen-lockfile
+          npm run lint
