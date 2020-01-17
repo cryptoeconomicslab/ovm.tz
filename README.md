@@ -2,7 +2,7 @@
 
 OVM contract by LIGO for Tezos
 
-[![Build Status](https://travis-ci.org/cryptoeconomicslab/ovm.tz.svg?branch=master)](https://travis-ci.org/cryptoeconomicslab/ovm.tz)
+[![Build Status](https://github.com/cryptoeconomicslab/ovm.tz/workflows/Test/badge.svg?branch=master)](https://github.com/cryptoeconomicslab/ovm.tz/actions)
 
 ## Development
 
