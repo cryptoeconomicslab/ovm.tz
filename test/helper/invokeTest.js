@@ -61,7 +61,8 @@ function applyParsedLIGO(result) {
       result.postState = result.content
     } else {
       // compile error and so on
-      throw new Error(`parseLIGO failed with ${JSON.stringify(result)}`)
+      console.log(result.content)
+      throw e
     }
   }
   return result

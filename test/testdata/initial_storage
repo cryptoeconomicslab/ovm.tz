@@ -1,11 +1,11 @@
 record
   branches = map
     ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address) -> record
-      total_deposited = 0n;
+      total_deposited = 1n;
       deposited_ranges = map
-        0n -> record
+        1n -> record
           start_ = 0n;
-          end_ = 0n;
+          end_ = 1n;
         end;
       end;
       claims = map
@@ -19,18 +19,18 @@ record
         end;
       end;
       checkpoints = map
-        ("0001": bytes) -> record
+        ("fe8d90f7c18f4ca33a92fe2ce1d93326314ccfecaebdb88c7a49b21e5cb80f21": bytes) -> record
           subrange = record
-            start_ = 1n;
+            start_ = 0n;
             end_ = 1n;
           end;
           state_update = record
             predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
             inputs = list
               ("050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d": bytes);
-              ("0102": bytes);
-              ("0102": bytes);
-              ("0102": bytes);
+              ("05070700000001": bytes);
+              ("050000": bytes);
+              ("0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d02000000210a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d": bytes);
             end;
           end;
         end;

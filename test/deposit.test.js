@@ -34,15 +34,15 @@ describe('DepositContract', function() {
               'CheckpointFinalizedEvent',
               [
                 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
-                '0x611050bb088be105b193a250bef9c4bebec26be512e9a29787f315fa30b5748c',
+                '0xf03c32adb499a382c66dee12e091b94f587646f692fa115d55c668e6f22a8429',
                 {
-                  subrange: { start_: 0, end_: 1 },
+                  subrange: { start_: 1, end_: 2 },
                   state_update: {
                     predicate_address: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
                     inputs: [
-                      '0x05070700000001',
-                      '0x050000',
                       '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d',
+                      '0x05070700010002',
+                      '0x050000',
                       '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d02000000210a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d'
                     ]
                   }
@@ -52,6 +52,18 @@ describe('DepositContract', function() {
             block_height: 0
           }
         ]
+      )
+
+      assert.deepEqual(
+        result.postState.branches['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV']
+          .deposited_ranges,
+        []
+      )
+
+      assert.equal(
+        result.postState.branches['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV']
+          .total_deposited,
+        2
       )
     })
 

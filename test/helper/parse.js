@@ -23,10 +23,14 @@ Struct
   = "{" _ attr:Attribute _ attrs:("," _ Attribute _)* _ "}" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }
 
 Array
-  = "[" _ primitive:Item _ primitives:(","/";" _ Item _)* _ "]" { return [primitive].concat(primitives.map((a)=>a[2])) }
+  = EmptyArray / "[" _ primitive:Item _ primitives:(","/";" _ Item _)* _ "]" { return [primitive].concat(primitives.map((a)=>a[2])) }
+
+EmptyArray = "[" _ "]" { return [] }
 
 Map
-  = "[" _ attr:MapAttribute _ attrs:(";" _ MapAttribute _)* _ "]" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }
+  = EmptyMap / "[" _ attr:MapAttribute _ attrs:(";" _ MapAttribute _)* _ "]" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }
+
+EmptyMap = "[" _ "]" { return {} }
 
 Tuple
   = "(" _ primitive:Item _ primitives:("," _ Item _)* _ ")" {
