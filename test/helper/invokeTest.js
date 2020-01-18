@@ -9,7 +9,8 @@ function getArgs({
   initialStorage,
   contractPath = 'contracts/main.ligo',
   entryPoint = 'main',
-  source
+  source,
+  sender
 }) {
   let args = [
     'dry-run',
@@ -21,6 +22,7 @@ function getArgs({
     '--format=json'
   ]
   if (source) args.push(`--source=${source}`)
+  if (sender) args.push(`--sender=${sender}`)
   return args
 }
 
@@ -59,7 +61,8 @@ function applyParsedLIGO(result) {
       result.postState = result.content
     } else {
       // compile error and so on
-      throw new Error(`parseLIGO failed with ${JSON.stringify(result)}`)
+      console.log(result.content)
+      throw e
     }
   }
   return result

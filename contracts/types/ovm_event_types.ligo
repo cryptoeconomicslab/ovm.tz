@@ -1,5 +1,7 @@
+#include "ovm_primitive_types.ligo"
+
 type event_params is
-  | DepositedEvent of (address * nat)
+  | CheckpointFinalizedEvent of (address * bytes * checkpoint)
   | SubmittedEvent of (nat * string)
 
 type event is record

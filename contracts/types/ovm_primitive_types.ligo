@@ -2,9 +2,11 @@ type range is record
   start_: nat;
   end_: nat;
 end
+
+// Property
 type property is record
   predicate_address: address;
-  inputs: map(nat, string);
+  inputs: list(bytes);
 end
 
 type state_update is record
@@ -13,10 +15,12 @@ type state_update is record
   plasma_block_number: nat;
   deposit_address: address;
 end
+
 type checkpoint is record
   subrange: range;
-  state_update: state_update;
+  state_update: property;
 end
+
 type checkpoint_status is record
   challengeable_until: nat;
   outstanding_challenges: nat;
