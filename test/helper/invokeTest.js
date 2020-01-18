@@ -59,6 +59,10 @@ function applyParsedLIGO(result) {
     if (result.content.title === 'error of execution') {
       // failwith error report
       result.postState = result.content
+    } else if (result.content.indexOf('failwith') === 0) {
+      const matched = result.content.match(/failwith\("([ -~]*)"\)/)
+      result.status = 'error'
+      result.failwith = matched[1]
     } else {
       // compile error and so on
       console.log(result.content)
