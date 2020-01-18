@@ -6,7 +6,7 @@ end
 // Property
 type property is record
   predicate_address: address;
-  inputs: list(bytes);
+  inputs: map(nat, bytes);
 end
 
 type state_update is record

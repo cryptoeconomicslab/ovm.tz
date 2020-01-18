@@ -27,11 +27,11 @@ begin
   const state_update: property = record
     // TODO: Injecting StateUpdate predicate address
     predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address);
-    inputs = list
-      encode_address(deposit_params.token_type);
-      encode_range(deposited_range);
-      encode_number(s.current_block);
-      encode_property(deposit_params.state_object);
+    inputs = map
+      0n -> encode_address(deposit_params.token_type);
+      1n -> encode_range(deposited_range);
+      2n -> encode_number(s.current_block);
+      3n -> encode_property(deposit_params.state_object);
     end;
   end;
 
