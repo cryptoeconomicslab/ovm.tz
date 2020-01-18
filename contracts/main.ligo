@@ -6,5 +6,4 @@ function main (const action: action; const s: ovm_storage) : context is
   case action of
     | Deposit(deposit_params) -> deposit_action(deposit_params, s)
     | Submit(submit_params) -> submit_action(submit_params, s)
-    | GetStorage(params) -> get_storage_action(params, s)
   end
