@@ -28,9 +28,9 @@ begin
     // TODO: Injecting StateUpdate predicate address
     predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address);
     inputs = list
+      encode_address(deposit_params.token_type);
       encode_range(deposited_range);
       encode_number(s.current_block);
-      encode_address(deposit_params.token_type);
       encode_property(deposit_params.state_object);
     end;
   end;
