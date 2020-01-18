@@ -25,16 +25,13 @@ record
             end_ = 1n;
           end;
           state_update = record
-            range = record
-              start_ = 1n;
-              end_ = 1n;
+            predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
+            inputs = list
+              ("050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d": bytes);
+              ("0102": bytes);
+              ("0102": bytes);
+              ("0102": bytes);
             end;
-            property = record
-              predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-              inputs = list ("0102": bytes) end;
-            end;
-            plasma_block_number = 1n;
-            deposit_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
           end;
         end;
       end;

@@ -1,6 +1,7 @@
 #include "../models/create_deposit_checkpoint.ligo"
 #include "../models/extend_deposited_ranges.ligo"
 #include "../models/emit_event.ligo"
+#include "../utils/primitive_coder.ligo"
 
 function deposit_action (const deposit_params: deposit_params; const s: ovm_storage) : context is
 begin
@@ -27,10 +28,10 @@ begin
     // TODO: Injecting StateUpdate predicate address
     predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address);
     inputs = list
-      deposited_range;
-      s.current_block;
-      deposit_params.token_type;
-      deposit_params.property;
+      encode_range(deposited_range);
+      encode_number(s.current_block);
+      encode_address(deposit_params.token_type);
+      encode_property(deposit_params.state_object);
     end;
   end;
 
