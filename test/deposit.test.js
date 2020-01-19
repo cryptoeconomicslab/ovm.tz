@@ -128,18 +128,6 @@ describe('DepositContract', function() {
           }
         ]
       )
-
-      assert.deepEqual(
-        result.postState.branches['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV']
-          .deposited_ranges,
-        []
-      )
-
-      assert.equal(
-        result.postState.branches['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV']
-          .total_deposited,
-        2
-      )
     })
   })
 })
