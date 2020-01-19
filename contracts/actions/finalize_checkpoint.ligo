@@ -14,6 +14,8 @@ begin
     state_update = decode_property(get_force(1n, finalize_checkpoint_params.checkpoint_property.inputs));
   end;
 
+  s := store_checkpoint(s, finalize_checkpoint_params.token_type, checkpoint);
+
   const checkpoint_finalized_event: event_params = CheckpointFinalizedEvent(
     (
       finalize_checkpoint_params.token_type,

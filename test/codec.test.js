@@ -51,10 +51,14 @@ describe('CodecContract', function() {
       })
 
       it('packs a property record', async () => {
-        const packParam = `record
-          predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address);
-          inputs = list ("0001" : bytes); ("0002" : bytes); end;
-        end`
+        const packParam = `(
+          ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address),
+          map
+            0n -> ("0001": bytes);
+            1n -> ("0002": bytes);
+          end
+        )`
+
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: packParam,
@@ -63,8 +67,7 @@ describe('CodecContract', function() {
         })
         assert.deepEqual(
           result.postState,
-          '0x050707020000000e0a0000000200010a0000000200020a00000016000053c1edca8bd5c21c61d6' +
-            'f1fd091fa51d562aff1d'
+          '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002'
         )
       })
 
@@ -219,7 +222,7 @@ describe('CodecContract', function() {
       })
 
       it('unpacks a property record', async () => {
-        const packParam = `("050707020000000e0a0000000200010a0000000200020a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d":bytes)`
+        const packParam = `("0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002":bytes)`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: packParam,
@@ -228,10 +231,10 @@ describe('CodecContract', function() {
         })
         assert.deepEqual(result.postState, [
           'SOME',
-          {
-            predicate_address: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
-            inputs: ['0x0001', '0x0002']
-          }
+          [
+            'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
+            { '0': '0x0001', '1': '0x0002' }
+          ]
         ])
       })
 

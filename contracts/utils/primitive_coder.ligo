@@ -49,3 +49,6 @@ begin
     | None -> failwith("decode error")
   end;
 end with unpacked_property
+
+function pack_property (const action: property; const s: bytes) : (ops * bytes) is
+begin skip end with ((nil:ops), encode_property(action))
