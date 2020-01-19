@@ -29,4 +29,3 @@ end
 type action is
   | Deposit of deposit_params
   | Submit of submit_params
-  | GetStorage of int
