@@ -1,7 +1,13 @@
-#include "../models/create_deposit_checkpoint.ligo"
+#include "../models/store_checkpoint.ligo"
 #include "../models/extend_deposited_ranges.ligo"
 #include "../models/emit_event.ligo"
 #include "../utils/primitive_coder.ligo"
+
+type deposit_params is record
+  token_type: address;
+  amount: nat;
+  state_object: property;
+end
 
 function deposit_action (const deposit_params: deposit_params; const s: ovm_storage) : context is
 begin
@@ -41,7 +47,7 @@ begin
   end;
 
   s := store_checkpoint(s, deposit_params.token_type, checkpoint);
-  s := extend_deposited_ranges(s, deposit_params);
+  s := extend_deposited_ranges(s, deposit_params.token_type, deposit_params.amount);
 
   // Event  
   const checkpoint_finalized_event: event_params = CheckpointFinalizedEvent(

@@ -1,6 +1,11 @@
 #include "../types/ovm_event_types.ligo"
 #include "../models/emit_event.ligo"
 
+type submit_params is record
+  block_number: nat;
+  root: string;
+end
+
 function submit_action (const submit_params: submit_params; const s: ovm_storage) : context is
 begin
   const l2_block_number: nat = submit_params.block_number;
