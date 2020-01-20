@@ -1,6 +1,10 @@
-function extend_deposited_ranges (const s: ovm_storage; const deposit_params: deposit_params) : ovm_storage is
+function extend_deposited_ranges (
+  const s: ovm_storage;
+  const token_type: address;
+  const deposited_amount: nat
+) : ovm_storage is
 begin 
-  const storage_branch : storage_branch = get_force(deposit_params.token_type, s.branches);
+  const storage_branch : storage_branch = get_force(token_type, s.branches);
 
   const is_deposited_range_null: bool = case storage_branch.deposited_ranges[storage_branch.total_deposited] of
   | Some (range) -> False
@@ -20,11 +24,11 @@ begin
     // Delete the old range and make a new one with the total length
     new_start := old_start;
 
-  const new_end: nat = new_start + deposit_params.amount;
+  const new_end: nat = new_start + deposited_amount;
 
 
   // update temporal variable(branch state clone)
-  storage_branch.total_deposited := storage_branch.total_deposited + deposit_params.amount;
+  storage_branch.total_deposited := storage_branch.total_deposited + deposited_amount;
   const new_deposited_range: range = record
     start_ = new_start;
     end_ = new_end;
@@ -34,5 +38,5 @@ begin
 
   // override branch state
   storage_branch.deposited_ranges := new_deposited_ranges;
-  s.branches[deposit_params.token_type] := storage_branch;
+  s.branches[token_type] := storage_branch;
 end with s;

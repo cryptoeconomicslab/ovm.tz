@@ -2,6 +2,11 @@
 #include "../models/get_checkpoint_id.ligo"
 #include "../utils/primitive_coder.ligo"
 
+type finalize_checkpoint_params is record
+  token_type: token_type;
+  checkpoint_property: property;
+end
+
 function finalize_checkpoint_action(
   const finalize_checkpoint_params: finalize_checkpoint_params;
   const s: ovm_storage
