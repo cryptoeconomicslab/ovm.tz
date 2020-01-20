@@ -4,10 +4,7 @@ type sample_record is record
   attributeA: string;
   attributeB: nat;
 end
-type property_record is record
-  predicate_address: address;
-  inputs: list(bytes);
-end
+type property_record is (address * map(nat, bytes))
 type sample_tuple is (address * list(bytes))
 
 ////////////////

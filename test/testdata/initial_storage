@@ -12,7 +12,7 @@ record
         "hoge" -> record
           property = record
             predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-            inputs = list ("0102": bytes) end;
+            inputs = map 0n -> ("0102": bytes) end;
           end;
           num_proven_contradictions = 1n;
           decided_after = 1n;
@@ -26,11 +26,11 @@ record
           end;
           state_update = record
             predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-            inputs = list
-              ("050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d": bytes);
-              ("05070700000001": bytes);
-              ("050000": bytes);
-              ("0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d02000000210a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d": bytes);
+            inputs = map
+              0n -> ("050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d": bytes);
+              1n -> ("05070700000001": bytes);
+              2n -> ("050000": bytes);
+              3n -> ("0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d02000000210a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d": bytes);
             end;
           end;
         end;

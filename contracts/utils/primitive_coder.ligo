@@ -15,27 +15,40 @@ begin skip end with (bytes_unpack(bytes) : option(nat));
 function encode_range(const range: range) : bytes is
 begin skip end with bytes_pack((range.start_, range.end_));
 
-function decode_range(const bytes: bytes) : option(range) is
+function decode_range(const bytes: bytes) : range is
 begin
-  const r_opt : option((nat * nat)) = bytes_unpack(bytes);
-end with case r_opt of
-  | Some(p) -> Some(record
-    start_ = p.0;
-    end_ = p.1;
-  end)
-  | None -> (None : option(range))
-end
+  const unpacked_opt : option((nat * nat)) = bytes_unpack(bytes);
+  const unpacked_range: range = record
+    start_ = 0n;
+    end_ = 0n;
+  end;
+  case unpacked_opt of
+    | Some(r) -> unpacked_range := record
+      start_ = r.0;
+      end_ = r.1;
+    end
+    | None -> failwith("decode error")
+  end;
+end with unpacked_range
 
 function encode_property(const property: property) : bytes is
 begin skip end with bytes_pack((property.predicate_address, property.inputs));
 
-function decode_property(const bytes: bytes) : option(property) is
+function decode_property(const bytes: bytes) : property is
 begin
-  const p_opt : option((address * list(bytes))) = bytes_unpack(bytes);
-end with case p_opt of
-  | Some(p) -> Some(record
-    predicate_address = p.0;
-    inputs = p.1;
-  end)
-  | None -> (None : option(property))
-end
+  const unpacked_opt : option((address * map(nat, bytes))) = bytes_unpack(bytes);
+  const unpacked_property: property = record
+    predicate_address = source;
+    inputs = (map end: map(nat, bytes));
+  end;
+  case unpacked_opt of
+    | Some(p) -> unpacked_property := record
+      predicate_address = p.0;
+      inputs = p.1;
+    end
+    | None -> failwith("decode error")
+  end;
+end with unpacked_property
+
+function pack_property (const action: property; const s: bytes) : (ops * bytes) is
+begin skip end with ((nil:ops), encode_property(action))
