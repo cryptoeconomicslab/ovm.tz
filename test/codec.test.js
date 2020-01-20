@@ -50,7 +50,7 @@ describe('CodecContract', function() {
         assert.deepEqual(result.postState, `0x0507070100000004686f67650001`)
       })
 
-      it('packs a property record', async () => {
+      it('packs a tuple', async () => {
         const packParam = `(
           ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address),
           map
@@ -58,24 +58,6 @@ describe('CodecContract', function() {
             1n -> ("0002": bytes);
           end
         )`
-
-        const result = await invokeTest({
-          contractPath: CONTRACT_PATH,
-          parameter: packParam,
-          entryPoint: 'pack_property_record',
-          initialStorage: `("00": bytes)`
-        })
-        assert.deepEqual(
-          result.postState,
-          '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002'
-        )
-      })
-
-      it('packs a tuple', async () => {
-        const packParam = `(
-        ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address),
-        list ("0001" : bytes); ("0002" : bytes); end
-      )`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: packParam,
@@ -84,29 +66,35 @@ describe('CodecContract', function() {
         })
         assert.deepEqual(
           result.postState,
-          '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a000000' +
-            '0200010a000000020002'
+          '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002'
         )
       })
 
       it('packs a list of integer', async () => {
-        const packParam = `list 1;-1;0 end`
+        const packParam = `map
+          0n -> 1;
+          1n -> -1;
+          2n -> 0
+        end`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: packParam,
           entryPoint: 'pack_list_of_int',
           initialStorage: `("00": bytes)`
         })
-        assert.deepEqual(result.postState, '0x050200000006000100410000')
+        assert.deepEqual(
+          result.postState,
+          '0x050200000012070400000001070400010041070400020000'
+        )
       })
 
       it('packs a list of record', async () => {
-        const packParam = `list
-          record
+        const packParam = `map
+          0n -> record
             attributeA = ( "hoge" : string );
             attributeB = 1n;
           end;
-          record
+          1n -> record
             attributeA = ( "hoge" : string );
             attributeB = 1n;
           end;
@@ -120,16 +108,16 @@ describe('CodecContract', function() {
         assert.deepEqual(result.status, STATUS.OK)
         assert.deepEqual(
           result.postState,
-          `0x05020000001a07070100000004686f6765000107070100000004686f67650001`
+          `0x0502000000220704000007070100000004686f676500010704000107070100000004686f67650001`
         )
       })
 
       it('packs a list of tuple', async () => {
-        const packParam = `list 
-        ( ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address),
-        list ("0001" : bytes); ("0002" : bytes); end );
-        ( ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address),
-        list ("0001" : bytes); ("0002" : bytes); end );
+        const packParam = `map 
+        0n -> ( ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address),
+        map 0n -> ("0001" : bytes); 1n -> ("0002" : bytes); end );
+        1n -> ( ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address),
+        map 0n -> ("0001" : bytes); 1n -> ("0002" : bytes); end );
         end
         `
         const result = await invokeTest({
@@ -140,14 +128,12 @@ describe('CodecContract', function() {
         })
         assert.deepEqual(
           result.postState,
-          '0x05020000006007070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d02000000' +
-            '0e0a0000000200010a00000002000207070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d' +
-            '562aff1d020000000e0a0000000200010a000000020002'
+          '0x0502000000780704000007070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a0000000200020704000107070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002'
         )
       })
 
       it('packs an empty list', async () => {
-        const packParam = `( nil : list(unit) )` //TIPS: nil is a list. type annotation has to be here but any type is okay.
+        const packParam = `( map end : map(nat, unit) )`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: packParam,
@@ -158,7 +144,23 @@ describe('CodecContract', function() {
       })
 
       it('packs a list of list of integer', async () => {
-        const packParam = `list list 1;-1;0 end; list 1;-1;0 end; list 1;-1;0 end; end`
+        const packParam = `map
+          0n -> map
+            0n -> 1;
+            1n -> -1;
+            2n -> 0
+          end;
+          1n -> map
+            0n -> 1;
+            1n -> -1;
+            2n -> 0
+          end;
+          2n -> map
+            0n -> 1;
+            1n -> -1;
+            2n -> 0
+          end;
+        end`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: packParam,
@@ -167,7 +169,7 @@ describe('CodecContract', function() {
         })
         assert.deepEqual(
           result.postState,
-          '0x050200000021020000000600010041000002000000060001004100000200000006000100410000'
+          '0x050200000051070400000200000012070400000001070400010041070400020000070400010200000012070400000001070400010041070400020000070400020200000012070400000001070400010041070400020000'
         )
       })
     })
@@ -221,25 +223,8 @@ describe('CodecContract', function() {
         ])
       })
 
-      it('unpacks a property record', async () => {
-        const packParam = `("0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002":bytes)`
-        const result = await invokeTest({
-          contractPath: CONTRACT_PATH,
-          parameter: packParam,
-          entryPoint: 'unpack_property_record',
-          initialStorage: `(None: option(property_record))`
-        })
-        assert.deepEqual(result.postState, [
-          'SOME',
-          [
-            'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
-            { '0': '0x0001', '1': '0x0002' }
-          ]
-        ])
-      })
-
       it('unpacks a tuple', async () => {
-        const packParam = `("0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a000000020002":bytes)`
+        const packParam = `("0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002":bytes)`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: packParam,
@@ -254,12 +239,12 @@ describe('CodecContract', function() {
       })
 
       it('unpacks a list of integers', async () => {
-        const unpackParam = `("050200000006000100410000": bytes)`
+        const unpackParam = `("050200000012070400000001070400010041070400020000": bytes)`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: unpackParam,
           entryPoint: 'unpack_list_of_integers',
-          initialStorage: '(None: option(list(int)))'
+          initialStorage: '(None: option(map(nat, int)))'
         })
 
         assert.deepEqual(result.status, STATUS.OK)
@@ -267,12 +252,12 @@ describe('CodecContract', function() {
       })
 
       it('unpacks a list of records', async () => {
-        const unpackParam = `("05020000001a07070100000004686f6765000107070100000004686f67650001": bytes)`
+        const unpackParam = `("0502000000220704000007070100000004686f676500010704000107070100000004686f67650001": bytes)`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: unpackParam,
           entryPoint: 'unpack_list_of_records',
-          initialStorage: '(None: option(list(sample_record)))'
+          initialStorage: '(None: option(map(nat, sample_record)))'
         })
 
         assert.deepEqual(result.status, STATUS.OK)
@@ -291,12 +276,12 @@ describe('CodecContract', function() {
         ])
       })
       it('unpacks a list of tuples', async () => {
-        const unpackParam = `("05020000006007070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a00000002000207070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d020000000e0a0000000200010a000000020002": bytes)`
+        const unpackParam = `("0502000000780704000007070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a0000000200020704000107070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002": bytes)`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: unpackParam,
           entryPoint: 'unpack_list_of_tuples',
-          initialStorage: '(None: option(list(sample_tuple)))'
+          initialStorage: '(None: option(map(nat, sample_tuple)))'
         })
 
         assert.deepEqual(result.status, STATUS.OK)

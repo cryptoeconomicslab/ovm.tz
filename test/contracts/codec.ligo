@@ -4,8 +4,8 @@ type sample_record is record
   attributeA: string;
   attributeB: nat;
 end
-type property_record is (address * map(nat, bytes))
-type sample_tuple is (address * list(bytes))
+type sample_tuple is (address * map(nat, bytes))
+type coder_list_of_int is map(nat, int)
 
 ////////////////
 // PACK contract for test purpose
@@ -19,25 +19,25 @@ begin skip end with ((nil:ops), bytes_pack(action))
 function pack_sample_record (const pack_params: sample_record; const s: bytes) : ( ops * bytes ) is
 begin skip end with ( (nil:ops) , bytes_pack(pack_params) )
 
-function pack_property_record (const action: property_record; const s: bytes) : (ops * bytes) is
+function pack_sample_tuple (const action: sample_tuple; const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
 function pack_tuple (const action: sample_tuple; const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
-function pack_list_of_int (const action: list(int); const s: bytes) : (ops * bytes) is
+function pack_list_of_int (const action: coder_list_of_int; const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
-function pack_list_of_record (const action: list(sample_record); const s: bytes) : (ops * bytes) is
+function pack_list_of_record (const action: map(nat, sample_record); const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
-function pack_list_of_tuple (const action: list(sample_tuple); const s: bytes) : (ops * bytes) is
+function pack_list_of_tuple (const action: map(nat, sample_tuple); const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
-function pack_empty_list (const action: list(unit); const s: bytes) : (ops * bytes) is
+function pack_empty_list (const action: map(nat, unit); const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
-function pack_list_of_list_of_int (const action: list(list(int)); const s: bytes) : (ops * bytes) is
+function pack_list_of_list_of_int (const action: map(nat, map(nat, int)); const s: bytes) : (ops * bytes) is
 begin skip end with ((nil:ops), bytes_pack(action))
 
 
@@ -53,17 +53,17 @@ begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(strin
 function unpack_sample_record (const unpack_params: bytes; const s: option(sample_record)) : ( ops * option(sample_record) ) is
 begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(sample_record) ) )
 
-function unpack_property_record (const action: bytes; const s: option(property_record)) : (ops * option(property_record)) is
-begin skip end with ((nil:ops), ( bytes_unpack(action) : option(property_record ) ) )
+function unpack_sample_tuple (const action: bytes; const s: option(sample_tuple)) : (ops * option(sample_tuple)) is
+begin skip end with ((nil:ops), ( bytes_unpack(action) : option(sample_tuple ) ) )
 
 function unpack_tuple (const action: bytes; const s: option(sample_tuple)) : (ops * option(sample_tuple)) is
 begin skip end with ( (nil:ops), ( bytes_unpack(action) : option(sample_tuple) ) )
 
-function unpack_list_of_integers (const unpack_params: bytes; const s: option(list(int))) : ( ops * option(list(int)) ) is
-begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(list(int)) ) )
+function unpack_list_of_integers (const unpack_params: bytes; const s: option(coder_list_of_int)) : ( ops * option(coder_list_of_int) ) is
+begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(coder_list_of_int) ) )
 
-function unpack_list_of_records (const unpack_params: bytes; const s: option(list(sample_record))) : ( ops * option(list(sample_record)) ) is
-begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(list(sample_record)) ) )
+function unpack_list_of_records (const unpack_params: bytes; const s: option(map(nat, sample_record))) : ( ops * option(map(nat, sample_record)) ) is
+begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(map(nat, sample_record)) ) )
 
-function unpack_list_of_tuples (const unpack_params: bytes; const s: option(list(sample_tuple))) : ( ops * option(list(sample_tuple)) ) is
-begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(list(sample_tuple)) ) )
+function unpack_list_of_tuples (const unpack_params: bytes; const s: option(map(nat, sample_tuple))) : ( ops * option(map(nat, sample_tuple)) ) is
+begin skip end with ( (nil:ops) , ( bytes_unpack( unpack_params ) : option(map(nat, sample_tuple)) ) )
