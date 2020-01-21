@@ -2,6 +2,7 @@
 
 type event_params is
   | CheckpointFinalizedEvent of (address * bytes * checkpoint)
+  | ExitFinalizedEvent of (address * bytes)
   | SubmittedEvent of (nat * string)
 
 type event is record
