@@ -23,7 +23,7 @@ npm test
 
 ## Roadmap
 
-* [*] test tool with LIGO dry run
+* [x] test tool with LIGO dry run
 * [ ] Deposit contract
 * [ ] Adjudication contract
 * [ ] Plasma exit and checkpoint Predicate
