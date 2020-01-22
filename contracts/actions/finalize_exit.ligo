@@ -1,6 +1,7 @@
 #include "../models/emit_event.ligo"
 #include "../types/index.ligo"
 #include "../utils/primitive_coder.ligo"
+#include "../utils/tez_utils.ligo"
 
 type finalize_exit_params is record
   token_type: token_type;
@@ -67,7 +68,7 @@ begin
   const withdraw_amount: int = new_exit.subrange.end_ - new_exit.subrange.start_;
   const operations: list(operation) = list end;
   case owner_opt of
-    | Some(owner) -> operations := transfer(owner, 1mutez(*abs(withdraw_amount)*)) # operations
+    | Some(owner) -> operations := transfer(owner, nat_to_tez(abs(withdraw_amount))) # operations
     | None -> failwith("decode error")
   end;
   // store event
