@@ -20,3 +20,24 @@ npm i
 ```
 npm test
 ```
+
+## Roadmap
+
+* [x] test tool with LIGO dry run
+* [ ] Deposit contract
+* [ ] Adjudication contract
+* [ ] Plasma exit and checkpoint Predicate
+* [ ] Ownership Predicate
+* [ ] test tool with tezos node
+* [ ] dynamic call
+
+### Challenges
+
+* dynamic call
+
+How do we get data from another contract through dynamic call
+
+* event
+
+Layer 2 protocols require event data from layer 1. This data is used on-chain calculation but will not be stored in storage.
+
