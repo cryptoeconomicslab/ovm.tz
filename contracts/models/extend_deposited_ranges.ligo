@@ -20,12 +20,13 @@ begin
   if (bitwise_and(old_start = 0n, old_end = 0n)) then
     // Creat a new range when the rightmost range has been removed
     new_start := storage_branch.total_deposited;
-  else
+  else begin
     // Delete the old range and make a new one with the total length
+    new_deposited_ranges := map_remove(old_end, new_deposited_ranges);
     new_start := old_start;
+  end;
 
-  const new_end: nat = new_start + deposited_amount;
-
+  const new_end: nat = storage_branch.total_deposited + deposited_amount;
 
   // update temporal variable(branch state clone)
   storage_branch.total_deposited := storage_branch.total_deposited + deposited_amount;
@@ -34,7 +35,6 @@ begin
     end_ = new_end;
   end;
   new_deposited_ranges[new_end] := new_deposited_range;
-  new_deposited_ranges := map_remove(old_end, new_deposited_ranges);
 
   // override branch state
   storage_branch.deposited_ranges := new_deposited_ranges;
