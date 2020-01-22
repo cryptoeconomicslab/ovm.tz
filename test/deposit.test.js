@@ -130,4 +130,40 @@ describe('DepositContract', function() {
       )
     })
   })
+
+  describe('remove_deposited_range', () => {
+    const initialStorage = rmWhiteSpaces(`record
+      total_deposited = 5n;
+      deposited_ranges = map
+        5n -> record
+          start_ = 0n;
+          end_ = 5n;
+        end;
+      end;
+      checkpoints = (map end : checkpoints);
+    end`)
+    it('remove 0 to 1', async () => {
+      const testParams = rmWhiteSpaces(`(
+        record
+          start_ = 0n;
+          end_ = 1n;
+        end,
+        5n
+      )`)
+      const result = await invokeTest({
+        contractPath: 'contracts/actions/finalize_exit.ligo',
+        entryPoint: 'test_remove_deposited_range',
+        parameter: testParams,
+        initialStorage,
+        source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
+        sender: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+      })
+      assert.deepEqual(result.postState.deposited_ranges, {
+        '5': {
+          start_: 1,
+          end_: 5
+        }
+      })
+    })
+  })
 })

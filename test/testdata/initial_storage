@@ -8,16 +8,6 @@ record
           end_ = 1n;
         end;
       end;
-      claims = map
-        "hoge" -> record
-          property = record
-            predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
-            inputs = map 0n -> ("0102": bytes) end;
-          end;
-          num_proven_contradictions = 1n;
-          decided_after = 1n;
-        end;
-      end;
       checkpoints = map
         ("fe8d90f7c18f4ca33a92fe2ce1d93326314ccfecaebdb88c7a49b21e5cb80f21": bytes) -> record
           subrange = record
