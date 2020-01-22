@@ -29,7 +29,7 @@ begin
   end
   else skip;
   // check end
-  if range_to_remove.end_ = encompasing_range.start_
+  if range_to_remove.end_ = encompasing_range.end_
   then deposit_storage.deposited_ranges := map_remove(encompasing_range.end_, deposit_storage.deposited_ranges)
   else encompasing_range.start_ := range_to_remove.end_;
   deposit_storage.deposited_ranges[encompasing_range.end_] := encompasing_range;
