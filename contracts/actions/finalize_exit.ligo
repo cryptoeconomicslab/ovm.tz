@@ -23,16 +23,18 @@ begin
   const new_deposited_ranges: map(nat, range) = deposit_storage.deposited_ranges;
   // check start
   if range_to_remove.start_ =/= encompasing_range.start_
-  then deposit_storage.deposited_ranges[range_to_remove.end_] := record
+  then deposit_storage.deposited_ranges[range_to_remove.start_] := record
     start_ = encompasing_range.start_;
-    end_ = range_to_remove.end_;
+    end_ = range_to_remove.start_;
   end
   else skip;
   // check end
   if range_to_remove.end_ = encompasing_range.end_
   then deposit_storage.deposited_ranges := map_remove(encompasing_range.end_, deposit_storage.deposited_ranges)
-  else encompasing_range.start_ := range_to_remove.end_;
-  deposit_storage.deposited_ranges[encompasing_range.end_] := encompasing_range;
+  else begin
+    encompasing_range.start_ := range_to_remove.end_;
+    deposit_storage.deposited_ranges[encompasing_range.end_] := encompasing_range;
+  end;
 end with deposit_storage;
 
 function get_exit_id(const exit: exit) : bytes is
