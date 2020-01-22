@@ -15,7 +15,7 @@ function remove_deposited_range (
 ) : storage_branch is
 begin 
   const encompasing_range: range = get_force(deposited_range_id, deposit_storage.deposited_ranges);
-  if encompasing_range.start_ <= range_to_remove.start_ and range_to_remove.end_ < encompasing_range.end_
+  if encompasing_range.start_ <= range_to_remove.start_ and range_to_remove.end_ <= encompasing_range.end_
   then skip
   else failwith("range must be of a depostied range.");
 

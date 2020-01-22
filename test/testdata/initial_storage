@@ -1,11 +1,11 @@
 record
   branches = map
     ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address) -> record
-      total_deposited = 1n;
+      total_deposited = 2n;
       deposited_ranges = map
-        1n -> record
+        2n -> record
           start_ = 0n;
-          end_ = 1n;
+          end_ = 2n;
         end;
       end;
       checkpoints = map
