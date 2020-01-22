@@ -59,7 +59,7 @@ describe('DepositContract', function() {
       assert.deepEqual(
         result.postState.branches['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV']
           .deposited_ranges,
-        { '2': { start_: 0, end_: 2 } }
+        { '3': { start_: 0, end_: 3 } }
       )
 
       assert.equal(
