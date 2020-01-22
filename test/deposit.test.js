@@ -202,5 +202,22 @@ describe('DepositContract', function() {
         }
       })
     })
+    it('fail to remove', async () => {
+      const testParams = rmWhiteSpaces(`(
+        record
+          start_ = 5n;
+          end_ = 6n;
+        end,
+        5n
+      )`)
+      const result = await invokeTest({
+        contractPath: 'contracts/actions/finalize_exit.ligo',
+        entryPoint: 'test_remove_deposited_range',
+        parameter: testParams,
+        initialStorage,
+        sender: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+      })
+      assert.equal(result.failwith, 'range must be of a depostied range.')
+    })
   })
 })
