@@ -25,25 +25,9 @@ end
 
 type exit is checkpoint;
 
-type checkpoint_status is record
-  challengeable_until: nat;
-  outstanding_challenges: nat;
-end
-type claim is record
+type challenge_game is record
   property: property;
-  num_proven_contradictions: nat;
-  decided_after: nat;
-end
-
-type contradiction is record
-  property: property;
-  counter_property: property;
-end
-type implication_proof_element is record
-  implication: property;
-  witness: string;
-end
-type challenge is record
-  challenged_checkpoint: checkpoint;
-  challenging_checkpoint: checkpoint;
+  challenges: list(bytes);
+  decision: nat;
+  created_block: nat;
 end

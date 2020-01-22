@@ -9,10 +9,19 @@ type events_storage is record
   events: topic_sorted_events;
 end
 
-type ovm_storage is record
-  branches: map(token_type, storage_branch);
+type commitment_storage is record
   current_block: nat;
   commitments: commitments;
-  events_storage: events_storage;
   operator_address: address;
+end
+
+type adjudication_storage is record
+  instantiated_games: map(bytes, challenge_game);
+end
+
+type ovm_storage is record
+  branches: map(token_type, storage_branch);
+  commitment_storage: commitment_storage;
+  adjudication_storage: adjudication_storage;
+  events_storage: events_storage;
 end

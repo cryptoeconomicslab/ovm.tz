@@ -27,9 +27,15 @@ record
       end;
     end;
   end;
-  current_block = 0n;
-  commitments = map
-    0n -> "root";
+  commitment_storage = record
+    current_block = 0n;
+    commitments = map
+      0n -> "root";
+    end;
+    operator_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
+  end;
+  adjudication_storage = record
+    instantiated_games = (map end : map(bytes, challenge_game));
   end;
   events_storage = record
     ts = now;
@@ -41,5 +47,4 @@ record
       end;
     end;
   end;
-  operator_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
 end

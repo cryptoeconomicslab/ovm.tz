@@ -41,7 +41,7 @@ begin
     inputs = map
       0n -> encode_address(deposit_params.token_type);
       1n -> encode_range(deposited_range);
-      2n -> encode_number(s.current_block);
+      2n -> encode_number(s.commitment_storage.current_block);
       3n -> encode_property(deposit_params.state_object);
     end;
   end;
