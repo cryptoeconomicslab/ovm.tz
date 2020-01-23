@@ -30,7 +30,7 @@ record
   commitment_storage = record
     current_block = 0n;
     commitments = map
-      0n -> "root";
+      0n -> ("010200000000": bytes);
     end;
     operator_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
   end;
@@ -42,7 +42,7 @@ record
     events = map
       "BlockSubmitted" -> list(record[
         block_height = 0n;
-        data = SubmittedEvent((0n, "root"));
+        data = SubmittedEvent((0n, ("010200000000": bytes)));
       ]);
       end;
     end;

@@ -10,7 +10,7 @@ describe('CommitmentContract', function() {
       const testParams = rmWhiteSpaces(`Submit(
         record
           block_number = 1n;
-          root = "root1";
+          root = ("010203040506": bytes);
         end
       )`)
 
@@ -23,11 +23,11 @@ describe('CommitmentContract', function() {
       assert.deepEqual(result.postState.events_storage.events.BlockSubmitted, [
         {
           block_height: 0,
-          data: ['SubmittedEvent', [1, 'root1']]
+          data: ['SubmittedEvent', [1, '0x010203040506']]
         },
         {
           block_height: 0,
-          data: ['SubmittedEvent', [0, 'root']]
+          data: ['SubmittedEvent', [0, '0x010200000000']]
         }
       ])
     })
@@ -36,7 +36,7 @@ describe('CommitmentContract', function() {
       const testParams = rmWhiteSpaces(`Submit(
         record
           block_number = 2n;
-          root = "root1";
+          root = ("010203040506": bytes);
         end
       )`)
 
