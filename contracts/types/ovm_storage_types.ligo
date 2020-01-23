@@ -1,4 +1,4 @@
-type storage_branch is record
+type deposit_storage is record
   total_deposited: nat;
   deposited_ranges: map(nat, range);
   checkpoints: checkpoints;
@@ -9,10 +9,19 @@ type events_storage is record
   events: topic_sorted_events;
 end
 
-type ovm_storage is record
-  branches: map(token_type, storage_branch);
+type commitment_storage is record
   current_block: nat;
   commitments: commitments;
-  events_storage: events_storage;
   operator_address: address;
+end
+
+type adjudication_storage is record
+  instantiated_games: map(bytes, challenge_game);
+end
+
+type ovm_storage is record
+  deposit_storages: map(token_type, deposit_storage);
+  commitment_storage: commitment_storage;
+  adjudication_storage: adjudication_storage;
+  events_storage: events_storage;
 end

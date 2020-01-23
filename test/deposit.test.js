@@ -57,14 +57,16 @@ describe('DepositContract', function() {
       )
 
       assert.deepEqual(
-        result.postState.branches['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV']
-          .deposited_ranges,
+        result.postState.deposit_storages[
+          'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+        ].deposited_ranges,
         { '3': { start_: 0, end_: 3 } }
       )
 
       assert.equal(
-        result.postState.branches['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV']
-          .total_deposited,
+        result.postState.deposit_storages[
+          'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+        ].total_deposited,
         3
       )
     })
