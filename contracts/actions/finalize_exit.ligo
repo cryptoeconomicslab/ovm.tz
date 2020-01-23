@@ -82,9 +82,3 @@ begin
   );
   s.events_storage := emit_event(s.events_storage, "ExitFinalized", exit_finalized_event);
 end with ((operations : ops), s)
-
-function test_remove_deposited_range(
-  const params: (range * nat);
-  const s: storage_branch
-) : ( ops * storage_branch ) is
-begin skip end with ( (nil:ops) , remove_deposited_range( s, params.0, params.1))

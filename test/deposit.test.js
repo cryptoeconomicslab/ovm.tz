@@ -188,7 +188,7 @@ describe('DepositContract', function() {
         5n
       )`)
       const result = await invokeTest({
-        contractPath: 'contracts/actions/finalize_exit.ligo',
+        contractPath: 'contracts/test.ligo',
         entryPoint: 'test_remove_deposited_range',
         parameter: testParams,
         initialStorage,
@@ -211,7 +211,7 @@ describe('DepositContract', function() {
         5n
       )`)
       const result = await invokeTest({
-        contractPath: 'contracts/actions/finalize_exit.ligo',
+        contractPath: 'contracts/test.ligo',
         entryPoint: 'test_remove_deposited_range',
         parameter: testParams,
         initialStorage,
@@ -235,7 +235,7 @@ describe('DepositContract', function() {
         5n
       )`)
       const result = await invokeTest({
-        contractPath: 'contracts/actions/finalize_exit.ligo',
+        contractPath: 'contracts/test.ligo',
         entryPoint: 'test_remove_deposited_range',
         parameter: testParams,
         initialStorage,
