@@ -4,14 +4,14 @@
 
 type submit_params is record
   block_number: nat;
-  root: string;
+  root: bytes;
 end
 
 function submit_action (const submit_params: submit_params; const s: ovm_storage) : context is
 begin
   const commitment_storage: commitment_storage = s.commitment_storage;
   const l2_block_number: nat = submit_params.block_number;
-  const root: string = submit_params.root;
+  const root: bytes = submit_params.root;
 
   // Validation
   if source =/= commitment_storage.operator_address then failwith("source should be registered operator address") else skip;

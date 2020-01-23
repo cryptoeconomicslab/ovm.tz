@@ -3,7 +3,7 @@
 type event_params is
   | CheckpointFinalizedEvent of (address * bytes * checkpoint)
   | ExitFinalizedEvent of (address * bytes)
-  | SubmittedEvent of (nat * string)
+  | SubmittedEvent of (nat * bytes)
 
 type event is record
   block_height: nat;
