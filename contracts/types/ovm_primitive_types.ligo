@@ -23,6 +23,8 @@ type checkpoint is record
   state_update: property;
 end
 
+type exit is checkpoint;
+
 type checkpoint_status is record
   challengeable_until: nat;
   outstanding_challenges: nat;

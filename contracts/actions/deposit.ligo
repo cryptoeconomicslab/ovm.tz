@@ -2,6 +2,7 @@
 #include "../models/extend_deposited_ranges.ligo"
 #include "../models/emit_event.ligo"
 #include "../utils/primitive_coder.ligo"
+#include "../utils/tez_utils.ligo"
 
 type deposit_params is record
   token_type: address;
@@ -16,6 +17,10 @@ begin
   if deposit_params.amount <= 0n
     then failwith("Insufficient fund");
   else skip;
+  // TODO: check amount
+  // if tez_to_nat(amount) =/= deposit_params.amount
+  //   then failwith("Invalid amount");
+  // else skip;
 
   const storage_branch : storage_branch = get_force(deposit_params.token_type, s.branches);
 
