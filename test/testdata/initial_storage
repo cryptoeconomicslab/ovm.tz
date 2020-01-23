@@ -1,5 +1,5 @@
 record
-  branches = map
+  deposit_storages = map
     ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address) -> record
       total_deposited = 2n;
       deposited_ranges = map

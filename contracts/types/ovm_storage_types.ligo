@@ -1,4 +1,4 @@
-type storage_branch is record
+type deposit_storage is record
   total_deposited: nat;
   deposited_ranges: map(nat, range);
   checkpoints: checkpoints;
@@ -20,7 +20,7 @@ type adjudication_storage is record
 end
 
 type ovm_storage is record
-  branches: map(token_type, storage_branch);
+  deposit_storages: map(token_type, deposit_storage);
   commitment_storage: commitment_storage;
   adjudication_storage: adjudication_storage;
   events_storage: events_storage;

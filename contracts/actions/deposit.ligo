@@ -22,7 +22,7 @@ begin
   //   then failwith("Invalid amount");
   // else skip;
 
-  const storage_branch : storage_branch = get_force(deposit_params.token_type, s.branches);
+  const deposit_storage : deposit_storage = get_force(deposit_params.token_type, s.deposit_storages);
 
   // send money to deposit contract
   const deposit_reciever : contract(unit) = get_contract(source);
@@ -30,8 +30,8 @@ begin
   const ops: ops = list op end;
 
   const deposited_range : range = record
-    start_ = storage_branch.total_deposited;
-    end_ = storage_branch.total_deposited + deposit_params.amount;
+    start_ = deposit_storage.total_deposited;
+    end_ = deposit_storage.total_deposited + deposit_params.amount;
   end;
 
   // create state_update

@@ -10,10 +10,10 @@ type finalize_exit_params is record
 end
 
 function remove_deposited_range (
-  const deposit_storage: storage_branch;
+  const deposit_storage: deposit_storage;
   const range_to_remove: range;
   const deposited_range_id: nat
-) : storage_branch is
+) : deposit_storage is
 begin 
   const encompasing_range: range = get_force(deposited_range_id, deposit_storage.deposited_ranges);
   if encompasing_range.start_ <= range_to_remove.start_ and range_to_remove.end_ <= encompasing_range.end_
@@ -59,8 +59,8 @@ begin
     state_update = decode_property(get_force(1n, finalize_exit_params.exit_property.inputs));
   end;
   // remove deposited range
-  s.branches[finalize_exit_params.token_type] := remove_deposited_range(
-    get_force(finalize_exit_params.token_type, s.branches),
+  s.deposit_storages[finalize_exit_params.token_type] := remove_deposited_range(
+    get_force(finalize_exit_params.token_type, s.deposit_storages),
     new_exit.subrange,
     finalize_exit_params.deposited_range_id
   );
