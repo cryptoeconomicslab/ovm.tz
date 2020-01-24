@@ -1,9 +1,6 @@
 #include "ovm_primitive_types.ligo"
 
-type event_params is
-  | CheckpointFinalizedEvent of (address * bytes * checkpoint)
-  | ExitFinalizedEvent of (address * bytes)
-  | SubmittedEvent of (nat * bytes)
+type event_params is list(bytes)
 
 type event is record
   block_height: nat;

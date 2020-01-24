@@ -42,7 +42,12 @@ record
     events = map
       "BlockSubmitted" -> list(record[
         block_height = 0n;
-        data = SubmittedEvent((0n, ("010200000000": bytes)));
+        data = list ("010200000000": bytes); ("010200000000": bytes) end;
+      ]);
+      end;
+      "CheckpointFinalized" -> list(record[
+        block_height = 0n;
+        data = list ("010200000001": bytes); ("010200000002": bytes);  ("010200000003": bytes); end;
       ]);
       end;
     end;

@@ -20,14 +20,18 @@ describe('CommitmentContract', function() {
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
       assert.equal(result.status, STATUS.OK)
+      assert.deepEqual(result.postState.commitment_storage.commitments, {
+        '0': '0x010200000000',
+        '1': '0x010203040506'
+      })
       assert.deepEqual(result.postState.events_storage.events.BlockSubmitted, [
         {
           block_height: 0,
-          data: ['SubmittedEvent', [1, '0x010203040506']]
+          data: ['0x050001', '0x050a00000006010203040506']
         },
         {
           block_height: 0,
-          data: ['SubmittedEvent', [0, '0x010200000000']]
+          data: ['0x010200000000', '0x010200000000']
         }
       ])
     })

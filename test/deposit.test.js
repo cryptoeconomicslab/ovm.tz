@@ -31,31 +31,18 @@ describe('DepositContract', function() {
         [
           {
             data: [
-              'CheckpointFinalizedEvent',
-              [
-                'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
-                '0x28f3a910172a1fd70d8d172600485c764c82761702e650e45448ca53c2135092',
-                {
-                  subrange: { start_: 2, end_: 3 },
-                  state_update: {
-                    predicate_address: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
-                    inputs: {
-                      '0':
-                        '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d',
-                      '1': '0x05070700020003',
-                      '2': '0x050000',
-                      '3':
-                        '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000025070400000a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d'
-                    }
-                  }
-                }
-              ]
+              '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d',
+              '0x050a0000002028f3a910172a1fd70d8d172600485c764c82761702e650e45448ca53c2135092',
+              '0x05070707070200000092070400000a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d070400010a0000000705070700020003070400020a00000003050000070400030a000000480507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000025070400000a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d070700030002'
             ],
             block_height: 0
           }
         ]
       )
-
+      const deposit_storage =
+        result.postState.deposit_storages[
+          'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+        ]
       assert.deepEqual(
         result.postState.deposit_storages[
           'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
@@ -68,6 +55,24 @@ describe('DepositContract', function() {
           'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
         ].total_deposited,
         3
+      )
+      assert.deepEqual(
+        deposit_storage.checkpoints[
+          '0x28f3a910172a1fd70d8d172600485c764c82761702e650e45448ca53c2135092'
+        ],
+        {
+          subrange: { start_: 2, end_: 3 },
+          state_update: {
+            predicate_address: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
+            inputs: {
+              '0': '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d',
+              '1': '0x05070700020003',
+              '2': '0x050000',
+              '3':
+                '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000025070400000a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d'
+            }
+          }
+        }
       )
     })
 
@@ -106,29 +111,39 @@ describe('DepositContract', function() {
         [
           {
             data: [
-              'CheckpointFinalizedEvent',
-              [
-                'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
-                '0xce6170f820c3599b11cf1d9f606522c8b03ddce4c9ca4c6dbcd30d10f3099e14',
-                {
-                  subrange: { start_: 1, end_: 2 },
-                  state_update: {
-                    predicate_address: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
-                    inputs: {
-                      '0':
-                        '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d',
-                      '1': '0x05070700010002',
-                      '2': '0x050000',
-                      '3':
-                        '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000025070400000a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d'
-                    }
-                  }
-                }
-              ]
+              '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d',
+              '0x050a00000020ce6170f820c3599b11cf1d9f606522c8b03ddce4c9ca4c6dbcd30d10f3099e14',
+              '0x05070707070200000092070400000a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d070400010a0000000705070700010002070400020a00000003050000070400030a000000480507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000025070400000a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d070700020001'
             ],
             block_height: 0
           }
         ]
+      )
+      const deposit_storage =
+        result.postState.deposit_storages[
+          'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+        ]
+      assert.equal(deposit_storage.total_deposited, 2)
+      assert.deepEqual(deposit_storage.deposited_ranges, {
+        2: { start_: 0, end_: 2 }
+      })
+      assert.deepEqual(
+        deposit_storage.checkpoints[
+          '0xce6170f820c3599b11cf1d9f606522c8b03ddce4c9ca4c6dbcd30d10f3099e14'
+        ],
+        {
+          subrange: { start_: 1, end_: 2 },
+          state_update: {
+            predicate_address: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
+            inputs: {
+              '0': '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d',
+              '1': '0x05070700010002',
+              '2': '0x050000',
+              '3':
+                '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000025070400000a0000001c050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d'
+            }
+          }
+        }
       )
     })
   })
@@ -158,11 +173,8 @@ describe('DepositContract', function() {
       assert.deepEqual(result.postState.events_storage.events.ExitFinalized, [
         {
           data: [
-            'ExitFinalizedEvent',
-            [
-              'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV',
-              '0xce6170f820c3599b11cf1d9f606522c8b03ddce4c9ca4c6dbcd30d10f3099e14'
-            ]
+            '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d',
+            '0x050a00000020ce6170f820c3599b11cf1d9f606522c8b03ddce4c9ca4c6dbcd30d10f3099e14'
           ],
           block_height: 0
         }

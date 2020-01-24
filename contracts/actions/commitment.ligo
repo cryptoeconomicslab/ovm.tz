@@ -23,10 +23,10 @@ begin
   commitment_storage.current_block := l2_block_number;
 
   // Event
-  const submitted_event: event_params = SubmittedEvent((
-    l2_block_number,
-    root
-  ));
+  const submitted_event: event_params = list
+    bytes_pack(l2_block_number);
+    bytes_pack(root)
+  end;
 
   s.events_storage := emit_event(s.events_storage, "BlockSubmitted", submitted_event);
   s.commitment_storage := commitment_storage

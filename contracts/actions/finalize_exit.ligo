@@ -74,11 +74,10 @@ begin
     | None -> failwith("decode error")
   end;
   // store event
-  const exit_finalized_event: event_params = ExitFinalizedEvent(
-    (
-      finalize_exit_params.token_type,
-      get_exit_id(new_exit)
-    )
-  );
+  const exit_finalized_event: event_params = list
+    bytes_pack(finalize_exit_params.token_type);
+    bytes_pack(get_exit_id(new_exit));
+  end;
+
   s.events_storage := emit_event(s.events_storage, "ExitFinalized", exit_finalized_event);
 end with ((operations : ops), s)
