@@ -19,13 +19,14 @@ begin
     state_update = decode_property(get_force(1n, finalize_checkpoint_params.checkpoint_property.inputs));
   end;
 
+  // Store checkpoint to storage
   s := store_checkpoint(s, finalize_checkpoint_params.token_type, checkpoint);
 
+  // Emit event
   const checkpoint_finalized_event: event_params = list
     bytes_pack(finalize_checkpoint_params.token_type);
     bytes_pack(get_checkpoint_id(checkpoint));
     bytes_pack(checkpoint)
   end;
-
   s.events_storage := emit_event(s.events_storage, "CheckpointFinalized", checkpoint_finalized_event);
 end with ((nil : ops), s)

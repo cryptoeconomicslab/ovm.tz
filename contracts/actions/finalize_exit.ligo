@@ -73,11 +73,11 @@ begin
     | Some(owner) -> operations := transfer(owner, nat_to_tez(abs(withdraw_amount))) # operations
     | None -> failwith("decode error")
   end;
-  // store event
+
+  // Emit event
   const exit_finalized_event: event_params = list
     bytes_pack(finalize_exit_params.token_type);
     bytes_pack(get_exit_id(new_exit));
   end;
-
   s.events_storage := emit_event(s.events_storage, "ExitFinalized", exit_finalized_event);
 end with ((operations : ops), s)
