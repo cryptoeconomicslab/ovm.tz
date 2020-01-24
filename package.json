@@ -9,6 +9,7 @@
     "init-deploy": "node script/init.js",
     "test": "mocha",
     "build": "node script/build.js",
+    "build:json": "node script/build.js json",
     "deploy": "npm run build && node script/deploy.js"
   },
   "repository": {
