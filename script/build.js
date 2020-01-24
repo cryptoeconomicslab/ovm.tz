@@ -14,12 +14,19 @@ function getCompileSourceArgs({
 function getCompileStorageArgs({
   initialStorage,
   contractPath = 'contracts/main.ligo',
-  entryPoint = 'main'
+  entryPoint = 'main',
+  format = 'text'
 }) {
-  return ['compile-storage', contractPath, entryPoint, `${initialStorage}`]
+  return [
+    'compile-storage',
+    contractPath,
+    entryPoint,
+    `${initialStorage}`,
+    `--michelson-format=${format}`
+  ]
 }
 
-function build({ output = path.join(__dirname, '../build') }) {
+function build({ output = path.join(__dirname, '../build'), format = 'text' }) {
   const compiledSource = spawnLigo(
     getCompileSourceArgs({
       initialStorage,
@@ -29,7 +36,8 @@ function build({ output = path.join(__dirname, '../build') }) {
   const compiledStorage = spawnLigo(
     getCompileStorageArgs({
       initialStorage,
-      entryPoint: 'main'
+      entryPoint: 'main',
+      format: format
     })
   )
 
@@ -37,7 +45,17 @@ function build({ output = path.join(__dirname, '../build') }) {
     fs.mkdirSync(output)
   } catch (e) {}
   fs.writeFileSync(path.join(output, 'main.tz'), compiledSource.toString())
-  fs.writeFileSync(path.join(output, 'storage.tz'), compiledStorage.toString())
+  if (format == 'json') {
+    fs.writeFileSync(
+      path.join(output, 'storage.json'),
+      compiledStorage.toString()
+    )
+  } else {
+    fs.writeFileSync(
+      path.join(output, 'storage.tz'),
+      compiledStorage.toString()
+    )
+  }
 }
 
-build({})
+build({ format: process.argv[2] })
