@@ -31,7 +31,7 @@ describe('CommitmentContract', function() {
         },
         {
           block_height: 0,
-          data: ['0x010200000000', '0x010200000000']
+          data: ['0x050000', '0x050a00000006010203040500']
         }
       ])
     })
