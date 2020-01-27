@@ -55,13 +55,11 @@ begin
   s := extend_deposited_ranges(s, deposit_params.token_type, deposit_params.amount);
 
   // Event  
-  const checkpoint_finalized_event: event_params = CheckpointFinalizedEvent(
-    (
-      deposit_params.token_type,
-      get_checkpoint_id(checkpoint),
-      checkpoint
-    )
-  );
+  const checkpoint_finalized_event: event_params = list
+    bytes_pack(deposit_params.token_type);
+    bytes_pack(get_checkpoint_id(checkpoint));
+    bytes_pack(checkpoint)
+  end;
 
   s.events_storage := emit_event(s.events_storage, "CheckpointFinalized", checkpoint_finalized_event);
 end with ((ops:ops), s)
