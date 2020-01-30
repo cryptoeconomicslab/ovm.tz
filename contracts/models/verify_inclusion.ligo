@@ -89,15 +89,7 @@ begin
       inclusion_proof.interval_inclusion_proof.leaf_position,
       inclusion_proof.interval_inclusion_proof.siblings
   );
-  // TODO: assert range
-  (*
-    require(
-        _range.start >= _inclusionProof.intervalInclusionProof.leafIndex &&
-            _range.end <= implicitEnd,
-        "required range must not exceed the implicit range"
-    );
-  *)
-  if range.end_ <= root_and_implicit_end.1
+  if range.start_ >= inclusion_proof.interval_inclusion_proof.leaf_index and range.end_ <= root_and_implicit_end.1
   then skip
   else failwith("required range must not exceed the implicit range");
   // TODO: skip address tree verification in tezos
