@@ -38,8 +38,7 @@ begin
   if right_start >= left_start
   then skip
   else failwith("left_start must be less than right_start");
-  // TODO hash(left, left_start, right, right_start)
-end with ("0000": bytes);
+end with sha_256(bytes_concat(bytes_concat(bytes_concat(left, bytes_pack(left_start)), right), bytes_pack(right_start)));
 
 function compute_interval_tree_root(
   var computed_root: bytes;
@@ -98,5 +97,8 @@ begin
         "required range must not exceed the implicit range"
     );
   *)
+  if range.end_ <= root_and_implicit_end.1
+  then skip
+  else failwith("required range must not exceed the implicit range");
   // TODO: skip address tree verification in tezos
 end with root_and_implicit_end.0 = root;

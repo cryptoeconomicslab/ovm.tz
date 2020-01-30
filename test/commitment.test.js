@@ -76,12 +76,12 @@ describe('CommitmentContract', function() {
             siblings = (map
               0n -> record
                 data = ("0000": bytes);
-                start = 0n;
+                start = 1n;
               end
             end : map(nat, interval_tree_node));
           end;
         end,
-        ("0000": bytes)
+        ("d8d1f8c8073289a8b67d4956bf30fdc4f8319fed2007825b65932f56b9642e94": bytes)
       )`)
 
       const result = await invokeTest({
@@ -92,6 +92,76 @@ describe('CommitmentContract', function() {
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
       assert.deepEqual(result.postState, 'true')
+    })
+
+    it('fail to verify inclusion by exceed range', async () => {
+      const initialStorage = rmWhiteSpaces(`False`)
+      const testParams = rmWhiteSpaces(`(
+        ("0000": bytes),
+        ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address),
+        record
+          start_ = 0n;
+          end_ = 10n;
+        end,
+        record
+          address_inclusion_proof = record
+            leaf_index = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
+            leaf_position = 0n;
+            siblings = (map end : map(nat, address_tree_node));
+          end;
+          interval_inclusion_proof = record
+            leaf_index = 0n;
+            leaf_position = 0n;
+            siblings = (map
+              0n -> record
+                data = ("0000": bytes);
+                start = 1n;
+              end
+            end : map(nat, interval_tree_node));
+          end;
+        end,
+        ("d8d1f8c8073289a8b67d4956bf30fdc4f8319fed2007825b65932f56b9642e94": bytes)
+      )`)
+
+      const result = await invokeTest({
+        contractPath: 'contracts/test.ligo',
+        entryPoint: 'test_verify_inclusion',
+        parameter: testParams,
+        initialStorage,
+        source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+      })
+      assert.deepEqual(
+        result.failwith,
+        'required range must not exceed the implicit range'
+      )
+    })
+  })
+
+  describe('test_compute_interval_tree_root', () => {
+    it('return compute root and implicit end', async () => {
+      const initialStorage = rmWhiteSpaces(`(("0000": bytes), 0n)`)
+      const testParams = rmWhiteSpaces(`(
+        ("0000": bytes),
+        0n,
+        0n,
+        (map
+          0n -> record
+            data = ("0000": bytes);
+            start = 1n;
+          end
+        end : map(nat, interval_tree_node))
+      )`)
+      const result = await invokeTest({
+        contractPath: 'contracts/test.ligo',
+        entryPoint: 'test_compute_interval_tree_root',
+        parameter: testParams,
+        initialStorage,
+        source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+      })
+      assert.deepEqual(result.postState, [
+        '0xd8d1f8c8073289a8b67d4956bf30fdc4f8319fed2007825b65932f56b9642e94',
+        1
+      ])
     })
   })
 })
