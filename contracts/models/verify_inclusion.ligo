@@ -47,7 +47,7 @@ function compute_interval_tree_root(
   const proof: map(nat, interval_tree_node)
 ) : (bytes * nat) is
 begin
-  var first_right_sibling_start: nat := 1000n;
+  var first_right_sibling_start: nat := 99999n;
   var is_first_right_set: bool := False;
   var tmp_merkle_path: nat := merkle_path;
   for i := 1 to int(size(proof))

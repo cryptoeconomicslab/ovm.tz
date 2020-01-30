@@ -75,13 +75,13 @@ describe('CommitmentContract', function() {
             leaf_position = 0n;
             siblings = (map
               0n -> record
-                data = ("0000": bytes);
+                data = ("0001": bytes);
                 start = 1n;
               end
             end : map(nat, interval_tree_node));
           end;
         end,
-        ("d8d1f8c8073289a8b67d4956bf30fdc4f8319fed2007825b65932f56b9642e94": bytes)
+        ("1195f78192bb227e30b722701870d4e6cd376598ec9eba144ed4e7826ae3c112": bytes)
       )`)
 
       const result = await invokeTest({
@@ -114,13 +114,13 @@ describe('CommitmentContract', function() {
             leaf_position = 0n;
             siblings = (map
               0n -> record
-                data = ("0000": bytes);
+                data = ("0001": bytes);
                 start = 1n;
               end
             end : map(nat, interval_tree_node));
           end;
         end,
-        ("d8d1f8c8073289a8b67d4956bf30fdc4f8319fed2007825b65932f56b9642e94": bytes)
+        ("1195f78192bb227e30b722701870d4e6cd376598ec9eba144ed4e7826ae3c112": bytes)
       )`)
 
       const result = await invokeTest({
@@ -146,7 +146,7 @@ describe('CommitmentContract', function() {
         0n,
         (map
           0n -> record
-            data = ("0000": bytes);
+            data = ("0001": bytes);
             start = 1n;
           end
         end : map(nat, interval_tree_node))
@@ -159,8 +159,34 @@ describe('CommitmentContract', function() {
         source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
       })
       assert.deepEqual(result.postState, [
-        '0xd8d1f8c8073289a8b67d4956bf30fdc4f8319fed2007825b65932f56b9642e94',
+        '0x1195f78192bb227e30b722701870d4e6cd376598ec9eba144ed4e7826ae3c112',
         1
+      ])
+    })
+
+    it('return compute root and implicit end with right leaf', async () => {
+      const initialStorage = rmWhiteSpaces(`(("0000": bytes), 0n)`)
+      const testParams = rmWhiteSpaces(`(
+        ("0001": bytes),
+        1n,
+        1n,
+        (map
+          0n -> record
+            data = ("0000": bytes);
+            start = 0n;
+          end
+        end : map(nat, interval_tree_node))
+      )`)
+      const result = await invokeTest({
+        contractPath: 'contracts/test.ligo',
+        entryPoint: 'test_compute_interval_tree_root',
+        parameter: testParams,
+        initialStorage,
+        source: 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
+      })
+      assert.deepEqual(result.postState, [
+        '0x1195f78192bb227e30b722701870d4e6cd376598ec9eba144ed4e7826ae3c112',
+        99999
       ])
     })
   })
