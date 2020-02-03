@@ -45,10 +45,14 @@ function parseResult(resultStr) {
 }
 function parseFailwithResult(resultStr) {
   let resultObject = JSON.parse(resultStr.slice(6, resultStr.length))
-  resultObject.content.children[0].message = JSON.parse(
-    sanitizeString(resultObject.content.children[0].message)
-  )
-  return resultObject
+  try {
+    resultObject.content.children[0].message = JSON.parse(
+      sanitizeString(resultObject.content.children[0].message)
+    )
+    return resultObject
+  } catch (e) {
+    throw new Error(`JSON.parse for message failed with ${resultStr}`)
+  }
 }
 function applyParsedLIGO(result) {
   try {
