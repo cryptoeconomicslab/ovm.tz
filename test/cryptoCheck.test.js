@@ -1,5 +1,5 @@
 const assert = require('assert')
-const invokeTest = require('./helper/invokeTest')
+const { invokeTest } = require('./helper/invokeTest')
 const { rmWhiteSpaces, initialStorage } = require('./helper/utils')
 
 describe('crypto_check', function() {
