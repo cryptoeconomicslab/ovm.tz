@@ -35,11 +35,12 @@ function sanitizeString(resultStr) {
 function parseResult(resultStr) {
   let result
 
-  // TODO: resultStr can be null in the Travis CI env
+  const resultArr = resultStr.split('\n')
+  const mainResult = resultArr[resultArr.length - 2]
   if (resultStr.slice(0, 6) == 'ligo: ') {
     result = parseFailwithResult(resultStr)
   } else {
-    result = JSON.parse(resultStr)
+    result = JSON.parse(mainResult)
   }
   return result
 }
