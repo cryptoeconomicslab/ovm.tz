@@ -13,24 +13,24 @@ LIGO
   return p
 }
 
-Ops = "[" _ Op _ ("," _ Op)* _ "]" / "[]"
+Ops = "list[" _ Op _ ("," _ Op)* _ "]" / EmptyArray
 Op = "Operation(...bytes)"
 
 Primitive
   = _ [0-9a-zA-Z_=@-]+ { return text() }
 
 Struct
-  = "{" _ attr:Attribute _ attrs:("," _ Attribute _)* _ "}" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }
+  = "record[" _ attr:Attribute _ attrs:("," _ Attribute _)* _ "]" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }
 
 Array
-  = EmptyArray / "[" _ primitive:Item _ primitives:(","/";" _ Item _)* _ "]" { return [primitive].concat(primitives.map((a)=>a[2])) }
+  = EmptyArray / "list[" _ primitive:Item _ primitives:("," _ Item _)* _ "]" { return [primitive].concat(primitives.map((a)=>a[2])) }
 
-EmptyArray = "[" _ "]" { return [] }
+EmptyArray = "list[" _ "]" { return [] }
 
 Map
-  = EmptyMap / "[" _ attr:MapAttribute _ attrs:(";" _ MapAttribute _)* _ "]" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }
+  = EmptyMap / "map[" _ attr:MapAttribute _ attrs:("," _ MapAttribute _)* _ "]" { let obj = {};[attr].concat(attrs.map((a)=>a[2])).forEach((a) => obj[a[0]] = a[1]);return obj; }
 
-EmptyMap = "[" _ "]" { return {} }
+EmptyMap = "map[" _ "]" { return {} }
 
 Tuple
   = "(" _ primitive:Item _ primitives:("," _ Item _)* _ ")" {
@@ -38,7 +38,7 @@ Tuple
   }
 
 Attribute
-  = attr:Key _ "=" _ p:(Item) { return [attr, p] }
+  = attr:Key _ "->" _ p:(Item) { return [attr, p] }
 
 MapAttribute
   = attr:Key _ "->" _ p:(Item) { return [attr, p] }
@@ -47,9 +47,9 @@ Enum
   = attr:String "(" _ item: Item _ ")" { return [attr, item] }
 
 Item
- = Struct / Map / Array / Tuple / Number / Address / String2 / Enum / Primitive / EmptyString
+ = Struct / Map / Array / Tuple / Bytes / Number / Address / String2 / Enum / Primitive / EmptyString
 
-Key = Number / Address / String2 / String
+Key = Bytes / Number / Address / String2 / String
 
 Integer "integer"
   = _ ("-")?[0-9]+ { return parseInt(text(), 10); }
@@ -66,8 +66,11 @@ String2 "string2"
 EmptyString
   = _ '""' { return "" }
 
+Bytes
+  = _ "0x"[0-9a-f]+ { return text(); }
+
   Address "address"
-  = _ "address \\""str:String"\\"" { return str; }
+  = _ "@\\""str:String"\\"" { return str; }
 
 _ "whitespace"
   = [ \\t\\n\\r]*
