@@ -29,5 +29,5 @@ type challenge_game is record
   property: property;
   challenges: list(bytes);
   decision: nat;
-  created_block: nat;
+  created_block: timestamp;
 end
