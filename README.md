@@ -21,6 +21,17 @@ npm i
 npm test
 ```
 
+### How to deploy
+
+You should create `account.json` in root and run `npm run init-deploy` before deploy.
+
+```
+npm run build
+npm run deploy
+```
+
+Check https://arronax-beta.cryptonomic.tech
+
 ## Roadmap
 
 - [x] test tool with LIGO dry run
