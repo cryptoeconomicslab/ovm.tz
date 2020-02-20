@@ -23,7 +23,7 @@ npm test
 
 ### How to deploy
 
-You should run `npm run init-deploy` before deploy.
+You should create `account.json` in root and run `npm run init-deploy` before deploy.
 
 ```
 npm run build
