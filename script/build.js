@@ -1,7 +1,7 @@
 const spawnLigo = require('../test/helper/spawnLigo')
 const path = require('path')
 const fs = require('fs')
-const { initialStorage } = require('../test/helper/utils')
+const { releaseInitialStorage } = require('../test/helper/utils')
 
 function getCompileSourceArgs({
   initialStorage,
@@ -26,16 +26,31 @@ function getCompileStorageArgs({
   ]
 }
 
+function getCompileParameterArgs({
+  contractPath = 'contracts/main.ligo',
+  entryPoint = 'main',
+  parameterExpression,
+  format = 'json'
+}) {
+  return [
+    'compile-parameter',
+    contractPath,
+    entryPoint,
+    `${parameterExpression}`,
+    `--michelson-format=${format}`
+  ]
+}
+
 function build({ output = path.join(__dirname, '../build'), format = 'text' }) {
   const compiledSource = spawnLigo(
     getCompileSourceArgs({
-      initialStorage,
+      initialStorage: releaseInitialStorage,
       entryPoint: 'main'
     })
   )
   const compiledStorage = spawnLigo(
     getCompileStorageArgs({
-      initialStorage,
+      initialStorage: releaseInitialStorage,
       entryPoint: 'main',
       format: format
     })

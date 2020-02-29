@@ -1,0 +1,31 @@
+record
+  deposit_storages = map
+    ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address) -> record
+      total_deposited = 0n;
+      deposited_ranges = map
+        0n -> record
+          start_ = 0n;
+          end_ = 0n;
+        end;
+      end;
+      checkpoints = (map end : map(bytes, checkpoint));
+    end;
+  end;
+  commitment_storage = record
+    current_block = 0n;
+    commitments = map
+      0n -> ("010200000000": bytes);
+    end;
+    operator_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address);
+  end;
+  adjudication_storage = record
+    instantiated_games = (map end : map(bytes, challenge_game));
+  end;
+  events_storage = record
+    ts = now;
+    events = map
+      "BlockSubmitted" -> (list end : list(event));
+      "CheckpointFinalized" -> (list end : list(event));
+    end;
+  end;
+end
