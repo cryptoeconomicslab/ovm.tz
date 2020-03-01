@@ -9,7 +9,12 @@ const initialStorage = rmWhiteSpaces(
     .toString()
 )
 
+const releaseInitialStorage = rmWhiteSpaces(
+  fs.readFileSync(path.join(__dirname, '../testdata/release')).toString()
+)
+
 module.exports = {
   rmWhiteSpaces,
-  initialStorage
+  initialStorage,
+  releaseInitialStorage
 }

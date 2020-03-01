@@ -25,9 +25,9 @@ begin
   const deposit_storage : deposit_storage = get_force(deposit_params.token_type, s.deposit_storages);
 
   // send money to deposit contract
-  const deposit_reciever : contract(unit) = get_contract(source);
-  const op: operation = transaction(unit, amount, deposit_reciever);
-  const ops: ops = list op end;
+  // const deposit_reciever : contract(unit) = get_contract(source);
+  // const op: operation = transaction(unit, amount, deposit_reciever);
+  // const ops: ops = list op end;
 
   const deposited_range : range = record
     start_ = deposit_storage.total_deposited;
@@ -40,7 +40,7 @@ begin
     predicate_address = ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address);
     inputs = map
       0n -> encode_address(deposit_params.token_type);
-      1n -> encode_range(deposited_range);
+      1n -> bytes_pack(deposited_range);
       2n -> encode_number(s.commitment_storage.current_block);
       3n -> encode_property(deposit_params.state_object);
     end;
@@ -62,4 +62,4 @@ begin
   end;
 
   s.events_storage := emit_event(s.events_storage, "CheckpointFinalized", checkpoint_finalized_event);
-end with ((ops:ops), s)
+end with ((nil : ops), s)

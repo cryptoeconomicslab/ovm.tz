@@ -32,6 +32,8 @@ npm run deploy
 
 Check https://arronax-beta.cryptonomic.tech
 
+testnet address is KT1HdPJmvTK879snXnTRuUdhLwYhh3SxEJA6
+
 ## Roadmap
 
 - [x] test tool with LIGO dry run
