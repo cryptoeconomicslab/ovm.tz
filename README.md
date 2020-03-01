@@ -25,6 +25,13 @@ npm test
 
 You should create `account.json` in root and run `npm run init-deploy` before deploy.
 
+#### How to get `account.json`
+1. Go [faucet](https://faucet.tzalpha.net/)
+2. Click "I'm not a robot"
+3. Click "Get Testnet ꜩ"
+4. Copy or download the JSON string
+
+
 ```
 npm run build
 npm run deploy
