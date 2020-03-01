@@ -52,11 +52,9 @@ describe('CodecContract', function() {
 
       it('packs a tuple', async () => {
         const packParam = `(
+          5n,
           ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV": address),
-          map
-            0n -> ("0001": bytes);
-            1n -> ("0002": bytes);
-          end
+          ("68656c6c6f": bytes)
         )`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
@@ -66,15 +64,15 @@ describe('CodecContract', function() {
         })
         assert.deepEqual(
           result.postState,
-          '0x0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002'
+          '0x050707070700050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0a0000000568656c6c6f'
         )
       })
 
       it('packs a list of integer', async () => {
         const packParam = `map
-          0n -> 1;
-          1n -> -1;
-          2n -> 0
+          0n -> 1n;
+          1n -> 2n;
+          2n -> 3n
         end`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
@@ -84,7 +82,7 @@ describe('CodecContract', function() {
         })
         assert.deepEqual(
           result.postState,
-          '0x050200000012070400000001070400010041070400020000'
+          '0x050200000012070400000001070400010002070400020003'
         )
       })
 
@@ -114,10 +112,8 @@ describe('CodecContract', function() {
 
       it('packs a list of tuple', async () => {
         const packParam = `map 
-        0n -> ( ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address),
-        map 0n -> ("0001" : bytes); 1n -> ("0002" : bytes); end );
-        1n -> ( ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV" : address),
-        map 0n -> ("0001" : bytes); 1n -> ("0002" : bytes); end );
+        0n -> ( ("7465737431" : bytes), 1n );
+        1n -> ( ("7465737432" : bytes), 2n );
         end
         `
         const result = await invokeTest({
@@ -128,7 +124,7 @@ describe('CodecContract', function() {
         })
         assert.deepEqual(
           result.postState,
-          '0x0502000000780704000007070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a0000000200020704000107070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002'
+          '0x0502000000240704000007070a00000005746573743100010704000107070a0000000574657374320002'
         )
       })
 
@@ -146,19 +142,19 @@ describe('CodecContract', function() {
       it('packs a list of list of integer', async () => {
         const packParam = `map
           0n -> map
-            0n -> 1;
-            1n -> -1;
-            2n -> 0
+            0n -> 1n;
+            1n -> 3n;
+            2n -> 4n
           end;
           1n -> map
-            0n -> 1;
-            1n -> -1;
-            2n -> 0
+            0n -> 2n;
+            1n -> 4n;
+            2n -> 6n
           end;
           2n -> map
-            0n -> 1;
-            1n -> -1;
-            2n -> 0
+            0n -> 10n;
+            1n -> 11n;
+            2n -> 12n
           end;
         end`
         const result = await invokeTest({
@@ -169,7 +165,7 @@ describe('CodecContract', function() {
         })
         assert.deepEqual(
           result.postState,
-          '0x050200000051070400000200000012070400000001070400010041070400020000070400010200000012070400000001070400010041070400020000070400020200000012070400000001070400010041070400020000'
+          '0x05020000005107040000020000001207040000000107040001000307040002000407040001020000001207040000000207040001000407040002000607040002020000001207040000000a07040001000b07040002000c'
         )
       })
     })
@@ -224,7 +220,7 @@ describe('CodecContract', function() {
       })
 
       it('unpacks a tuple', async () => {
-        const packParam = `("0507070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002":bytes)`
+        const packParam = `("050707070700050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0a0000000568656c6c6f":bytes)`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: packParam,
@@ -234,12 +230,12 @@ describe('CodecContract', function() {
         assert.deepEqual(result.status, STATUS.OK)
         assert.deepEqual(result.postState, [
           'SOME',
-          ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', ['0x0001', '0x0002']]
+          [5, 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', '0x68656c6c6f']
         ])
       })
 
       it('unpacks a list of integers', async () => {
-        const unpackParam = `("050200000012070400000001070400010041070400020000": bytes)`
+        const unpackParam = `("050200000012070400000001070400010002070400020003": bytes)`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: unpackParam,
@@ -248,7 +244,7 @@ describe('CodecContract', function() {
         })
 
         assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, ['SOME', [1, -1, 0]])
+        assert.deepEqual(result.postState, ['SOME', [1, 2, 3]])
       })
 
       it('unpacks a list of records', async () => {
@@ -276,7 +272,7 @@ describe('CodecContract', function() {
         ])
       })
       it('unpacks a list of tuples', async () => {
-        const unpackParam = `("0502000000780704000007070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a0000000200020704000107070a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0200000016070400000a000000020001070400010a000000020002": bytes)`
+        const unpackParam = `("0502000000240704000007070a00000005746573743100010704000107070a0000000574657374320002": bytes)`
         const result = await invokeTest({
           contractPath: CONTRACT_PATH,
           parameter: unpackParam,
@@ -288,8 +284,8 @@ describe('CodecContract', function() {
         assert.deepEqual(result.postState, [
           'SOME',
           [
-            ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', ['0x0001', '0x0002']],
-            ['tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', ['0x0001', '0x0002']]
+            ['0x7465737431', 1],
+            ['0x7465737432', 2]
           ]
         ])
       })
