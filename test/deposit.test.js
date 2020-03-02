@@ -37,23 +37,12 @@ describe('DepositContract', function() {
           block_height: 0
         }
       )
-      const deposit_storage =
-        result.postState.deposit_storages[
-          'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
-        ]
-      assert.deepEqual(
-        result.postState.deposit_storages[
-          'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
-        ].deposited_ranges,
-        { '3': { start_: 0, end_: 3 } }
-      )
+      const deposit_storage = result.postState.deposit_storage
+      assert.deepEqual(result.postState.deposit_storage.deposited_ranges, {
+        '3': { start_: 0, end_: 3 }
+      })
 
-      assert.equal(
-        result.postState.deposit_storages[
-          'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
-        ].total_deposited,
-        3
-      )
+      assert.equal(result.postState.deposit_storage.total_deposited, 3)
       assert.deepEqual(
         deposit_storage.checkpoints[
           '0x28f3a910172a1fd70d8d172600485c764c82761702e650e45448ca53c2135092'
@@ -115,10 +104,7 @@ describe('DepositContract', function() {
           block_height: 0
         }
       )
-      const deposit_storage =
-        result.postState.deposit_storages[
-          'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
-        ]
+      const deposit_storage = result.postState.deposit_storage
       assert.equal(deposit_storage.total_deposited, 2)
       assert.deepEqual(deposit_storage.deposited_ranges, {
         2: { start_: 0, end_: 2 }

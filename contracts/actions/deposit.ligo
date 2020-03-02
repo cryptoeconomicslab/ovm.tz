@@ -22,7 +22,7 @@ begin
   //   then failwith("Invalid amount");
   // else skip;
 
-  const deposit_storage : deposit_storage = get_force(deposit_params.token_type, s.deposit_storages);
+  const deposit_storage : deposit_storage = s.deposit_storage;
 
   // send money to deposit contract
   // const deposit_reciever : contract(unit) = get_contract(source);

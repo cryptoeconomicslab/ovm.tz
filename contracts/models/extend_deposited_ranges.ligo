@@ -4,7 +4,7 @@ function extend_deposited_ranges (
   const deposited_amount: nat
 ) : ovm_storage is
 begin 
-  const deposit_storage : deposit_storage = get_force(token_type, s.deposit_storages);
+  const deposit_storage : deposit_storage = s.deposit_storage;
 
   const is_deposited_range_null: bool = case deposit_storage.deposited_ranges[deposit_storage.total_deposited] of
   | Some (range) -> False
@@ -38,5 +38,5 @@ begin
 
   // override branch state
   deposit_storage.deposited_ranges := new_deposited_ranges;
-  s.deposit_storages[token_type] := deposit_storage;
+  s.deposit_storage := deposit_storage;
 end with s;
