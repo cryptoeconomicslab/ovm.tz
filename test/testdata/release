@@ -1,15 +1,13 @@
 record
-  deposit_storages = map
-    ("tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV":address) -> record
-      total_deposited = 0n;
-      deposited_ranges = map
-        0n -> record
-          start_ = 0n;
-          end_ = 0n;
-        end;
+  deposit_storage = record
+    total_deposited = 0n;
+    deposited_ranges = map
+      0n -> record
+        start_ = 0n;
+        end_ = 0n;
       end;
-      checkpoints = (map end : map(bytes, checkpoint));
     end;
+    checkpoints = (map end : map(bytes, checkpoint));
   end;
   commitment_storage = record
     current_block = 0n;

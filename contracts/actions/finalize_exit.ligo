@@ -59,8 +59,8 @@ begin
     state_update = decode_property(get_force(1n, finalize_exit_params.exit_property.inputs));
   end;
   // remove deposited range
-  s.deposit_storages[finalize_exit_params.token_type] := remove_deposited_range(
-    get_force(finalize_exit_params.token_type, s.deposit_storages),
+  s.deposit_storage := remove_deposited_range(
+    s.deposit_storage,
     new_exit.subrange,
     finalize_exit_params.deposited_range_id
   );

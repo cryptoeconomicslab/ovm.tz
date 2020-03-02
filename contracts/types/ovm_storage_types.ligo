@@ -20,7 +20,7 @@ type adjudication_storage is record
 end
 
 type ovm_storage is record
-  deposit_storages: map(token_type, deposit_storage);
+  deposit_storage: deposit_storage;
   commitment_storage: commitment_storage;
   adjudication_storage: adjudication_storage;
   events_storage: events_storage;
