@@ -9,9 +9,9 @@ OVM contract by LIGO for Tezos
 ### Requirement
 ovm.tz requires the following to run:
 
-Node.js v10+
-npm (normally comes with Node.js)
-`docker` command (Try `sudo usermod -aG docker $USER` for the non-sudo executable for ligo installation)
+- Node.js v10+
+- npm (normally comes with Node.js)
+- `docker` command (Try `sudo usermod -aG docker $USER` for the non-sudo executable for ligo installation)
 
 ### How to install
 
