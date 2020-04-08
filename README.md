@@ -11,13 +11,27 @@ ovm.tz requires the following to run:
 
 - Node.js v10+
 - npm (normally comes with Node.js)
-- `docker` command (Try `sudo usermod -aG docker $USER` for the non-sudo executable for ligo installation)
 
 ### How to install
 
-1. [Install ligo](https://ligolang.org/docs/intro/installation/).
-2. install dependencies
+#### For MacOS
+1. Get `docker` command
+2. [Install ligo](https://ligolang.org/docs/intro/installation/).
+3. install dependencies
 
+#### For Debian10+
+```
+wget https://gitlab.com/ligolang/ligo/-/jobs/438875863/artifacts/raw/dist/package/ubuntu-18.04/ligo_438875863-c04cd691_all.deb
+sudo apt update
+sudo apt install ./ligo_438875863-c04cd691_all.deb -y
+echo 'PATH=$PATH:/bin' >> ~/.bashrc
+source ~/.bashrc
+ligo
+git clone git@github.com:cryptoeconomicslab/ovm.tz.git
+cd ovm.tz
+```
+
+#### Common
 ```
 npm i
 ```
