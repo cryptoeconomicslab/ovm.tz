@@ -10,16 +10,16 @@ OVM contract by LIGO for Tezos
 ovm.tz requires the following to run:
 
 - Node.js v10+
-- npm (normally comes with Node.js)
+- MacOS, [Ubuntu18.04, 19.04, Debian9, Debian10](https://ligolang.org/docs/intro/installation#debian-linux-package-installation)
 
 ### How to install
 
-#### For MacOS
+#### MacOS example
 1. Get `docker` command
 2. [Install ligo](https://ligolang.org/docs/intro/installation/).
 3. install dependencies
 
-#### For Debian10+
+#### Debian10 example
 ```
 wget https://gitlab.com/ligolang/ligo/-/jobs/438875863/artifacts/raw/dist/package/ubuntu-18.04/ligo_438875863-c04cd691_all.deb
 sudo apt update
