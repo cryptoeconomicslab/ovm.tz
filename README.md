@@ -23,11 +23,11 @@ ovm.tz requires the following to run:
 ```
 wget https://gitlab.com/ligolang/ligo/-/jobs/438875863/artifacts/raw/dist/package/ubuntu-18.04/ligo_438875863-c04cd691_all.deb
 sudo apt update
-sudo apt install ./ligo_438875863-c04cd691_all.deb -y
+sudo apt install ./ligo_438875863-c04cd691_all.deb git nodejs npm -y
 echo 'PATH=$PATH:/bin' >> ~/.bashrc
 source ~/.bashrc
 ligo
-git clone git@github.com:cryptoeconomicslab/ovm.tz.git
+git clone https://github.com/cryptoeconomicslab/ovm.tz.git
 cd ovm.tz
 ```
 
