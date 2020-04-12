@@ -22,6 +22,7 @@ ovm.tz requires the following to run:
 #### Debian10 example
 ```
 wget https://gitlab.com/ligolang/ligo/-/jobs/438875863/artifacts/raw/dist/package/ubuntu-18.04/ligo_438875863-c04cd691_all.deb
+curl -sL https://gist.githubusercontent.com/shogochiai/20f6fa1d2f300e1e042341f1056df4a8/raw/9fb99461c69ce4d2b0bfbc40c1c12d38e647329a/deb.nodesource.com_setup_13.x | bash -
 sudo apt update
 sudo apt install ./ligo_438875863-c04cd691_all.deb git nodejs npm -y
 echo 'PATH=$PATH:/bin' >> ~/.bashrc
