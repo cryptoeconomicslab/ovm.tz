@@ -9,7 +9,7 @@ OVM contract by LIGO for Tezos
 ### Requirement
 ovm.tz requires the following to run:
 
-- Node.js v10+
+- Node.js v12+
 - MacOS, [Ubuntu18.04, 19.04, Debian9, Debian10](https://ligolang.org/docs/intro/installation#debian-linux-package-installation)
 
 ### How to install
@@ -27,7 +27,7 @@ sudo apt update
 sudo apt install ./ligo_438875863-c04cd691_all.deb git nodejs npm -y
 echo 'PATH=$PATH:/bin' >> ~/.bashrc
 source ~/.bashrc
-ligo
+ligo --version
 git clone https://github.com/cryptoeconomicslab/ovm.tz.git
 cd ovm.tz
 ```
