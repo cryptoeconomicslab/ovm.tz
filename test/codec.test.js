@@ -1,4 +1,4 @@
-const assert = require('assert')
+const assert = require('power-assert')
 const { invokeTest, STATUS } = require('./helper/invokeTest')
 const CONTRACT_PATH = 'test/contracts/codec.ligo'
 
@@ -18,7 +18,7 @@ describe('CodecContract', function() {
           entryPoint: 'pack_address',
           initialStorage: `("00": bytes)`
         })
-        assert.deepEqual(
+        assert.deepStrictEqual(
           result.postState,
           '0x050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d'
         )
@@ -32,7 +32,7 @@ describe('CodecContract', function() {
           entryPoint: 'pack_bignumber',
           initialStorage: `("00": bytes)`
         })
-        assert.deepEqual(result.postState, '0x05010000000131')
+        assert.deepStrictEqual(result.postState, '0x05010000000131')
       })
 
       it('packs a record', async () => {
@@ -46,8 +46,11 @@ describe('CodecContract', function() {
           entryPoint: 'pack_sample_record',
           initialStorage: '("00": bytes)'
         })
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, `0x0507070100000004686f67650001`)
+        assert.deepStrictEqual(result.status, STATUS.OK)
+        assert.deepStrictEqual(
+          result.postState,
+          `0x0507070100000004686f67650001`
+        )
       })
 
       it('packs a tuple', async () => {
@@ -62,7 +65,7 @@ describe('CodecContract', function() {
           entryPoint: 'pack_tuple',
           initialStorage: `("00": bytes)`
         })
-        assert.deepEqual(
+        assert.deepStrictEqual(
           result.postState,
           '0x050707070700050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d0a0000000568656c6c6f'
         )
@@ -80,7 +83,7 @@ describe('CodecContract', function() {
           entryPoint: 'pack_list_of_int',
           initialStorage: `("00": bytes)`
         })
-        assert.deepEqual(
+        assert.deepStrictEqual(
           result.postState,
           '0x050200000012070400000001070400010002070400020003'
         )
@@ -103,8 +106,8 @@ describe('CodecContract', function() {
           entryPoint: 'pack_list_of_record',
           initialStorage: '("00": bytes)'
         })
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(
+        assert.deepStrictEqual(result.status, STATUS.OK)
+        assert.deepStrictEqual(
           result.postState,
           `0x0502000000220704000007070100000004686f676500010704000107070100000004686f67650001`
         )
@@ -122,7 +125,7 @@ describe('CodecContract', function() {
           entryPoint: 'pack_list_of_tuple',
           initialStorage: `("00": bytes)`
         })
-        assert.deepEqual(
+        assert.deepStrictEqual(
           result.postState,
           '0x0502000000240704000007070a00000005746573743100010704000107070a0000000574657374320002'
         )
@@ -136,7 +139,7 @@ describe('CodecContract', function() {
           entryPoint: 'pack_empty_list',
           initialStorage: `("00": bytes)`
         })
-        assert.deepEqual(result.postState, '0x050200000000')
+        assert.deepStrictEqual(result.postState, '0x050200000000')
       })
 
       it('packs a list of list of integer', async () => {
@@ -163,7 +166,7 @@ describe('CodecContract', function() {
           entryPoint: 'pack_list_of_list_of_int',
           initialStorage: `("00": bytes)`
         })
-        assert.deepEqual(
+        assert.deepStrictEqual(
           result.postState,
           '0x05020000005107040000020000001207040000000107040001000307040002000407040001020000001207040000000207040001000407040002000607040002020000001207040000000a07040001000b07040002000c'
         )
@@ -180,8 +183,8 @@ describe('CodecContract', function() {
           initialStorage: '(None: option(address))'
         })
 
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, [
+        assert.deepStrictEqual(result.status, STATUS.OK)
+        assert.deepStrictEqual(result.postState, [
           'SOME',
           'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV'
         ])
@@ -196,8 +199,8 @@ describe('CodecContract', function() {
           initialStorage: '(None: option(string))'
         })
 
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, ['SOME', '1'])
+        assert.deepStrictEqual(result.status, STATUS.OK)
+        assert.deepStrictEqual(result.postState, ['SOME', '1'])
       })
 
       it('unpacks a record', async () => {
@@ -209,8 +212,8 @@ describe('CodecContract', function() {
           initialStorage: '(None: option(sample_record))'
         })
 
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, [
+        assert.deepStrictEqual(result.status, STATUS.OK)
+        assert.deepStrictEqual(result.postState, [
           'SOME',
           {
             attributeA: 'hoge',
@@ -227,8 +230,8 @@ describe('CodecContract', function() {
           entryPoint: 'unpack_tuple',
           initialStorage: `(None: option(sample_tuple))`
         })
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, [
+        assert.deepStrictEqual(result.status, STATUS.OK)
+        assert.deepStrictEqual(result.postState, [
           'SOME',
           [5, 'tz1TGu6TN5GSez2ndXXeDX6LgUDvLzPLqgYV', '0x68656c6c6f']
         ])
@@ -243,8 +246,11 @@ describe('CodecContract', function() {
           initialStorage: '(None: option(map(nat, int)))'
         })
 
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, ['SOME', [1, 2, 3]])
+        assert.deepStrictEqual(result.status, STATUS.OK)
+        assert.deepStrictEqual(result.postState, [
+          'SOME',
+          { '0': 1, '1': 2, '2': 3 }
+        ])
       })
 
       it('unpacks a list of records', async () => {
@@ -256,19 +262,19 @@ describe('CodecContract', function() {
           initialStorage: '(None: option(map(nat, sample_record)))'
         })
 
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, [
+        assert.deepStrictEqual(result.status, STATUS.OK)
+        assert.deepStrictEqual(result.postState, [
           'SOME',
-          [
-            {
+          {
+            '0': {
               attributeA: 'hoge',
               attributeB: 1
             },
-            {
+            '1': {
               attributeA: 'hoge',
               attributeB: 1
             }
-          ]
+          }
         ])
       })
       it('unpacks a list of tuples', async () => {
@@ -280,13 +286,13 @@ describe('CodecContract', function() {
           initialStorage: '(None: option(map(nat, sample_tuple)))'
         })
 
-        assert.deepEqual(result.status, STATUS.OK)
-        assert.deepEqual(result.postState, [
+        assert.deepStrictEqual(result.status, STATUS.OK)
+        assert.deepStrictEqual(result.postState, [
           'SOME',
-          [
-            ['0x7465737431', 1],
-            ['0x7465737432', 2]
-          ]
+          {
+            '0': ['0x7465737431', 1],
+            '1': ['0x7465737432', 2]
+          }
         ])
       })
     })

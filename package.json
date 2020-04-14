@@ -22,7 +22,9 @@
     "url": "https://github.com/cryptoeconomicslab/ovm.tz/issues"
   },
   "homepage": "https://github.com/cryptoeconomicslab/ovm.tz#readme",
-  "dependencies": {},
+  "dependencies": {
+    "power-assert": "^1.6.1"
+  },
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^6.6.0",
