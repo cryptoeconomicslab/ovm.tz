@@ -22,13 +22,13 @@
     "url": "https://github.com/cryptoeconomicslab/ovm.tz/issues"
   },
   "homepage": "https://github.com/cryptoeconomicslab/ovm.tz#readme",
-  "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
     "mocha": "^7.0.0",
+    "power-assert": "^1.6.1",
     "pegjs": "^0.10.0",
     "prettier": "^1.19.1"
   }
