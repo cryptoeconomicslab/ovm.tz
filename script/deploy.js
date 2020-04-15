@@ -6,7 +6,7 @@ const { rmWhiteSpaces } = require('../test/helper/utils')
 function getDeployCommand({ bytecode, initialStorage }) {
   return `${path.join(
     __dirname,
-    'babylonnet.sh'
+    'carthagenet.sh'
   )} client originate contract ovm_contract_test transferring 0 from alice running \
   '${bytecode}' \
   -init '${initialStorage}' \

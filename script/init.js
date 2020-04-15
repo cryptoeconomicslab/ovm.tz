@@ -2,20 +2,20 @@ const childProcess = require('child_process')
 const path = require('path')
 
 function getStartCommand() {
-  return `${path.join(__dirname, 'babylonnet.sh')} start`
+  return `${path.join(__dirname, 'carthagenet.sh')} start`
 }
 
 function getClientConfigCommand() {
   return `${path.join(
     __dirname,
-    'babylonnet.sh'
+    'carthagenet.sh'
   )} client -P 443 -A tezos-dev.cryptonomic-infra.tech -S config update`
 }
 
 function getClientActivate({ account }) {
   return `${path.join(
     __dirname,
-    'babylonnet.sh'
+    'carthagenet.sh'
   )} client activate account alice with '${JSON.stringify(account)}'`
 }
 
