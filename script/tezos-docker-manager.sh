@@ -193,7 +193,8 @@ exec_docker() {
             docker_path="$tmpdir/$file_name"
             docker cp "${local_path}" "$node_container:${docker_path}"
             docker exec "$interactive_flags" "$node_container" sudo chown tezos "${docker_path}"
-            container_args+=("file:$docker_path");
+            # container_args+=("file:$docker_path");
+            container_args+=("$docker_path");
         else
             container_args+=("${arg}");
         fi

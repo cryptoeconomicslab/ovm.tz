@@ -70,13 +70,16 @@ You should create `account.json` in root and run `npm run init-deploy` before de
 4. Copy or download the JSON string
 
 ```
+npm run init-deploy
 npm run build
 npm run deploy
 ```
 
-Check https://arronax-beta.cryptonomic.tech
+Check your contract address by using ophash https://arronax.io/tezos/carthagenet/operations/opXXXXX
 
-testnet address is KT1HdPJmvTK879snXnTRuUdhLwYhh3SxEJA6
+Eg.
+babylonnet address was KT1HdPJmvTK879snXnTRuUdhLwYhh3SxEJA6
+carthagenet address was KT1VizrN6cvqkBkJzZyJGwvqXBkmuFBnVJF3
 
 ## Roadmap
 
