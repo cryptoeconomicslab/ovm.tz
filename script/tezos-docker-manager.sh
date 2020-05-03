@@ -76,7 +76,7 @@ if [ -n "$local_snapshot_path" ]; then
   importer:
     image: $docker_image
     hostname: node
-    command: tezos-snapshot-import
+    command: tezos-snapshot-import $@
     volumes:
       - node_data:/var/run/tezos/node
       - client_data:/var/run/tezos/client
@@ -193,7 +193,8 @@ exec_docker() {
             docker_path="$tmpdir/$file_name"
             docker cp "${local_path}" "$node_container:${docker_path}"
             docker exec "$interactive_flags" "$node_container" sudo chown tezos "${docker_path}"
-            container_args+=("file:$docker_path");
+            # container_args+=("file:$docker_path");
+            container_args+=("$docker_path");
         else
             container_args+=("${arg}");
         fi
@@ -600,7 +601,8 @@ status() {
 snapshot_import() {
     pull_image
     local_snapshot_path="$1"
-    update_compose_file
+    shift
+    update_compose_file "$@"
     call_docker_compose up importer
     warn_script_uptodate
 }
@@ -610,24 +612,24 @@ warn_script_uptodate() {
        return
     fi
     docker run --entrypoint /bin/cat "$docker_image" \
-       "/usr/local/share/tezos/alphanet.sh" > ".alphanet.sh.new"
-    if ! diff .alphanet.sh.new  "$0" >/dev/null 2>&1 ; then
-        echo -e "\033[33mWarning: the container contains a new version of 'alphanet.sh'.\033[0m"
+       "/usr/local/share/tezos/tezos-docker-manager.sh" > ".tezos-docker-manager.sh.new"
+    if ! diff .tezos-docker-manager.sh.new  "$0" >/dev/null 2>&1 ; then
+        echo -e "\033[33mWarning: the container contains a new version of 'tezos-docker-manager.sh'.\033[0m"
         echo -e "\033[33mYou might run '$0 update_script' to synchronize.\033[0m"
     elif [ "$1" = "verbose" ] ; then
         echo -e "\033[32mThe script is up to date.\033[0m"
     fi
-    rm .alphanet.sh.new
+    rm .tezos-docker-manager.sh.new
 }
 
 update_script() {
     docker run --entrypoint /bin/cat "$docker_image" \
-       "/usr/local/share/tezos/alphanet.sh" > ".alphanet.sh.new"
-    if ! diff .alphanet.sh.new  "$0" >/dev/null 2>&1 ; then
-        mv .alphanet.sh.new "$0"
+       "/usr/local/share/tezos/tezos-docker-manager.sh" > ".tezos-docker-manager.sh.new"
+    if ! diff .tezos-docker-manager.sh.new  "$0" >/dev/null 2>&1 ; then
+        mv .tezos-docker-manager.sh.new "$0"
         echo -e "\033[32mThe script has been updated.\033[0m"
     else
-        rm .alphanet.sh.new
+        rm .tezos-docker-manager.sh.new
         echo -e "\033[32mThe script is up to date.\033[0m"
     fi
 }
@@ -670,7 +672,7 @@ usage() {
     echo "    $0 client <COMMAND>"
     echo "       Pass a command to the tezos client."
     echo "    $0 update_script"
-    echo "       Replace 'alphanet.sh' with the one found in the docker image."
+    echo "       Replace 'tezos-docker-manager.sh' with the one found in the docker image."
     echo "  Advanced commands:"
     echo "    $0 node <start|stop|status|log>"
     echo "    $0 node upgrade"
@@ -701,57 +703,19 @@ command="$1"
 if [ "$#" -eq 0 ] ; then usage ; exit 1;  else shift ; fi
 
 case $(basename "$0") in
-    localnet.sh)
-        docker_base_dir="$HOME/.tezos-localnet"
-        docker_image=tezos:latest
-        docker_compose_base_name=localnet
-        default_port=14732
-        ;;
-    babylonnet.sh)
-        docker_base_dir="$HOME/.tezos-babylonnet"
-        docker_image=tezos/tezos:babylonnet
-        docker_compose_base_name=babylonnet
+    carthagenet.sh)
+        docker_base_dir="$HOME/.tezos-carthagenet"
+        docker_image=tezos/tezos:master
+        docker_compose_base_name=carthagenet
         default_port=19732
-        ;;
-    zeronet.sh)
-        docker_base_dir="$HOME/.tezos-zeronet"
-        docker_image=tezos/tezos:zeronet
-        docker_compose_base_name=zeronet
-        default_port=19732
-        ;;
-    betanet.sh)
-        if [ -d "$HOME/.tezos-mainnet" ] ; then
-            echo 'You already upgraded, please only use `mainnet.sh` now.'
-            exit 1
-        else
-            echo 'A new script `mainnet.sh` is now available.'
-            echo 'The current `betanet.sh` still works, but we recommend that you upgrade.'
-        fi
-        docker_base_dir="$HOME/.tezos-betanet"
-        docker_image=tezos/tezos:mainnet
-        docker_compose_base_name=betanet
-        default_port=9732
-        ;;
-    mainnet.sh)
-        if [ -d "$HOME/.tezos-betanet" ] ; then
-            echo 'Folder "'$HOME'/.tezos-betanet" detected.'
-            echo 'To upgrade to the mainnet script, execute the following commands.'
-            echo '  `betanet.sh stop`'
-            echo 'Make sure that your node is stopped using `docker ps`.'
-            echo '  `mv "'$HOME'/.tezos-betanet" "'$HOME'/.tezos-mainnet"`'
-            echo '  `mainnet.sh start`'
-            exit 1
-        fi
-        docker_base_dir="$HOME/.tezos-mainnet"
-        docker_image=tezos/tezos:mainnet
-        docker_compose_base_name=mainnet
-        default_port=9732
+        network=carthagenet
         ;;
     *)
-        docker_base_dir="$HOME/.tezos-alphanet"
-        docker_image=tezos/tezos:alphanet
-        docker_compose_base_name="alphanet"
+        docker_base_dir="$HOME/.tezos-mainnet"
+        docker_image=tezos/tezos:master
+        docker_compose_base_name="mainnet"
         default_port=9732
+        network=mainnet
         ;;
 esac
 
@@ -783,7 +747,7 @@ case "$command" in
     ## Main
 
     start)
-        start "$@"
+        start --network $network "$@"
         ;;
     restart)
         stop
@@ -811,7 +775,7 @@ case "$command" in
         if [ "$#" -eq 0 ] ; then usage ; exit 1;  else shift ; fi
         case "$subcommand" in
             start)
-                start_node "$@"
+                start_node --network $network "$@"
                 ;;
             status)
                 status_node
@@ -838,7 +802,7 @@ case "$command" in
         snapshot_file="$1"
         case "$subcommand" in
             import)
-                snapshot_import "$snapshot_file"
+                snapshot_import "$snapshot_file" --network $network
                 ;;
             *)
                 usage

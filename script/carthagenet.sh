@@ -1,0 +1,1 @@
+./script/tezos-docker-manager.sh "$@"
