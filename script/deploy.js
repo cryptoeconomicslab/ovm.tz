@@ -7,7 +7,10 @@ function getDeployCommand({bytecode, initialStorage}) {
   return `${path.join(__dirname, 'carthagenet.sh')} client originate contract ovm_contract_test transferring 0 from alice running \
   '${bytecode}' \
   -init '${initialStorage}' \
-  --burn-cap 100`
+  --burn-cap 100 \
+  --gas-limit 1000000 \
+  --fee 0.2 \
+  --force `
 }
 
 function deploy(buildDir) {
