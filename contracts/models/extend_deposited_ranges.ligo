@@ -4,14 +4,23 @@ function extend_deposited_ranges (
   const deposited_amount: nat
 ) : ovm_storage is
 begin 
-  const deposit_storage : deposit_storage = get_force(token_type, s.deposit_storages);
+  const deposit_storage : deposit_storage = 
+  case s.deposit_storages[token_type] of
+    Some(deposit_storage) -> deposit_storage
+  | None -> ( failwith("No token type.") : deposit_storage )
+  end;
 
   const is_deposited_range_null: bool = case deposit_storage.deposited_ranges[deposit_storage.total_deposited] of
   | Some (range) -> False
   | None -> True
   end;
   if is_deposited_range_null then failwith("No range found for the old total_deposited.") else skip;
-  const old_deposited_range: range = get_force(deposit_storage.total_deposited, deposit_storage.deposited_ranges);
+
+  const old_deposited_range : range = 
+  case deposit_storage.deposited_ranges[deposit_storage.total_deposited] of
+    Some(range) -> range
+  | None -> ( failwith("No old_deposited_range.") : range )
+  end;
   const old_start: nat = old_deposited_range.start_;
   const old_end: nat = old_deposited_range.end_;
   const new_start: nat = 0n;//temporal variable

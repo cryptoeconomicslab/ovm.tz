@@ -16,6 +16,16 @@ describe('DepositContract', function() {
     end;
   end
 )`)
+  const wrongTestParams = rmWhiteSpaces(`Deposit(
+    record
+      token_type = ("KT1Vprm8GNYNqfwbGBYVhUtx6xeRQkUzKFvJ":address);
+      amount = 1n;
+      state_object = record
+        predicate_address = ("KT1Vprm8GNYNqfwbGBYVhUtx6xeRQkUzKFvJ":address);
+        inputs = map 0n -> ("050a00000016000053c1edca8bd5c21c61d6f1fd091fa51d562aff1d":bytes) end;
+      end;
+    end
+  )`)
 
     it('deposit 1 tz', async () => {
       const result = await invokeTest({
@@ -72,6 +82,14 @@ describe('DepositContract', function() {
           }
         }
       )
+    })
+
+    it('deposit 1 tz and fail with error', async () => {
+      const result = await invokeTest({
+        parameter: wrongTestParams,
+        initialStorage
+      })
+      assert.equal(result.failwith, 'Wrong token type.')
     })
 
     it('deposit 1 tz without sender', async () => {

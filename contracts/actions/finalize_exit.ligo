@@ -15,7 +15,12 @@ function remove_deposited_range (
   const deposited_range_id: nat
 ) : deposit_storage is
 begin 
-  const encompasing_range: range = get_force(deposited_range_id, deposit_storage.deposited_ranges);
+  const encompasing_range : range = 
+  case deposit_storage.deposited_ranges[deposited_range_id] of
+    Some(encompasing_range) -> encompasing_range
+  | None -> ( failwith("No deposited_range_id.") : range )
+  end;
+
   if encompasing_range.start_ <= range_to_remove.start_ and range_to_remove.end_ <= encompasing_range.end_
   then skip
   else failwith("range must be of a depostied range.");
@@ -54,19 +59,46 @@ function finalize_exit_action(
 ) : context is
 begin
   // TODO: check adjudication.isDecided(finalize_exit_params.exit_property)
-  const new_exit: exit = record
-    subrange = decode_range(get_force(0n, finalize_exit_params.exit_property.inputs));
-    state_update = decode_property(get_force(1n, finalize_exit_params.exit_property.inputs));
+  const range_bin1 : bytes = 
+  case finalize_exit_params.exit_property.inputs[0n] of
+    Some(range_bin) -> range_bin
+  | None -> ( failwith("No range binary.") : bytes )
   end;
+  const prop_bin1 : bytes = 
+  case finalize_exit_params.exit_property.inputs[1n] of
+    Some(prop_bin) -> prop_bin
+  | None -> ( failwith("No property binary.") : bytes )
+  end;
+  const new_exit: exit = record
+    subrange = decode_range(range_bin1);
+    state_update = decode_property(prop_bin1);
+  end;
+
   // remove deposited range
+  const deposit_storage : deposit_storage = 
+  case s.deposit_storages[finalize_exit_params.token_type] of
+    Some(deposit_storage) -> deposit_storage
+  | None -> ( failwith("No token type.") : deposit_storage )
+  end;
   s.deposit_storages[finalize_exit_params.token_type] := remove_deposited_range(
-    get_force(finalize_exit_params.token_type, s.deposit_storages),
+    deposit_storage,
     new_exit.subrange,
     finalize_exit_params.deposited_range_id
   );
   // transfer
-  const state_object: property = decode_property(get_force(3n, new_exit.state_update.inputs));
-  const owner_opt: option(address) = decode_address(get_force(0n, state_object.inputs));
+  const prop_bin2 : bytes = 
+  case new_exit.state_update.inputs[3n] of
+    Some(prop_bin2) -> prop_bin2
+  | None -> ( failwith("No property binary.") : bytes )
+  end;
+  const state_object: property = decode_property(prop_bin2);
+
+  const addr_bin : bytes = 
+  case state_object.inputs[0n] of
+    Some(addr_bin) -> addr_bin
+  | None -> ( failwith("No address binary.") : bytes )
+  end;
+  const owner_opt: option(address) = decode_address(addr_bin);
   const withdraw_amount: int = new_exit.subrange.end_ - new_exit.subrange.start_;
   const operations: list(operation) = list end;
   case owner_opt of

@@ -52,7 +52,11 @@ begin
   var tmp_merkle_path: nat := merkle_path;
   for i := 1 to int(size(proof))
     begin
-      const a_proof : interval_tree_node = get_force(abs(i - 1), proof);
+      const a_proof : interval_tree_node = 
+        case proof[abs(i - 1)] of
+          Some(a_proof) -> a_proof
+        | None -> ( failwith("No token type.") : interval_tree_node )
+      end;
       const sibling: bytes = a_proof.data;
       const sibling_start: nat = a_proof.start;
       const is_right: nat = tmp_merkle_path mod 2n;

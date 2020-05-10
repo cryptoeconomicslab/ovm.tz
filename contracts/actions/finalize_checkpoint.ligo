@@ -14,9 +14,19 @@ function finalize_checkpoint_action(
 begin
 
   // TODO: check adjudication.isDecided(checkpoint)
+  const range_bin : bytes = 
+  case finalize_checkpoint_params.checkpoint_property.inputs[0n] of
+    Some(range_bin) -> range_bin
+  | None -> ( failwith("No range binary.") : bytes )
+  end;
+  const prop_bin : bytes = 
+  case finalize_checkpoint_params.checkpoint_property.inputs[1n] of
+    Some(prop_bin) -> prop_bin
+  | None -> ( failwith("No property binary.") : bytes )
+  end;
   const checkpoint: checkpoint = record
-    subrange = decode_range(get_force(0n, finalize_checkpoint_params.checkpoint_property.inputs));
-    state_update = decode_property(get_force(1n, finalize_checkpoint_params.checkpoint_property.inputs));
+    subrange = decode_range(range_bin);
+    state_update = decode_property(prop_bin);
   end;
 
   // Store checkpoint to storage
